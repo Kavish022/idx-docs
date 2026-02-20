@@ -5,25 +5,82 @@ import {
   computed,
   ViewChild,
   ElementRef,
+  effect,
   OnInit,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ImageViewerService } from '../services/image-viewer.service';
+
+/**
+ * STYLES.SCSS ADDITIONS NEEDED:
+ *
+ * @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+ *
+ * APP CONFIG PROVIDERS NEEDED:
+ * import { provideHttpClient } from '@angular/common/http';
+ * export const appConfig: ApplicationConfig = {
+ *   providers: [provideHttpClient(), ...]
+ * };
+ */
+
+// ============================================================================
+// INTERFACES
+// ============================================================================
+
+interface DocumentInfo {
+  title: string;
+  version: string;
+  company: string;
+  tagline: string;
+  totalSections: number;
+  lastUpdated: string;
+}
+
+interface TableOfContentsEntry {
+  id: number;
+  title: string;
+  page: number;
+  module: string;
+}
+
+interface Procedure {
+  steps: string[];
+}
+
+interface ProcedureStep {
+  title: string;
+  details: string[];
+}
+
+interface Field {
+  name: string;
+  type: string;
+  required?: boolean;
+}
+
+interface AddingValueStream {
+  title: string;
+  fields?: Field[];
+  steps?: string[];
+}
 
 interface Section {
   id: number;
   title: string;
   objective?: string;
   description?: string;
+  prerequisites?: string[];
+  procedure?: Procedure;
+  steps?: ProcedureStep[];
+  notes?: string[];
   navigation?: string[];
-  screenshots?: string[];
-  viewing?: string;
   accessing?: string | string[];
-  adding?: { steps: string[] };
+  viewing?: string | string[];
+  fields?: Field[];
+  addingValueStream?: AddingValueStream;
   types?: Record<string, any>;
-  addingValueStream?: { title: string; steps: string[] };
+  screenshots?: string[];
   [key: string]: any;
 }
 
@@ -33,16 +90,15 @@ interface Module {
   sections: Section[];
 }
 
-interface DocumentData {
-  documentInfo: {
-    title: string;
-    version: string;
-    company: string;
-    tagline: string;
-    lastUpdated: string;
-  };
+interface DocsData {
+  documentInfo: DocumentInfo;
+  tableOfContents: TableOfContentsEntry[];
   modules: Record<string, Module>;
 }
+
+// ============================================================================
+// COMPONENT
+// ============================================================================
 
 @Component({
   selector: 'app-docs',
@@ -50,526 +106,1683 @@ interface DocumentData {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="flex h-screen bg-gray-50">
-      <!-- SIDEBAR NAVIGATION - Collapsible -->
-      @if (data() && currentView() !== 'home') {
-        <aside
-          class="bg-zinc-900 text-gray-100 flex flex-col border-r border-zinc-800 overflow-hidden transition-all duration-200 ease-in-out"
-          [style.width]="sidebarCollapsed() ? '60px' : '280px'"
-        >
-          <!-- Sidebar Toggle & Header -->
-          <div class="p-3 border-b border-zinc-700 flex items-center justify-between flex-shrink-0">
-            <button
-              (click)="toggleSidebar()"
-              class="p-2 hover:bg-zinc-800 rounded text-gray-300 transition-colors"
-              [title]="sidebarCollapsed() ? 'Expand' : 'Collapse'"
-            >
-              <span class="text-lg leading-none">{{ sidebarCollapsed() ? '▶' : '◀' }}</span>
-            </button>
-            @if (!sidebarCollapsed()) {
-              <span class="text-xs font-bold text-gray-500 tracking-wider">NAV</span>
-            }
+    <div class="docs-layout">
+      <!-- TOP HEADER BAR -->
+      <header class="header-bar">
+        <div class="header-content">
+          <button class="logo-btn" (click)="navigateToHome()" title="Go to home">
+            <span class="logo-text">{{ data()!.documentInfo.title }}</span>
+          </button>
+          <div class="search-wrapper">
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search docs..."
+              [value]="searchQuery()"
+              (input)="searchQuery.set($any($event).target.value)"
+            />
           </div>
+          <div class="version-badge">v{{ data() ? data()!.documentInfo.version : '1.0' }}</div>
+        </div>
+      </header>
 
-          <!-- Navigation Content -->
-          <nav class="flex-1 overflow-y-auto p-2 space-y-0.5">
-            @for (module of getNavigationItems(); track module.key) {
-              <div>
-                <!-- Module Header -->
-                <button
-                  (click)="expandModule(module.key)"
-                  class="w-full text-left px-3 py-2 text-sm font-medium text-gray-300 hover:bg-zinc-800 rounded transition-colors flex items-center justify-between whitespace-nowrap"
-                  [title]="sidebarCollapsed() ? module.label : ''"
-                >
-                  <span class="truncate" [style.display]="sidebarCollapsed() ? 'none' : 'inline'">{{
-                    module.label
-                  }}</span>
-                  @if (!sidebarCollapsed()) {
-                    <span class="text-xs flex-shrink-0 ml-2">{{
-                      expandedModules().has(module.key) ? '▼' : '▶'
-                    }}</span>
+      <div class="main-layout">
+        <!-- LEFT SIDEBAR -->
+        @if (currentView() === 'section' && data()) {
+          <aside class="sidebar-left" [class.collapsed]="sidebarCollapsed()">
+            <div class="sidebar-toggle">
+              <button (click)="toggleSidebar()" class="toggle-btn" title="Toggle sidebar">
+                <span class="chevron">{{ sidebarCollapsed() ? '→' : '←' }}</span>
+              </button>
+            </div>
+
+            <nav class="sidebar-nav">
+              @for (moduleName of getModuleNames(); track moduleName) {
+                <div class="module-group">
+                  <button
+                    class="module-header"
+                    (click)="toggleModuleExpanded(moduleName)"
+                    [class.expanded]="expandedModules().has(moduleName)"
+                  >
+                    <span class="module-title">
+                      {{ getModule(moduleName)?.name || moduleName }}
+                    </span>
+                    <span class="module-chevron">
+                      {{ expandedModules().has(moduleName) ? '▼' : '▶' }}
+                    </span>
+                  </button>
+
+                  @if (expandedModules().has(moduleName)) {
+                    <div class="sections-list">
+                      @for (section of getFilteredSections(moduleName); track section.id) {
+                        <button
+                          class="section-item"
+                          [class.active]="selectedSection()?.id === section.id"
+                          (click)="selectSection(section)"
+                          [class.hidden]="!isSectionVisible(section)"
+                        >
+                          {{ section.title }}
+                        </button>
+                      }
+                    </div>
                   }
-                </button>
+                </div>
+              }
+            </nav>
+          </aside>
+        }
 
-                <!-- Sections Submenu -->
-                @if (expandedModules().has(module.key) && !sidebarCollapsed()) {
-                  <div class="bg-zinc-800 rounded my-1">
-                    @for (section of module.sections; track section.id) {
-                      <button
-                        (click)="navigateToSection(section)"
-                        class="w-full text-left px-4 py-1.5 text-xs text-gray-400 hover:bg-zinc-700 first:rounded-t last:rounded-b transition-colors truncate"
-                        [class.bg-blue-600]="selectedSection()?.id === section.id"
-                        [class.text-white]="selectedSection()?.id === section.id"
-                        [title]="section.title"
-                      >
-                        {{ section.title }}
-                      </button>
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content" #mainContent>
+          <!-- HOME VIEW -->
+          @if (currentView() === 'home' && data()) {
+            <div class="content-home">
+              <section class="hero">
+                <h1>{{ data()!.documentInfo.title }}</h1>
+                <p class="tagline">{{ data()!.documentInfo.tagline }}</p>
+              </section>
+
+              <section class="stats">
+                <div class="stat-card">
+                  <div class="stat-number">{{ getTotalSections() }}</div>
+                  <div class="stat-label">Sections</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-number">{{ getModuleNames().length }}</div>
+                  <div class="stat-label">Modules</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-number">{{ getTotalScreenshots() }}+</div>
+                  <div class="stat-label">Screenshots</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-number">{{ data()!.documentInfo.lastUpdated }}</div>
+                  <div class="stat-label">Updated</div>
+                </div>
+              </section>
+
+              <section class="modules-grid">
+                <h2>Documentation Modules</h2>
+                <div class="grid">
+                  @for (moduleName of getModuleNames(); track moduleName) {
+                    <div class="module-card" (click)="selectModuleFirstSection(moduleName)">
+                      <h3>{{ getModule(moduleName)?.name }}</h3>
+                      <p>{{ getModule(moduleName)?.description }}</p>
+                      <div class="card-footer">
+                        {{ getModule(moduleName)?.sections?.length || 0 }} sections
+                      </div>
+                    </div>
+                  }
+                </div>
+              </section>
+            </div>
+          }
+
+          <!-- SECTION VIEW -->
+          @if (currentView() === 'section' && selectedSection() && data()) {
+            <div class="content-section">
+              <!-- BREADCRUMB -->
+              <nav class="breadcrumb">
+                <button (click)="navigateToHome()">Home</button>
+                <span> / </span>
+                <span>{{ getCurrentModuleName() }}</span>
+                <span> / </span>
+                <span class="current">{{ selectedSection()!.title }}</span>
+              </nav>
+
+              <!-- SECTION TITLE -->
+              <header class="section-header">
+                <h1>{{ selectedSection()!.title }}</h1>
+              </header>
+
+              <!-- OBJECTIVE -->
+              @if (selectedSection()!.objective) {
+                <section class="objective-box">
+                  <div class="objective-icon">📋</div>
+                  <div>
+                    <strong>Objective</strong>
+                    <p>{{ selectedSection()!.objective }}</p>
+                  </div>
+                </section>
+              }
+
+              <!-- DESCRIPTION -->
+              @if (selectedSection()!.description) {
+                <section class="description-block">
+                  <p [innerText]="selectedSection()!.description"></p>
+                </section>
+              }
+
+              <!-- PREREQUISITES -->
+              @if (
+                selectedSection()!.prerequisites && selectedSection()!.prerequisites!.length > 0
+              ) {
+                <section class="content-block">
+                  <h2>Prerequisites</h2>
+                  <ul class="bullet-list">
+                    @for (item of selectedSection()!.prerequisites; track $index) {
+                      <li>{{ item }}</li>
+                    }
+                  </ul>
+                </section>
+              }
+
+              <!-- NAVIGATION -->
+              @if (selectedSection()!.navigation && selectedSection()!.navigation!.length > 0) {
+                <section class="content-block">
+                  <h2>Navigation Steps</h2>
+                  <ol class="numbered-list">
+                    @for (step of selectedSection()!.navigation; let i = $index; track i) {
+                      <li>
+                        <span class="step-number">{{ i + 1 }}</span>
+                        <span>{{ step }}</span>
+                      </li>
+                    }
+                  </ol>
+                </section>
+              }
+
+              <!-- VIEWING / ACCESSING -->
+              @if (selectedSection()!.viewing || selectedSection()!.accessing) {
+                <div class="two-col-grid">
+                  @if (selectedSection()!.viewing) {
+                    <section class="info-card">
+                      <h3>How to View</h3>
+                      @if (typeof selectedSection()!.viewing === 'string') {
+                        <p>{{ selectedSection()!.viewing }}</p>
+                      } @else {
+                        <ul class="bullet-list">
+                          @for (
+                            item of getAsStringArray(selectedSection()!.viewing);
+                            track $index
+                          ) {
+                            <li>{{ item }}</li>
+                          }
+                        </ul>
+                      }
+                    </section>
+                  }
+
+                  @if (selectedSection()!.accessing) {
+                    <section class="info-card">
+                      <h3>How to Access</h3>
+                      @if (typeof selectedSection()!.accessing === 'string') {
+                        <p>{{ selectedSection()!.accessing }}</p>
+                      } @else {
+                        <ul class="bullet-list">
+                          @for (
+                            item of getAsStringArray(selectedSection()!.accessing);
+                            track $index
+                          ) {
+                            <li>{{ item }}</li>
+                          }
+                        </ul>
+                      }
+                    </section>
+                  }
+                </div>
+              }
+
+              <!-- PROCEDURE STEPS (Traditional) -->
+              @if (
+                selectedSection()!.procedure?.steps &&
+                selectedSection()!.procedure!.steps!.length > 0
+              ) {
+                <section class="content-block">
+                  <h2>Procedure</h2>
+                  <ol class="step-list">
+                    @for (step of selectedSection()!.procedure!.steps; let i = $index; track i) {
+                      <li>
+                        <span class="step-badge">{{ i + 1 }}</span>
+                        <span>{{ step }}</span>
+                      </li>
+                    }
+                  </ol>
+                </section>
+              }
+
+              <!-- DETAILED STEPS -->
+              @if (selectedSection()!.steps && selectedSection()!.steps!.length > 0) {
+                <section class="content-block">
+                  @for (stepGroup of selectedSection()!.steps; let i = $index; track i) {
+                    <div class="step-group">
+                      <h3>
+                        <span class="step-badge">{{ i + 1 }}</span>
+                        {{ stepGroup.title }}
+                      </h3>
+                      <ol class="sub-steps">
+                        @for (detail of stepGroup.details; let j = $index; track j) {
+                          <li>{{ detail }}</li>
+                        }
+                      </ol>
+                    </div>
+                  }
+                </section>
+              }
+
+              <!-- FIELDS TABLE -->
+              @if (selectedSection()!.fields && selectedSection()!.fields!.length > 0) {
+                <section class="content-block">
+                  <h2>Fields</h2>
+                  <table class="fields-table">
+                    <thead>
+                      <tr>
+                        <th>Field Name</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (field of selectedSection()!.fields; track field.name) {
+                        <tr>
+                          <td class="field-name">
+                            <code>{{ field.name }}</code>
+                          </td>
+                          <td>
+                            <code>{{ field.type }}</code>
+                          </td>
+                          <td>{{ field.required ? 'Yes' : 'No' }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </section>
+              }
+
+              <!-- ADDING VALUE STREAM -->
+              @if (selectedSection()!.addingValueStream) {
+                <section class="content-block value-stream-block">
+                  <h2>{{ selectedSection()!.addingValueStream!.title }}</h2>
+
+                  @if (
+                    selectedSection()!.addingValueStream!.fields &&
+                    selectedSection()!.addingValueStream!.fields!.length > 0
+                  ) {
+                    <div class="subsection">
+                      <h3>Fields</h3>
+                      <table class="fields-table">
+                        <thead>
+                          <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (
+                            field of selectedSection()!.addingValueStream!.fields;
+                            track field.name
+                          ) {
+                            <tr>
+                              <td>
+                                <code>{{ field.name }}</code>
+                              </td>
+                              <td>
+                                <code>{{ field.type }}</code>
+                              </td>
+                              <td>{{ field.required ? 'Yes' : 'No' }}</td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  }
+
+                  @if (
+                    selectedSection()!.addingValueStream!.steps &&
+                    selectedSection()!.addingValueStream!.steps!.length > 0
+                  ) {
+                    <div class="subsection">
+                      <h3>Steps</h3>
+                      <ol class="step-list">
+                        @for (
+                          step of selectedSection()!.addingValueStream!.steps;
+                          let i = $index;
+                          track i
+                        ) {
+                          <li>
+                            <span class="step-badge">{{ i + 1 }}</span>
+                            <span>{{ step }}</span>
+                          </li>
+                        }
+                      </ol>
+                    </div>
+                  }
+                </section>
+              }
+
+              <!-- TYPES/CATEGORIES (Expandable) -->
+              @if (selectedSection()!.types && getObjectKeys(selectedSection()!.types).length > 0) {
+                <section class="content-block">
+                  <h2>Types & Categories</h2>
+                  <div class="accordion">
+                    @for (key of getObjectKeys(selectedSection()!.types); track key) {
+                      <details class="accordion-item">
+                        <summary>
+                          <span class="accordion-title">{{ key }}</span>
+                          <span class="accordion-icon">▼</span>
+                        </summary>
+                        <div class="accordion-content">
+                          <pre class="json-display">{{
+                            selectedSection()!.types![key] | json
+                          }}</pre>
+                        </div>
+                      </details>
                     }
                   </div>
-                }
-              </div>
-            }
-          </nav>
+                </section>
+              }
 
-          <!-- Sidebar Footer -->
-          @if (!sidebarCollapsed()) {
-            <div
-              class="p-3 border-t border-zinc-800 text-xs text-gray-500 space-y-0.5 flex-shrink-0"
-            >
-              <div class="font-mono">v{{ data()!.documentInfo.version }}</div>
-              <div class="text-gray-600">
-                {{ data()!.documentInfo.lastUpdated | date: 'MMM d, yyyy' }}
+              <!-- NOTES -->
+              @if (selectedSection()!.notes && selectedSection()!.notes!.length > 0) {
+                <section class="content-block notes-block">
+                  <h2>Important Notes</h2>
+                  <ul class="note-list">
+                    @for (note of selectedSection()!.notes; track $index) {
+                      <li>
+                        <span class="note-icon">i</span>
+                        <span>{{ note }}</span>
+                      </li>
+                    }
+                  </ul>
+                </section>
+              }
+
+              <!-- SCREENSHOTS -->
+              @if (selectedSection()!.screenshots && selectedSection()!.screenshots!.length > 0) {
+                <section class="content-block screenshots-block">
+                  <h2>Screenshots</h2>
+                  <div class="screenshots-grid">
+                    @for (screenshot of selectedSection()!.screenshots; let i = $index; track i) {
+                      <div class="screenshot-card" (click)="openImageViewer(screenshot)">
+                        <img
+                          [src]="'/assets/images/screenshots/' + screenshot"
+                          [alt]="screenshot"
+                          class="screenshot-img"
+                          (error)="onImageError($event, screenshot)"
+                        />
+                        <div class="screenshot-filename">
+                          <code>{{ screenshot }}</code>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </section>
+              }
+
+              <!-- NAVIGATION CONTROLS -->
+              <div class="section-nav">
+                <button
+                  class="nav-btn prev-btn"
+                  (click)="previousSection()"
+                  [disabled]="!canNavigatePrevious()"
+                >
+                  ← Previous
+                </button>
+                <span class="nav-counter">
+                  {{ selectedSection()!.id }} / {{ getTotalSections() }}
+                </span>
+                <button
+                  class="nav-btn next-btn"
+                  (click)="nextSection()"
+                  [disabled]="!canNavigateNext()"
+                >
+                  Next →
+                </button>
               </div>
             </div>
           }
-        </aside>
-      }
+        </main>
 
-      <!-- MAIN CONTENT -->
-      <main class="flex-1 flex flex-col overflow-hidden bg-white">
-        <!-- LOADING STATE -->
-        @if (isLoading()) {
-          <div class="flex items-center justify-center h-full">
-            <div class="space-y-4 text-center">
-              <div class="inline-flex items-center justify-center">
-                <div
-                  class="h-8 w-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"
-                ></div>
-              </div>
-              <p class="text-gray-600 font-medium">Loading documentation...</p>
-            </div>
-          </div>
+        <!-- RIGHT TOC PANEL -->
+        @if (currentView() === 'section' && selectedSection()) {
+          <aside class="toc-panel">
+            <h3>On this page</h3>
+            <nav class="toc-nav">
+              @if (selectedSection()!.objective) {
+                <a href="#toc-objective" class="toc-link">Objective</a>
+              }
+              @if (selectedSection()!.description) {
+                <a href="#toc-description" class="toc-link">Description</a>
+              }
+              @if (
+                selectedSection()!.prerequisites && selectedSection()!.prerequisites!.length > 0
+              ) {
+                <a href="#toc-prerequisites" class="toc-link">Prerequisites</a>
+              }
+              @if (selectedSection()!.navigation && selectedSection()!.navigation!.length > 0) {
+                <a href="#toc-navigation" class="toc-link">Navigation</a>
+              }
+              @if (selectedSection()!.procedure?.steps || selectedSection()!.steps) {
+                <a href="#toc-procedure" class="toc-link">Procedure</a>
+              }
+              @if (selectedSection()!.viewing || selectedSection()!.accessing) {
+                <a href="#toc-info" class="toc-link">How to View/Access</a>
+              }
+              @if (selectedSection()!.addingValueStream) {
+                <a href="#toc-valuestream" class="toc-link">
+                  {{ selectedSection()!.addingValueStream!.title }}
+                </a>
+              }
+              @if (selectedSection()!.types) {
+                <a href="#toc-types" class="toc-link">Types</a>
+              }
+              @if (selectedSection()!.notes && selectedSection()!.notes!.length > 0) {
+                <a href="#toc-notes" class="toc-link">Notes</a>
+              }
+              @if (selectedSection()!.screenshots && selectedSection()!.screenshots!.length > 0) {
+                <a href="#toc-screenshots" class="toc-link">Screenshots</a>
+              }
+            </nav>
+          </aside>
         }
-
-        <!-- ERROR STATE -->
-        @if (error() && !isLoading()) {
-          <div class="flex items-center justify-center h-full px-6">
-            <div class="max-w-md w-full">
-              <div class="border border-red-300 rounded-lg bg-red-50 p-6">
-                <h2 class="text-lg font-semibold text-red-900">Error</h2>
-                <p class="mt-2 text-sm text-red-700">{{ error() }}</p>
-                <button
-                  (click)="loadDocumentation()"
-                  class="mt-4 px-4 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700 transition-colors"
-                >
-                  Try Again
-                </button>
-              </div>
-            </div>
-          </div>
-        }
-
-        @if (!isLoading() && !error() && data()) {
-          <!-- TOP HEADER BAR -->
-          <header
-            class="border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-20 bg-white"
-          >
-            <div class="flex items-center gap-3">
-              <button
-                (click)="navigateToHome()"
-                class="flex items-center gap-2 text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors"
-              >
-                <span class="text-lg">▲</span>
-                {{ data()!.documentInfo.title }}
-              </button>
-            </div>
-            <div class="flex items-center gap-3">
-              <input
-                [value]="searchQuery()"
-                (input)="searchQuery.set($any($event).target.value)"
-                type="text"
-                placeholder="Search documentation..."
-                class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-56"
-              />
-              <span class="text-xs font-mono text-gray-500 px-3 py-1.5 bg-gray-100 rounded">
-                v{{ data()!.documentInfo.version }}
-              </span>
-            </div>
-          </header>
-
-          <!-- CONTENT AREA -->
-          <div class="flex-1 overflow-y-auto">
-            <!-- HOME VIEW -->
-            @if (currentView() === 'home') {
-              <div class="px-8 py-12 max-w-6xl mx-auto">
-                <div class="mb-12">
-                  <h1 class="text-4xl font-bold text-gray-900 mb-2">
-                    {{ data()!.documentInfo.title }}
-                  </h1>
-                  <p class="text-lg text-gray-600">{{ data()!.documentInfo.tagline }}</p>
-                </div>
-
-                <!-- Quick Stats Grid -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                  <div class="border border-gray-300 rounded p-4">
-                    <div class="text-2xl font-bold text-gray-900">{{ getTotalSections() }}</div>
-                    <p class="text-xs text-gray-600 mt-1 uppercase tracking-wide">Sections</p>
-                  </div>
-                  <div class="border border-gray-300 rounded p-4">
-                    <div class="text-2xl font-bold text-gray-900">
-                      {{ getModulesList().length }}
-                    </div>
-                    <p class="text-xs text-gray-600 mt-1 uppercase tracking-wide">Modules</p>
-                  </div>
-                  <div class="border border-gray-300 rounded p-4">
-                    <div class="text-2xl font-bold text-gray-900">{{ getTotalScreenshots() }}+</div>
-                    <p class="text-xs text-gray-600 mt-1 uppercase tracking-wide">Screenshots</p>
-                  </div>
-                  <div class="border border-gray-300 rounded p-4">
-                    <div class="text-2xl font-bold text-gray-900">
-                      {{ data()!.documentInfo.lastUpdated | date: 'yyyy' }}
-                    </div>
-                    <p class="text-xs text-gray-600 mt-1 uppercase tracking-wide">Updated</p>
-                  </div>
-                </div>
-
-                <!-- Modules Grid -->
-                <h2 class="text-xl font-semibold text-gray-900 mb-6">Modules</h2>
-                <div class="grid md:grid-cols-2 gap-4">
-                  @for (module of getModulesList(); track module.key) {
-                    <button
-                      (click)="navigateToModule(module.key)"
-                      class="text-left border border-gray-300 rounded p-6 hover:border-blue-400 hover:bg-blue-50 transition-colors"
-                    >
-                      <h3 class="font-semibold text-gray-900">{{ module.value.name }}</h3>
-                      <p class="text-sm text-gray-600 mt-2">{{ module.value.description }}</p>
-                      <div class="mt-4 text-xs text-gray-500">
-                        {{ module.value.sections.length }} sections
-                      </div>
-                    </button>
-                  }
-                </div>
-              </div>
-            }
-
-            <!-- DOCUMENTATION VIEW -->
-            @if (currentView() === 'section' && selectedSection()) {
-              <div class="px-8 py-8 max-w-4xl mx-auto">
-                <!-- Breadcrumbs -->
-                <nav class="flex items-center gap-1 text-sm text-gray-600 mb-8">
-                  <button (click)="navigateToHome()" class="text-blue-600 hover:underline">
-                    Home
-                  </button>
-                  <span class="text-gray-400">/</span>
-                  <button
-                    (click)="navigateToModule(currentModuleKey())"
-                    class="text-blue-600 hover:underline"
-                  >
-                    {{ currentModule()?.name }}
-                  </button>
-                  <span class="text-gray-400">/</span>
-                  <span class="text-gray-900 font-medium">{{ selectedSection()?.title }}</span>
-                </nav>
-
-                <!-- Section Header -->
-                <header class="mb-8">
-                  <div class="flex items-start justify-between gap-4 mb-4">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ selectedSection()?.title }}</h1>
-                    <span class="text-xs font-mono text-gray-500 px-3 py-1 bg-gray-100 rounded">
-                      Section {{ selectedSection()?.id }}
-                    </span>
-                  </div>
-
-                  @if (selectedSection()?.objective) {
-                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
-                      <h3 class="text-sm font-semibold text-blue-900 mb-1">Objective</h3>
-                      <p class="text-sm text-blue-800">{{ selectedSection()?.objective }}</p>
-                    </div>
-                  }
-
-                  @if (selectedSection()?.description) {
-                    <p class="text-gray-700 leading-relaxed whitespace-pre-line">
-                      {{ selectedSection()?.description }}
-                    </p>
-                  }
-                </header>
-
-                <!-- Navigation Steps -->
-                @if (selectedSection()?.navigation && selectedSection()!.navigation!.length > 0) {
-                  <section class="mb-8">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Navigation Steps</h2>
-                    <ol class="space-y-2 bg-gray-50 p-4 rounded border border-gray-200">
-                      @for (step of selectedSection()?.navigation; let i = $index; track i) {
-                        <li class="flex gap-3">
-                          <span
-                            class="flex-shrink-0 w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs font-semibold text-gray-700"
-                          >
-                            {{ i + 1 }}
-                          </span>
-                          <span class="text-gray-700">{{ step }}</span>
-                        </li>
-                      }
-                    </ol>
-                  </section>
-                }
-
-                <!-- Viewing & Accessing -->
-                <div class="grid md:grid-cols-2 gap-6 mb-8">
-                  @if (selectedSection()?.viewing) {
-                    <section class="border border-gray-200 rounded p-4">
-                      <h3 class="font-semibold text-gray-900 mb-2">How to View</h3>
-                      @if (typeof selectedSection()!.viewing === 'string') {
-                        <p class="text-sm text-gray-700">{{ selectedSection()?.viewing }}</p>
-                      } @else {
-                        <ul class="space-y-1 text-sm">
-                          @for (item of selectedSection()?.viewing || []; track $index) {
-                            <li class="flex gap-2 text-gray-700">
-                              <span class="text-gray-400 flex-shrink-0">•</span>
-                              <span>{{ item }}</span>
-                            </li>
-                          }
-                        </ul>
-                      }
-                    </section>
-                  }
-
-                  @if (selectedSection()?.accessing) {
-                    <section class="border border-gray-200 rounded p-4">
-                      <h3 class="font-semibold text-gray-900 mb-2">How to Access</h3>
-                      @if (typeof selectedSection()!.accessing === 'string') {
-                        <p class="text-sm text-gray-700">{{ selectedSection()?.accessing }}</p>
-                      } @else {
-                        <ul class="space-y-1 text-sm">
-                          @for (item of selectedSection()?.accessing || []; track $index) {
-                            <li class="flex gap-2 text-gray-700">
-                              <span class="text-gray-400 flex-shrink-0">•</span>
-                              <span>{{ item }}</span>
-                            </li>
-                          }
-                        </ul>
-                      }
-                    </section>
-                  }
-                </div>
-
-                <!-- Adding/Procedures -->
-                @if ((selectedSection()?.adding?.steps?.length ?? 0) > 0) {
-                  <section class="mb-8">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">How to Add</h2>
-                    <ol class="space-y-3 bg-blue-50 p-6 rounded border border-blue-200">
-                      @for (step of selectedSection()?.adding?.steps; let i = $index; track i) {
-                        <li class="flex gap-4">
-                          <span
-                            class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold"
-                          >
-                            {{ i + 1 }}
-                          </span>
-                          <span class="text-gray-800 pt-0.5">{{ step }}</span>
-                        </li>
-                      }
-                    </ol>
-                  </section>
-                }
-
-                <!-- Nested Types/Categories -->
-                @if (selectedSection()?.types) {
-                  <section class="mb-8">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Types & Categories</h2>
-                    <div class="space-y-3">
-                      @for (
-                        entry of getObjectEntries(selectedSection()!.types || {});
-                        track entry[0]
-                      ) {
-                        <details class="border border-gray-300 rounded group">
-                          <summary
-                            class="px-4 py-3 cursor-pointer font-medium text-gray-900 hover:bg-gray-50 transition-colors list-none flex justify-between items-center"
-                          >
-                            <span>{{ entry[0] }}</span>
-                            <span class="text-gray-400 group-open:rotate-180 transition-transform"
-                              >▼</span
-                            >
-                          </summary>
-                          <div class="px-4 py-3 bg-gray-50 border-t border-gray-200">
-                            @if (isArray(entry[1])) {
-                              <ul class="space-y-1">
-                                @for (item of entry[1]; track $index) {
-                                  <li class="text-sm text-gray-700 flex gap-2">
-                                    <span class="text-gray-400">•</span>
-                                    <span>{{ item }}</span>
-                                  </li>
-                                }
-                              </ul>
-                            } @else if (typeof entry[1] === 'object') {
-                              <div class="text-sm text-gray-700 space-y-1">
-                                @for (prop of getObjectEntries(entry[1]); track prop[0]) {
-                                  <div>
-                                    <span class="font-medium text-gray-900">{{ prop[0] }}:</span>
-                                    <span class="text-gray-700 ml-2">{{ prop[1] }}</span>
-                                  </div>
-                                }
-                              </div>
-                            } @else {
-                              <p class="text-sm text-gray-700">{{ entry[1] }}</p>
-                            }
-                          </div>
-                        </details>
-                      }
-                    </div>
-                  </section>
-                }
-
-                <!-- Value Streams -->
-                @if (selectedSection()?.addingValueStream) {
-                  <section class="mb-8">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">
-                      {{ selectedSection()?.addingValueStream?.title }}
-                    </h2>
-                    <ol class="space-y-3 bg-green-50 p-6 rounded border border-green-200">
-                      @for (
-                        step of selectedSection()?.addingValueStream?.steps;
-                        let i = $index;
-                        track i
-                      ) {
-                        <li class="flex gap-4">
-                          <span
-                            class="flex-shrink-0 w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-sm font-semibold"
-                          >
-                            {{ i + 1 }}
-                          </span>
-                          <span class="text-gray-800 pt-0.5">{{ step }}</span>
-                        </li>
-                      }
-                    </ol>
-                  </section>
-                }
-
-                <!-- Screenshots Gallery -->
-                @if (selectedSection()?.screenshots && selectedSection()!.screenshots!.length > 0) {
-                  <section class="mb-8">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Screenshots</h2>
-                    <div class="grid gap-4">
-                      @for (screenshot of selectedSection()?.screenshots; let i = $index; track i) {
-                        <div
-                          class="border border-gray-300 rounded overflow-hidden bg-gray-50 group cursor-pointer hover:border-blue-400 transition-colors"
-                          (click)="openImageModal(screenshot)"
-                        >
-                          <div class="relative aspect-video overflow-hidden bg-gray-100">
-                            <img
-                              [src]="'/assets/images/screenshots/' + screenshot"
-                              [alt]="'Screenshot ' + (i + 1)"
-                              class="w-full h-full object-contain group-hover:opacity-90 transition-opacity"
-                              (error)="onImageError($event, screenshot)"
-                            />
-                            <div
-                              class="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-10 transition-opacity flex items-center justify-center"
-                            >
-                              <span class="text-white font-medium text-sm">Click to zoom</span>
-                            </div>
-                          </div>
-                          <div class="px-3 py-2 border-t border-gray-300">
-                            <p class="text-xs text-gray-600 font-mono truncate">{{ screenshot }}</p>
-                          </div>
-                        </div>
-                      }
-                    </div>
-                  </section>
-                }
-
-                <!-- Navigation Controls -->
-                <div
-                  class="flex justify-between items-center mt-12 pt-8 border-t border-gray-200 gap-4"
-                >
-                  <button
-                    (click)="previousSection()"
-                    [disabled]="!canNavigatePrevious()"
-                    class="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                  >
-                    ← Previous
-                  </button>
-                  <span class="text-sm text-gray-600 font-mono">
-                    {{ selectedSection()?.id }} / {{ getTotalSections() }}
-                  </span>
-                  <button
-                    (click)="nextSection()"
-                    [disabled]="!canNavigateNext()"
-                    class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                  >
-                    Next →
-                  </button>
-                </div>
-              </div>
-            }
-          </div>
-        }
-      </main>
+      </div>
     </div>
 
     <!-- IMAGE VIEWER MODAL -->
-    @if (imageViewerService.selectedImage()) {
-      <div
-        class="fixed inset-0 z-50 bg-black bg-opacity-95 flex flex-col"
-        (click)="imageViewerService.closeImage()"
-        (keydown)="onImageKeydown($event)"
-        tabindex="0"
-      >
-        <!-- Header Bar -->
-        <div
-          class="bg-gray-900 border-b border-gray-700 px-6 py-3 flex justify-between items-center flex-shrink-0"
-        >
-          <h2 class="text-white font-medium text-sm">Image Viewer</h2>
-          <button
-            (click)="imageViewerService.closeImage()"
-            class="text-gray-400 hover:text-white text-2xl font-light"
-            aria-label="Close"
-          >
-            ✕
-          </button>
-        </div>
+    @if (imageViewerOpen()) {
+      <div class="image-viewer-overlay" (click)="closeImageViewer()">
+        <div class="image-viewer-modal" (click)="$event.stopPropagation()">
+          <div class="viewer-header">
+            <h3>Image Viewer</h3>
+            <div class="viewer-zoom-controls">
+              <button
+                class="zoom-btn"
+                (click)="zoomOut()"
+                [disabled]="imageZoom() <= 1"
+                title="Zoom Out (-)"
+              >
+                −
+              </button>
+              <span class="zoom-level">{{ (imageZoom() * 100).toFixed(0) }}%</span>
+              <button
+                class="zoom-btn"
+                (click)="zoomIn()"
+                [disabled]="imageZoom() >= 5"
+                title="Zoom In (+)"
+              >
+                +
+              </button>
+              <button class="zoom-reset-btn" (click)="resetZoom()" title="Reset Zoom">Reset</button>
+            </div>
+            <button class="close-btn" (click)="closeImageViewer()" title="Close">✕</button>
+          </div>
 
-        <!-- Image Container -->
-        <div
-          class="flex-1 flex items-center justify-center bg-black overflow-auto"
-          (click)="$event.stopPropagation()"
-          (mousedown)="onImageMouseDown($event)"
-          (mousemove)="onImageMouseMove($event)"
-          (mouseup)="imageViewerService.endDrag()"
-          (mouseleave)="imageViewerService.endDrag()"
-        >
-          <img
-            [src]="'/assets/images/screenshots/' + imageViewerService.selectedImage()!"
-            [alt]="imageViewerService.selectedImage()!"
-            class="max-w-5xl max-h-[calc(100vh-120px)] object-contain"
-            (load)="onImageLoad()"
-          />
-        </div>
+          <div class="viewer-body" (wheel)="onImageWheel($event)">
+            <div class="viewer-image-container" [style.transform]="'scale(' + imageZoom() + ')'">
+              <img
+                [src]="'/assets/images/screenshots/' + currentImageName()"
+                [alt]="currentImageName()"
+                class="viewer-image"
+                (error)="onImageError($event, currentImageName())"
+              />
+            </div>
+          </div>
 
-        <!-- Footer-->
-        <div
-          class="bg-gray-900 border-t border-gray-700 px-6 py-4 flex justify-center gap-3 flex-shrink-0"
-        >
-          <button
-            (click)="previousImage()"
-            [disabled]="currentImageIndex() === 0"
-            class="px-4 py-2 bg-gray-700 hover:bg-gray-600 disabled:opacity-40 text-white rounded text-sm font-medium transition-colors"
-          >
-            ← Previous
-          </button>
-          <button
-            (click)="imageViewerService.closeImage()"
-            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-colors"
-          >
-            Close
-          </button>
-          <button
-            (click)="nextImage()"
-            [disabled]="currentImageIndex() + 1 >= (selectedSection()?.screenshots?.length ?? 0)"
-            class="px-4 py-2 bg-gray-700 hover:bg-gray-600 disabled:opacity-40 text-white rounded text-sm font-medium transition-colors"
-          >
-            Next →
-          </button>
+          <div class="viewer-footer">
+            <button
+              class="viewer-btn"
+              (click)="previousImage()"
+              [disabled]="currentImageIndex() === 0"
+            >
+              ← Previous
+            </button>
+            <span class="viewer-counter">
+              {{ currentImageIndex() + 1 }} /
+              {{ selectedSection()?.screenshots?.length || 0 }}
+            </span>
+            <button
+              class="viewer-btn"
+              (click)="nextImage()"
+              [disabled]="currentImageIndex() + 1 >= (selectedSection()?.screenshots?.length || 0)"
+            >
+              Next →
+            </button>
+          </div>
         </div>
       </div>
     }
   `,
+
   styles: [
     `
       :host {
-        display: contents;
+        --color-bg-primary: #ffffff;
+        --color-bg-secondary: #f8f9fa;
+        --color-bg-dark: #161d26;
+        --color-text-primary: #1a202c;
+        --color-text-secondary: #5f6b7a;
+        --color-border: #d5dbdb;
+        --color-blue: #0972d3;
+        --color-blue-light: #e8f0f9;
+        --color-green: #1d8102;
+        font-family:
+          'IBM Plex Sans',
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif;
       }
 
+      * {
+        box-sizing: border-box;
+      }
+
+      .docs-layout {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        background: var(--color-bg-primary);
+      }
+
+      /* HEADER BAR */
+      .header-bar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--color-bg-primary);
+        border-bottom: 1px solid var(--color-border);
+        height: 56px;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 24px;
+      }
+
+      .logo-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        transition: color 0.2s;
+      }
+
+      .logo-btn:hover {
+        color: var(--color-blue);
+      }
+
+      .logo-text {
+        display: block;
+        max-width: 280px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .search-wrapper {
+        flex: 1;
+        max-width: 400px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 6px 14px;
+        border: 1px solid var(--color-border);
+        border-radius: 20px;
+        font-size: 13px;
+        font-family: 'IBM Plex Sans', sans-serif;
+        background: var(--color-bg-secondary);
+        color: var(--color-text-primary);
+        transition: all 0.2s;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--color-blue);
+        background: var(--color-bg-primary);
+        box-shadow: 0 0 0 2px rgba(9, 114, 211, 0.1);
+      }
+
+      .version-badge {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        background: var(--color-bg-secondary);
+        padding: 4px 10px;
+        border-radius: 12px;
+        white-space: nowrap;
+      }
+
+      /* MAIN LAYOUT */
+      .main-layout {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      /* LEFT SIDEBAR */
+      .sidebar-left {
+        width: 260px;
+        background: var(--color-bg-dark);
+        color: #e5e7eb;
+        border-right: 1px solid #1f2937;
+        overflow-y: auto;
+        overflow-x: hidden;
+        transition: width 0.3s ease;
+        flex-shrink: 0;
+      }
+
+      .sidebar-left.collapsed {
+        width: 60px;
+      }
+
+      .sidebar-toggle {
+        padding: 16px;
+        border-bottom: 1px solid #1f2937;
+      }
+
+      .toggle-btn {
+        background: none;
+        border: none;
+        color: #9ca3af;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 4px 8px;
+        transition: color 0.2s;
+      }
+
+      .toggle-btn:hover {
+        color: #d1d5db;
+      }
+
+      .sidebar-nav {
+        padding: 8px 0;
+      }
+
+      .module-group {
+        border-bottom: 1px solid #1f2937;
+      }
+
+      .module-header {
+        width: 100%;
+        padding: 12px 16px;
+        background: none;
+        border: none;
+        color: #9ca3af;
+        cursor: pointer;
+        text-align: left;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        transition: all 0.2s;
+      }
+
+      .module-header:hover {
+        background: #1f2937;
+        color: #d1d5db;
+      }
+
+      .module-header.expanded {
+        color: #d1d5db;
+      }
+
+      .module-title {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .module-chevron {
+        font-size: 10px;
+        flex-shrink: 0;
+      }
+
+      .sections-list {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .section-item {
+        display: block;
+        width: 100%;
+        padding: 8px 16px 8px 32px;
+        background: none;
+        border: none;
+        border-left: 3px solid transparent;
+        color: #9ca3af;
+        text-align: left;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .section-item:hover {
+        background: #1f2937;
+        color: #d1d5db;
+      }
+
+      .section-item.active {
+        border-left-color: var(--color-blue);
+        background: #1a2737;
+        color: #fff;
+      }
+
+      .section-item.hidden {
+        display: none;
+      }
+
+      /* MAIN CONTENT */
+      .main-content {
+        flex: 1;
+        overflow-y: auto;
+        background: var(--color-bg-primary);
+      }
+
+      .content-home,
+      .content-section {
+        padding: 40px 48px;
+        max-width: 860px;
+        margin: 0 auto;
+      }
+
+      /* HOME VIEW */
+      .hero {
+        margin-bottom: 48px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 12px 0;
+      }
+
+      .tagline {
+        font-size: 16px;
+        color: var(--color-text-secondary);
+        margin: 0;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 48px;
+      }
+
+      .stat-card {
+        background: var(--color-bg-secondary);
+        padding: 24px;
+        border-radius: 8px;
+        border: 1px solid var(--color-border);
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-top: 8px;
+      }
+
+      .modules-grid h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 24px 0;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .module-card {
+        background: var(--color-bg-secondary);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .module-card:hover {
+        border-color: var(--color-blue);
+        background: var(--color-blue-light);
+        box-shadow: 0 2px 8px rgba(9, 114, 211, 0.1);
+      }
+
+      .module-card h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 8px 0;
+      }
+
+      .module-card p {
+        font-size: 14px;
+        color: var(--color-text-secondary);
+        margin: 0 0 12px 0;
+        line-height: 1.6;
+      }
+
+      .card-footer {
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        font-weight: 500;
+      }
+
+      /* SECTION VIEW */
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 24px;
+        font-size: 13px;
+        color: var(--color-text-secondary);
+      }
+
+      .breadcrumb button {
+        background: none;
+        border: none;
+        color: var(--color-blue);
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        font-size: inherit;
+        transition: color 0.2s;
+      }
+
+      .breadcrumb button:hover {
+        color: #0559a8;
+      }
+
+      .breadcrumb .current {
+        color: var(--color-text-primary);
+        font-weight: 500;
+      }
+
+      .section-header {
+        margin-bottom: 32px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid var(--color-border);
+      }
+
+      .section-header h1 {
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0;
+      }
+
+      /* OBJECTIVE BOX */
+      .objective-box {
+        display: flex;
+        gap: 16px;
+        background: var(--color-blue-light);
+        border-left: 4px solid var(--color-blue);
+        padding: 16px;
+        border-radius: 6px;
+        margin-bottom: 32px;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .objective-icon {
+        font-size: 24px;
+        flex-shrink: 0;
+      }
+
+      .objective-box strong {
+        display: block;
+        color: var(--color-text-primary);
+        margin-bottom: 4px;
+      }
+
+      .objective-box p {
+        margin: 0;
+        color: var(--color-text-secondary);
+      }
+
+      /* CONTENT BLOCKS */
+      .content-block {
+        margin-bottom: 32px;
+      }
+
+      .content-block h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 16px 0;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .content-block h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 12px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .description-block p {
+        color: var(--color-text-secondary);
+        line-height: 1.7;
+        margin: 0;
+        font-size: 14px;
+      }
+
+      /* LISTS */
+      .bullet-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .bullet-list li {
+        color: var(--color-text-secondary);
+        margin-bottom: 8px;
+        padding-left: 24px;
+        position: relative;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .bullet-list li:before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        color: var(--color-blue);
+        font-weight: bold;
+      }
+
+      .numbered-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        counter-reset: step-counter;
+      }
+
+      .numbered-list li {
+        color: var(--color-text-secondary);
+        margin-bottom: 12px;
+        padding-left: 32px;
+        position: relative;
+        font-size: 14px;
+        line-height: 1.6;
+        counter-increment: step-counter;
+      }
+
+      .numbered-list li:before {
+        content: counter(step-counter);
+        position: absolute;
+        left: 0;
+        width: 24px;
+        height: 24px;
+        background: var(--color-blue);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .step-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        background: var(--color-blue);
+        color: white;
+        border-radius: 50%;
+        font-size: 12px;
+        font-weight: 600;
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+
+      .step-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .step-list li {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+        padding: 12px;
+        background: var(--color-bg-secondary);
+        border-radius: 6px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--color-text-secondary);
+      }
+
+      .step-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        background: var(--color-blue);
+        color: white;
+        border-radius: 50%;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .step-group {
+        margin-bottom: 24px;
+      }
+
+      .step-group h3 {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .sub-steps {
+        list-style: decimal;
+        padding-left: 24px;
+        margin: 12px 0;
+      }
+
+      .sub-steps li {
+        color: var(--color-text-secondary);
+        margin-bottom: 8px;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      /* TWO COLUMN GRID */
+      .two-col-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+
+      .info-card {
+        background: var(--color-bg-secondary);
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid var(--color-border);
+      }
+
+      .info-card h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 12px 0;
+      }
+
+      .info-card p {
+        color: var(--color-text-secondary);
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      /* FIELDS TABLE */
+      .fields-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        margin-bottom: 12px;
+      }
+
+      .fields-table thead {
+        background: var(--color-bg-secondary);
+        border-bottom: 2px solid var(--color-border);
+      }
+
+      .fields-table th {
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+
+      .fields-table td {
+        padding: 12px;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text-secondary);
+      }
+
+      .fields-table tbody tr:hover {
+        background: var(--color-bg-secondary);
+      }
+
+      .field-name code {
+        background: var(--color-bg-secondary);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 12px;
+      }
+
+      code {
+        font-family: 'IBM Plex Mono', monospace;
+        color: #d46a6a;
+        background: #f5e6e6;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 13px;
+      }
+
+      /* VALUE STREAM BLOCK */
+      .value-stream-block {
+        background: #f0fdf4;
+        border: 1px solid #86efac;
+        border-left: 4px solid var(--color-green);
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      .value-stream-block h2 {
+        border-bottom-color: #86efac;
+        color: var(--color-green);
+      }
+
+      .subsection {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #d1e7d6;
+      }
+
+      .subsection h3 {
+        color: var(--color-text-primary);
+        font-size: 15px;
+      }
+
+      /* ACCORDION */
+      .accordion {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .accordion-item {
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .accordion-item summary {
+        padding: 16px;
+        cursor: pointer;
+        background: var(--color-bg-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        user-select: none;
+        transition: background 0.2s;
+        font-weight: 500;
+      }
+
+      .accordion-item summary:hover {
+        background: #e8eef5;
+      }
+
+      .accordion-item[open] summary {
+        background: var(--color-blue-light);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .accordion-title {
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+
+      .accordion-icon {
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        transition: transform 0.2s;
+      }
+
+      .accordion-item[open] .accordion-icon {
+        transform: rotate(180deg);
+      }
+
+      .accordion-content {
+        padding: 16px;
+        background: #fafbfc;
+        color: var(--color-text-secondary);
+        font-size: 13px;
+        line-height: 1.6;
+        overflow-x: auto;
+      }
+
+      .json-display {
+        background: var(--color-bg-dark);
+        color: #e5e7eb;
+        padding: 12px;
+        border-radius: 4px;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 12px;
+        overflow-x: auto;
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      .accordion-item[open] summary {
+        background: var(--color-blue-light);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .accordion-title {
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+
+      .accordion-icon {
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        transition: transform 0.2s;
+      }
+
+      .accordion-item[open] .accordion-icon {
+        transform: rotate(180deg);
+      }
+
+      .accordion-content {
+        padding: 16px;
+        background: var(--color-bg-primary);
+        border-top: 1px solid var(--color-border);
+        color: var(--color-text-secondary);
+        font-size: 13px;
+        font-family: 'IBM Plex Mono', monospace;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      /* NOTES */
+      .notes-block {
+        background: #fef3c7;
+        border: 1px solid #fcd34d;
+        border-left: 4px solid #f59e0b;
+      }
+
+      .notes-block h2 {
+        border-bottom-color: #fcd34d;
+        color: #92400e;
+      }
+
+      .note-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .note-list li {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 12px;
+        color: var(--color-text-secondary);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .note-icon {
+        flex-shrink: 0;
+        font-size: 16px;
+        width: 24px;
+        height: 24px;
+        background: #f59e0b;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      /* SCREENSHOTS */
+      .screenshots-block {
+        margin-bottom: 40px;
+      }
+
+      .screenshots-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .screenshot-card {
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: var(--color-bg-secondary);
+      }
+
+      .screenshot-card:hover {
+        border-color: var(--color-blue);
+        box-shadow: 0 4px 12px rgba(9, 114, 211, 0.1);
+      }
+
+      .screenshot-img {
+        width: 100%;
+        height: auto;
+        display: block;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+      }
+
+      .screenshot-filename {
+        padding: 12px;
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        font-family: 'IBM Plex Mono', monospace;
+        border-top: 1px solid var(--color-border);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* SECTION NAVIGATION */
+      .section-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        margin-top: 48px;
+        padding-top: 24px;
+        border-top: 2px solid var(--color-border);
+      }
+
+      .nav-btn {
+        padding: 10px 20px;
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: var(--color-bg-secondary);
+        color: var(--color-text-primary);
+      }
+
+      .nav-btn:hover:not(:disabled) {
+        border-color: var(--color-blue);
+        background: var(--color-blue-light);
+      }
+
+      .nav-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .nav-btn.next-btn:not(:disabled) {
+        background: var(--color-blue);
+        color: white;
+        border-color: var(--color-blue);
+      }
+
+      .nav-btn.next-btn:not(:disabled):hover {
+        background: #0559a8;
+      }
+
+      .nav-counter {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 13px;
+        color: var(--color-text-secondary);
+      }
+
+      /* TOC PANEL */
+      .toc-panel {
+        width: 220px;
+        background: var(--color-bg-secondary);
+        border-left: 1px solid var(--color-border);
+        padding: 24px 16px;
+        overflow-y: auto;
+        flex-shrink: 0;
+        position: sticky;
+        top: 56px;
+        height: calc(100vh - 56px);
+      }
+
+      .toc-panel h3 {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--color-text-secondary);
+        margin: 0 0 12px 0;
+      }
+
+      .toc-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .toc-link {
+        padding: 6px 8px;
+        font-size: 13px;
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.2s;
+        display: block;
+        line-height: 1.5;
+      }
+
+      .toc-link:hover {
+        color: var(--color-blue);
+        background: var(--color-bg-primary);
+      }
+
+      /* IMAGE VIEWER MODAL */
+      .image-viewer-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .image-viewer-modal {
+        background: var(--color-bg-dark);
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        max-width: 90vw;
+        max-height: 90vh;
+        width: 100%;
+        height: 100%;
+      }
+
+      .viewer-header {
+        background: #0f1419;
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #1f2937;
+        gap: 16px;
+      }
+
+      .viewer-header h3 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #e5e7eb;
+        flex: 1;
+      }
+
+      .viewer-zoom-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 16px;
+        border-right: 1px solid #1f2937;
+        border-left: 1px solid #1f2937;
+      }
+
+      .zoom-btn {
+        background: #1f2937;
+        border: 1px solid #374151;
+        color: #9ca3af;
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .zoom-btn:hover:not(:disabled) {
+        background: #374151;
+        color: #e5e7eb;
+      }
+
+      .zoom-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      .zoom-level {
+        color: #9ca3af;
+        font-size: 12px;
+        font-weight: 500;
+        min-width: 45px;
+        text-align: center;
+      }
+
+      .zoom-reset-btn {
+        background: #1f2937;
+        border: 1px solid #374151;
+        color: #9ca3af;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 11px;
+        transition: all 0.2s;
+        font-weight: 500;
+      }
+
+      .zoom-reset-btn:hover {
+        background: #374151;
+        color: #e5e7eb;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        color: #9ca3af;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0;
+        transition: color 0.2s;
+      }
+
+      .close-btn:hover {
+        color: #f3f4f6;
+      }
+
+      .viewer-body {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: auto;
+        background: #000;
+        cursor: zoom-in;
+      }
+
+      .viewer-body:hover {
+        cursor: zoom-in;
+      }
+
+      .viewer-image-container {
+        transform-origin: center;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .viewer-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+
+      .viewer-footer {
+        background: #0f1419;
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        border-top: 1px solid #1f2937;
+      }
+
+      .viewer-btn {
+        padding: 8px 16px;
+        background: #1f2937;
+        border: 1px solid #374151;
+        border-radius: 6px;
+        color: #f3f4f6;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .viewer-btn:hover:not(:disabled) {
+        background: #374151;
+      }
+
+      .viewer-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .viewer-counter {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 12px;
+        color: #9ca3af;
+      }
+
+      /* SCROLLBAR STYLING */
       ::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
       }
 
       ::-webkit-scrollbar-track {
@@ -577,165 +1790,141 @@ interface DocumentData {
       }
 
       ::-webkit-scrollbar-thumb {
-        background: #d1d5db;
-        border-radius: 3px;
+        background: #cbd5e0;
+        border-radius: 4px;
       }
 
       ::-webkit-scrollbar-thumb:hover {
-        background: #9ca3af;
+        background: #a0aec0;
       }
 
-      details > summary::-webkit-details-marker {
-        display: none;
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .two-col-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .toc-panel {
+          display: none;
+        }
+
+        .sidebar-left {
+          position: absolute;
+          height: calc(100vh - 56px);
+          z-index: 99;
+        }
+
+        .section-nav {
+          flex-direction: column;
+        }
       }
     `,
   ],
 })
 export class DocsComponent implements OnInit {
   private http = inject(HttpClient);
-  readonly imageViewerService = inject(ImageViewerService);
-  @ViewChild('contentArea') contentAreaRef?: ElementRef;
 
-  // Signals
-  data = signal<DocumentData | null>(null);
-  isLoading = signal(false);
-  error = signal<string | null>(null);
+  // ========================================================================
+  // SIGNALS
+  // ========================================================================
+
+  data = signal<DocsData | null>(null);
   currentView = signal<'home' | 'section'>('home');
   selectedSection = signal<Section | null>(null);
-  currentModuleKey = signal<string>('');
   searchQuery = signal('');
-  currentImageIndex = signal(0);
   sidebarCollapsed = signal(false);
   expandedModules = signal<Set<string>>(new Set());
+  imageViewerOpen = signal(false);
+  currentImageName = signal('');
+  currentImageIndex = signal(0);
+  imageZoom = signal(1);
 
-  // Computed
-  currentModule = computed(() => {
-    const key = this.currentModuleKey();
-    const modules = this.data()?.modules;
-    return key && modules ? modules[key] : null;
-  });
+  @ViewChild('mainContent') mainContentRef?: ElementRef;
 
   ngOnInit(): void {
-    this.loadDocumentation();
+    this.loadDocs();
   }
 
-  loadDocumentation(): void {
-    this.isLoading.set(true);
-    this.error.set(null);
+  // ========================================================================
+  // LOADING
+  // ========================================================================
 
-    this.http.get<DocumentData>('/assets/myidex-hub-sop-data.json').subscribe({
-      next: (result) => {
-        this.data.set(result);
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        this.error.set(`Failed to load documentation: ${err.message}`);
-        this.isLoading.set(false);
-      },
+  loadDocs(): void {
+    this.http.get<DocsData>('/assets/data/myidex-hub-sop-complete.json').subscribe({
+      next: (data) => this.data.set(data),
+      error: (err) => console.error('Failed to load docs:', err),
     });
   }
 
-  getModulesList() {
-    return this.data()
-      ? Object.entries(this.data()!.modules).map(([key, value]) => ({ key, value }))
-      : [];
+  // ========================================================================
+  // NAVIGATION
+  // ========================================================================
+
+  getModuleNames(): string[] {
+    return Object.keys(this.data()?.modules || {}).sort();
   }
 
-  getNavigationItems() {
-    const modules = this.getModulesList();
-    return modules.map((m) => ({
-      key: m.key,
-      label: m.value.name,
-      sections: m.value.sections,
+  getModule(key: string): Module | undefined {
+    return this.data()?.modules[key];
+  }
+
+  getModuleList() {
+    return this.getModuleNames().map((key) => ({
+      key,
+      module: this.getModule(key),
     }));
-  }
-
-  getTotalSections(): number {
-    if (!this.data()) return 0;
-    return Object.values(this.data()!.modules).reduce(
-      (sum, module) => sum + module.sections.length,
-      0,
-    );
-  }
-
-  getTotalScreenshots(): number {
-    if (!this.data()) return 0;
-    let count = 0;
-    Object.values(this.data()!.modules).forEach((module) => {
-      module.sections.forEach((section) => {
-        count += section.screenshots?.length || 0;
-      });
-    });
-    return count;
-  }
-
-  getObjectEntries(obj: Record<string, any> | undefined): [string, any][] {
-    return Object.entries(obj || {});
-  }
-
-  isArray(val: any): boolean {
-    return Array.isArray(val);
-  }
-
-  toggleSidebar(): void {
-    this.sidebarCollapsed.update((v) => !v);
-  }
-
-  expandModule(key: string): void {
-    this.expandedModules.update((set) => {
-      const newSet = new Set(set);
-      if (newSet.has(key)) {
-        newSet.delete(key);
-      } else {
-        newSet.add(key);
-      }
-      return newSet;
-    });
   }
 
   navigateToHome(): void {
     this.currentView.set('home');
     this.selectedSection.set(null);
-    this.currentModuleKey.set('');
+    this.expandedModules.set(new Set());
   }
 
-  navigateToModule(key: string): void {
-    this.currentModuleKey.set(key);
+  selectSection(section: Section): void {
+    this.selectedSection.set(section);
     this.currentView.set('section');
-    this.expandModule(key);
-    const module = this.data()?.modules[key];
+    this.mainContentRef?.nativeElement?.scrollTo(0, 0);
+  }
+
+  selectModuleFirstSection(moduleName: string): void {
+    const module = this.getModule(moduleName);
     if (module && module.sections.length > 0) {
-      this.navigateToSection(module.sections[0]);
+      this.expandedModules.update((m) => new Set(m).add(moduleName));
+      this.selectSection(module.sections[0]);
     }
   }
 
-  navigateToSection(section: Section): void {
-    this.selectedSection.set(section);
-    this.currentView.set('section');
-    this.currentImageIndex.set(0);
-  }
-
   nextSection(): void {
+    const allSections = this.getAllSections();
     const current = this.selectedSection()?.id;
-    if (current) {
-      const allSections = this.getAllSections();
+    if (current !== undefined) {
       const next = allSections.find((s) => s.id === current + 1);
-      if (next) this.navigateToSection(next);
+      if (next) this.selectSection(next);
     }
   }
 
   previousSection(): void {
+    const allSections = this.getAllSections();
     const current = this.selectedSection()?.id;
-    if (current && current > 1) {
-      const allSections = this.getAllSections();
+    if (current !== undefined && current > 1) {
       const prev = allSections.find((s) => s.id === current - 1);
-      if (prev) this.navigateToSection(prev);
+      if (prev) this.selectSection(prev);
     }
   }
 
   canNavigateNext(): boolean {
+    const total = this.getTotalSections();
     const current = this.selectedSection()?.id;
-    return current !== undefined && current < this.getTotalSections();
+    return current !== undefined && current < total;
   }
 
   canNavigatePrevious(): boolean {
@@ -745,18 +1934,91 @@ export class DocsComponent implements OnInit {
 
   getAllSections(): Section[] {
     const sections: Section[] = [];
-    if (this.data()) {
-      Object.values(this.data()!.modules).forEach((module) => {
-        sections.push(...module.sections);
-      });
-    }
+    Object.values(this.data()?.modules || {}).forEach((mod) => {
+      sections.push(...mod.sections);
+    });
     return sections.sort((a, b) => a.id - b.id);
   }
 
-  openImageModal(screenshot: string): void {
-    this.imageViewerService.openImage(screenshot);
+  // ========================================================================
+  // SIDEBAR
+  // ========================================================================
+
+  toggleSidebar(): void {
+    this.sidebarCollapsed.update((v) => !v);
+  }
+
+  toggleModuleExpanded(moduleName: string): void {
+    this.expandedModules.update((set) => {
+      const newSet = new Set(set);
+      if (newSet.has(moduleName)) {
+        newSet.delete(moduleName);
+      } else {
+        newSet.add(moduleName);
+      }
+      return newSet;
+    });
+  }
+
+  getFilteredSections(moduleName: string): Section[] {
+    const module = this.getModule(moduleName);
+    if (!module) return [];
+    const query = this.searchQuery().toLowerCase();
+    if (!query) return module.sections;
+    return module.sections.filter(
+      (s) =>
+        s.title.toLowerCase().includes(query) ||
+        s.description?.toLowerCase().includes(query) ||
+        s.objective?.toLowerCase().includes(query),
+    );
+  }
+
+  isSectionVisible(section: Section): boolean {
+    const query = this.searchQuery().toLowerCase();
+    if (!query) return true;
+    return (
+      section.title.toLowerCase().includes(query) ||
+      (section.description?.toLowerCase().includes(query) ?? false) ||
+      (section.objective?.toLowerCase().includes(query) ?? false)
+    );
+  }
+
+  // ========================================================================
+  // IMAGE VIEWER & ZOOM
+  // ========================================================================
+
+  openImageViewer(screenshot: string): void {
+    this.currentImageName.set(screenshot);
     const screenshots = this.selectedSection()?.screenshots || [];
     this.currentImageIndex.set(screenshots.indexOf(screenshot));
+    this.imageViewerOpen.set(true);
+    this.imageZoom.set(1);
+  }
+
+  closeImageViewer(): void {
+    this.imageViewerOpen.set(false);
+    this.imageZoom.set(1);
+  }
+
+  zoomIn(): void {
+    this.imageZoom.update((z) => Math.min(z + 0.2, 5));
+  }
+
+  zoomOut(): void {
+    this.imageZoom.update((z) => Math.max(z - 0.2, 1));
+  }
+
+  resetZoom(): void {
+    this.imageZoom.set(1);
+  }
+
+  onImageWheel(event: WheelEvent): void {
+    event.preventDefault();
+    if (event.deltaY < 0) {
+      this.zoomIn();
+    } else {
+      this.zoomOut();
+    }
   }
 
   nextImage(): void {
@@ -764,7 +2026,8 @@ export class DocsComponent implements OnInit {
     const idx = this.currentImageIndex();
     if (idx < screenshots.length - 1) {
       this.currentImageIndex.set(idx + 1);
-      this.imageViewerService.openImage(screenshots[idx + 1]);
+      this.currentImageName.set(screenshots[idx + 1]);
+      this.imageZoom.set(1);
     }
   }
 
@@ -773,35 +2036,55 @@ export class DocsComponent implements OnInit {
     const idx = this.currentImageIndex();
     if (idx > 0) {
       this.currentImageIndex.set(idx - 1);
-      this.imageViewerService.openImage(screenshots[idx - 1]);
+      this.currentImageName.set(screenshots[idx - 1]);
+      this.imageZoom.set(1);
     }
   }
 
-  onImageMouseDown(event: MouseEvent): void {
-    this.imageViewerService.startDrag(event.clientX, event.clientY);
-  }
+  // ========================================================================
+  // UTILITIES
+  // ========================================================================
 
-  onImageMouseMove(event: MouseEvent): void {
-    if (this.imageViewerService.isImageDragging()) {
-      this.imageViewerService.updateDrag(event.clientX, event.clientY);
+  getCurrentModuleName(): string {
+    const selected = this.selectedSection();
+    if (!selected) return '';
+    for (const [key, mod] of Object.entries(this.data()?.modules || {})) {
+      if (mod.sections.some((s) => s.id === selected.id)) {
+        return mod.name;
+      }
     }
+    return '';
   }
 
-  onImageKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Escape') {
-      this.imageViewerService.closeImage();
-    } else if (event.key === 'ArrowLeft') {
-      this.previousImage();
-    } else if (event.key === 'ArrowRight') {
-      this.nextImage();
-    }
+  getTotalSections(): number {
+    let count = 0;
+    Object.values(this.data()?.modules || {}).forEach((mod) => {
+      count += mod.sections.length;
+    });
+    return count;
   }
 
-  onImageLoad(): void {
-    // Image loaded
+  getTotalScreenshots(): number {
+    let count = 0;
+    Object.values(this.data()?.modules || {}).forEach((mod) => {
+      mod.sections.forEach((sec) => {
+        count += sec.screenshots?.length || 0;
+      });
+    });
+    return count;
   }
 
-  onImageError(event: any, screenshot: string): void {
-    console.warn(`Failed to load image: ${screenshot}`);
+  getObjectKeys(obj: Record<string, any> | undefined): string[] {
+    return Object.keys(obj || {});
+  }
+
+  getAsStringArray(value: string | string[] | undefined): string[] {
+    if (Array.isArray(value)) return value;
+    if (typeof value === 'string') return [value];
+    return [];
+  }
+
+  onImageError(event: any, filename: string): void {
+    console.warn(`Failed to load image: ${filename}`);
   }
 }
