@@ -334,18 +334,34 @@
           ],
           "addingValueStream": {
             "title": "Adding a New Value Stream",
-            "steps": [
-              "Navigate to the Value Streams (BU) Master section from the left menu",
-              "Click the 'Add' or '+' button to open the Value Stream creation form",
-              "Enter the Value Stream Name in the text field (required)",
-              "Enter the Margin % (required) - this represents the profit margin for the value stream",
-              "Select the Group from the dropdown menu (required)",
-              "Enter or select the Region in the text field (required)",
-              "Select the Service Receiver from the dropdown menu (required)",
-              "Review all the entered information for accuracy",
-              "Click the 'Submit' or 'Save' button to create the new Value Stream entry",
-              "The new Value Stream will now appear in the listing with a unique ID"
-            ]
+            "fields": [
+              {
+                "name": "Value Stream Name",
+                "type": "text",
+                "required": true
+              },
+              {
+                "name": "Margin %",
+                "type": "number",
+                "required": true
+              },
+              {
+                "name": "Group",
+                "type": "dropdown",
+                "required": true
+              },
+              {
+                "name": "Region",
+                "type": "text",
+                "required": true
+              },
+              {
+                "name": "Service Receiver",
+                "type": "dropdown",
+                "required": true
+              }
+            ],
+            "action": "Click on 'Add' to save the value stream"
           },
           "management": {
             "edit": "Click the pencil icon to edit an entry",
@@ -392,41 +408,44 @@
         {
           "id": 5,
           "title": "Payment Term Master",
-          "description": "Payment Terms define the payment conditions and timelines for customer orders. Simple Payment Terms have fixed credit days, while Milestone Payment Terms link payments to project milestones.",
+          "description": "This module allows users to define and manage payment terms in two formats: Simple Payment Term and Milestone Payment Term",
           "types": {
             "simplePaymentTerm": {
-              "name": "Simple Payment Terms",
-              "description": "Fixed payment terms based on credit days from invoice date. Examples include \"Net 30\" (30 days credit) or \"Net 60\" (60 days credit).",
+              "name": "Simple Payment Term",
+              "description": "Allows the user to define straightforward payment conditions that are not linked to project milestones. It typically includes basic terms like net due dates or percentages due upon invoicing",
               "navigation": [
-                "Go to Master \u2192 Payment Terms",
-                "Click on the \"Simple Payment Terms\" tab"
+                "Login to MyIDEX HUB",
+                "Navigate to the 'Master' section in the left navigation panel",
+                "Click on 'Payment Terms' tab at the top"
               ],
+              "viewing": "The list of existing Simple Payment Terms is displayed under the 'Simple Payment Terms' tab. It shows details such as Code, Description, and Total Credit Days",
               "adding": {
                 "steps": [
-                  "Click the \"Add\" button",
-                  "Enter Payment Code (e.g., PT30, PT60)",
-                  "Enter Payment Description (e.g., Net 30 Days)",
-                  "Enter Credit Days (e.g., 30, 60)",
-                  "Click \"Save\" to create the payment term"
+                  "Click on the 'Add Payment Terms' button",
+                  "Fill in Payment Type: Select 'Simple Payment Term'",
+                  "Provide Payment Description (e.g., 30 Days From Invoice)",
+                  "Enter a unique code (e.g., BP1)",
+                  "Enter the number of credit days (e.g., 30)",
+                  "Click on the 'Add' button to save the term or 'Cancel' to abort"
                 ]
               }
             },
             "milestonePaymentTerm": {
-              "name": "Milestone Payment Terms",
-              "description": "Payment terms linked to project milestones. Payments are released upon completion of specific project phases or deliverables.",
+              "name": "Milestone Payment Term",
+              "description": "Allows users to define payments based on the achievement of predefined milestones. This is commonly used in projects where payments are released upon completion of specific deliverables or phases",
               "accessing": [
-                "Go to Master \u2192 Payment Terms",
-                "Click on the \"Milestone Payment Terms\" tab"
+                "Log into the MYIDEX HUB system",
+                "Click on the 'Master' tab on the top menu",
+                "Select 'Payment Terms' from the options"
               ],
               "adding": {
                 "steps": [
-                  "Click the \"Add\" button",
-                  "Enter Payment Code (e.g., MPT-PRJ1)",
-                  "Enter Payment Description",
-                  "Define milestones with percentage allocations",
-                  "Ensure total milestone percentage equals 100%",
-                  "Enter total credit days for final payment",
-                  "Click \"Save\" to create the milestone payment term"
+                  "Click on the 'Add Payment Terms' button on the top right",
+                  "Fill in required details: Payment Type, Payment Description, Code",
+                  "Enter Milestone Percentages and Days",
+                  "Total Percentage must be exactly 100%",
+                  "Enter Total Credit Days",
+                  "Click on the 'Add' button to save the new payment term"
                 ]
               }
             }
@@ -434,12 +453,6 @@
           "screenshots": [
             "payment-terms-simple.png",
             "payment-terms-milestone.png"
-          ],
-          "objective": "Understand and manage two types of payment terms: Simple Payment Terms and Milestone Payment Terms in the MyIDEX HUB system",
-          "navigation": [
-            "Log into MyIDEX HUB system",
-            "Click on \"Master\" from the left navigation menu",
-            "Select \"Payment Terms\" from the menu options"
           ]
         },
         {
@@ -737,7 +750,7 @@
         },
         {
           "id": 18,
-          "title": "Nature of Component Interface",
+          "title": "Nature of Complaints Master",
           "objective": "The purpose of this SOP is to outline the steps required to manage the 'Nature of Complaints' section in the MyIDEX HUB system. This ensures that all complaint types are recorded accurately for future tracking and reporting.",
           "scope": "This SOP is applicable to all users who are responsible for maintaining complaint categories in the MyIDEX HUB system.",
           "procedure": [
@@ -1117,8 +1130,7 @@
             }
           ],
           "screenshots": [
-            "template-master-interface.png",
-            "template-master-option2.png"
+            "template-master-interface.png"
           ]
         },
         {
@@ -1178,10 +1190,7 @@
             }
           ],
           "screenshots": [
-            "custom-form-master-interface.png",
-            "custom-form-option2.png",
-            "custom-form-option3.png",
-            "custom-form-option4.png"
+            "custom-form-master-interface.png"
           ]
         },
         {
@@ -1373,9 +1382,10 @@
             ]
           },
           "screenshots": [
-            "role-master-interface.png",
-            "role-permission-mapping.png",
-            "user-listing.png"
+            "user-listing.png",
+            "add-user-form.png",
+            "otp-verification.png",
+            "customer-users.png"
           ]
         }
       ]
