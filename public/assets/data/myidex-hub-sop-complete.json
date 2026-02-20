@@ -458,7 +458,7 @@
         {
           "id": 6,
           "title": "80/20 Product Master",
-          "description": "This SOP provides steps for managing 80/20 Product data in the MyIDEX HUB platform",
+          "description": "This Standard Operating Procedure (SOP) provides steps for managing 80/20 Product data in the MyIDEX HUB platform. It includes the process for adding, editing, and deleting entries in the 80/20 Product section under the Master module.",
           "accessing": "Navigate to the 'Master' section in the left-hand menu and select the '80/20 Product' tab on the top menu",
           "operations": {
             "add": [

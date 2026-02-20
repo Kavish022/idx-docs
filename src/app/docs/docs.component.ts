@@ -37,13 +37,14 @@ interface TableOfContentsEntry {
   id: number;
   title: string;
   page?: number;
-  module: string;
+  module?: string;
+  color?: string;
   [key: string]: any;
 }
 
 interface Field {
   name: string;
-  type: string;
+  type?: string;
   required?: boolean;
   description?: string;
   source?: string;
@@ -59,33 +60,23 @@ interface Section {
   description?: string;
   scope?: string;
   responsibilities?: string;
-  prerequisites?: string[] | string;
-  navigation?: string[] | string;
-  procedure?: any; // array or object form supported
-  steps?: any; // array or object form supported
-  viewing?: string | any;
-  accessing?: string | any;
-  fields?: Field[];
-  addingValueStream?: {
-    title?: string;
-    fields?: Field[];
-    steps?: string[];
-    action?: string;
-    [key: string]: any;
-  };
-  types?: Record<string, any>;
-  notes?: string[];
+  prerequisites?: any[];
+  navigation?: any[];
+  procedure?: any;
+  steps?: any;
   screenshots?: string[];
   pdfUrl?: string;
-  [key: string]: any; // allow extra fields from JSON
+  fields?: Field[];
+  addingValueStream?: { fields?: Field[] } & Record<string, any>;
+  types?: Record<string, any>;
+  notes?: string[];
+  [key: string]: any;
 }
 
 interface Module {
   name: string;
-  description: string;
+  description?: string;
   sections: Section[];
-  icon?: string;
-  color?: string;
   [key: string]: any;
 }
 
@@ -306,6 +297,15 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                         {{ getModuleMeta(result.moduleKey).icon }}
                         {{ data()!.modules[result.moduleKey].name }}
                       </div>
+                      @if (firstScreenshot(result.section)) {
+                        <div class="search-thumb">
+                          <img
+                            [src]="'/assets/images/screenshots/' + firstScreenshot(result.section)"
+                            [alt]="result.section.title + ' preview'"
+                            (error)="onImgError($event)"
+                          />
+                        </div>
+                      }
                       <div class="src-title">{{ result.section.title }}</div>
                       <div class="src-id">Section {{ result.section.id }}</div>
                     </button>
@@ -327,7 +327,11 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                     @let mod = data()!.modules[key];
                     <div
                       class="module-card"
+                      role="button"
+                      tabindex="0"
                       (click)="goToModule(key)"
+                      (keydown.enter)="goToModule(key)"
+                      (keydown.space)="$any($event).preventDefault(); goToModule(key)"
                       [style.--accent]="meta.accent"
                       [style.--c]="meta.color"
                     >
@@ -337,6 +341,15 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                       </div>
                       <div class="mc-name">{{ mod.name }}</div>
                       <div class="mc-desc">{{ mod.description }}</div>
+                      @if (firstScreenshot(mod.sections[0])) {
+                        <div class="mc-thumb">
+                          <img
+                            [src]="'/assets/images/screenshots/' + firstScreenshot(mod.sections[0])"
+                            [alt]="mod.name + ' preview'"
+                            (error)="onImgError($event)"
+                          />
+                        </div>
+                      }
                       <div class="mc-arrow">
                         <svg viewBox="0 0 16 16" fill="none" width="14">
                           <path
@@ -399,6 +412,25 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
               @for (section of mod.sections; track section.id) {
                 <div class="section-listing-card">
                   <div class="slc-left">
+                    @if (firstScreenshot(section)) {
+                      <div
+                        class="slc-thumb"
+                        tabindex="0"
+                        role="button"
+                        aria-label="open section"
+                        (click)="selectSection(section, activeModuleKey()!)"
+                        (keydown.enter)="selectSection(section, activeModuleKey()!)"
+                        (keydown.space)="
+                          $any($event).preventDefault(); selectSection(section, activeModuleKey()!)
+                        "
+                      >
+                        <img
+                          [src]="'/assets/images/screenshots/' + firstScreenshot(section)"
+                          [alt]="section.title + ' thumbnail'"
+                          (error)="onImgError($event)"
+                        />
+                      </div>
+                    }
                     <span class="slc-num">{{ section.id }}</span>
                     <div class="slc-body">
                       <button
@@ -417,7 +449,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                           <span class="slc-tag">Prerequisites</span>
                         }
                         @if (section.screenshots?.length) {
-                          <span class="slc-tag">{{ section.screenshots!.length }} screenshots</span>
+                          <span class="slc-tag">{{ section.screenshots?.length }} screenshots</span>
                         }
                         @if (section.fields?.length || section.addingValueStream?.fields?.length) {
                           <span class="slc-tag">Fields reference</span>
@@ -479,7 +511,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                   <span>Section {{ section.id }}</span>
                   @if (section.screenshots?.length) {
                     <span class="sph-dot">·</span>
-                    <span>{{ section.screenshots!.length }} screenshots</span>
+                    <span>{{ section.screenshots?.length }} screenshots</span>
                   }
                 </div>
               </div>
@@ -495,300 +527,268 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
             </div>
 
             <div class="section-body">
-              <div class="section-content">
-                <!-- OBJECTIVE / PURPOSE / INTRODUCTION (any "objective-like" key) -->
-                @for (key of ['objective', 'purpose', 'introduction']; track key) {
-                  @if (section[key]) {
-                    <div class="callout callout-blue">
-                      <div class="callout-icon">📋</div>
+              <div class="section-body-inner">
+                <div class="section-content">
+                  <!-- OBJECTIVE / PURPOSE / INTRODUCTION (any "objective-like" key) -->
+                  @for (key of ['objective', 'purpose', 'introduction']; track key) {
+                    @if (section[key]) {
+                      <div class="callout callout-blue" id="{{ key }}">
+                        <div class="callout-icon">📋</div>
+                        <div>
+                          <div class="callout-label">{{ toLabel(key) }}</div>
+                          <p class="callout-text">{{ section[key] }}</p>
+                        </div>
+                      </div>
+                    }
+                  }
+
+                  <!-- DESCRIPTION -->
+                  @if (section['description']) {
+                    <p class="prose-text" id="description">{{ section['description'] }}</p>
+                  }
+
+                  <!-- SCOPE -->
+                  @if (section['scope']) {
+                    <div class="callout callout-gray" id="scope">
+                      <div class="callout-icon">🎯</div>
                       <div>
-                        <div class="callout-label">{{ toLabel(key) }}</div>
-                        <p class="callout-text">{{ section[key] }}</p>
+                        <div class="callout-label">Scope</div>
+                        <p class="callout-text">{{ section['scope'] }}</p>
                       </div>
                     </div>
                   }
-                }
 
-                <!-- DESCRIPTION -->
-                @if (section['description']) {
-                  <p class="prose-text">{{ section['description'] }}</p>
-                }
-
-                <!-- SCOPE -->
-                @if (section['scope']) {
-                  <div class="callout callout-gray">
-                    <div class="callout-icon">🎯</div>
-                    <div>
-                      <div class="callout-label">Scope</div>
-                      <p class="callout-text">{{ section['scope'] }}</p>
+                  <!-- RESPONSIBILITIES -->
+                  @if (section['responsibilities']) {
+                    <div class="callout callout-yellow" id="responsibilities">
+                      <div class="callout-icon">👤</div>
+                      <div>
+                        <div class="callout-label">Responsibilities</div>
+                        <p class="callout-text">{{ section['responsibilities'] }}</p>
+                      </div>
                     </div>
-                  </div>
-                }
+                  }
 
-                <!-- RESPONSIBILITIES -->
-                @if (section['responsibilities']) {
-                  <div class="callout callout-yellow">
-                    <div class="callout-icon">👤</div>
-                    <div>
-                      <div class="callout-label">Responsibilities</div>
-                      <p class="callout-text">{{ section['responsibilities'] }}</p>
-                    </div>
-                  </div>
-                }
-
-                <!-- PREREQUISITES -->
-                @if (section['prerequisites']?.length) {
-                  <div class="content-block">
-                    <h2 class="block-heading">Prerequisites</h2>
-                    <ul class="check-list">
-                      @for (item of asArray(section['prerequisites']); track $index) {
-                        <li>{{ item }}</li>
-                      }
-                    </ul>
-                  </div>
-                }
-
-                <!-- NAVIGATION (numbered steps) -->
-                @if (section['navigation']?.length) {
-                  <div class="content-block">
-                    <h2 class="block-heading">Navigation</h2>
-                    <ol class="step-ol">
-                      @for (step of asArray(section['navigation']); let i = $index; track i) {
-                        <li>
-                          <span class="step-num">{{ i + 1 }}</span
-                          >{{ step }}
-                        </li>
-                      }
-                    </ol>
-                  </div>
-                }
-
-                <!-- PROCEDURE -->
-                @if (section['procedure']) {
-                  <div class="content-block">
-                    <h2 class="block-heading">Procedure</h2>
-                    @if (isArray(section['procedure'])) {
-                      <ol class="step-ol">
-                        @for (
-                          step of renderProcedure(section['procedure']);
-                          let i = $index;
-                          track i
-                        ) {
-                          @if (step.type === 'string') {
-                            <li>
-                              <span class="step-num">{{ i + 1 }}</span
-                              >{{ step.text }}
-                            </li>
-                          } @else {
-                            <li class="step-substep-container">
-                              <span class="step-num">{{ i + 1 }}</span>
-                              <div>
-                                <strong>{{ step.title }}</strong>
-                                @if (step.substeps?.length) {
-                                  <ul class="substep-list">
-                                    @for (sub of step.substeps; track $index) {
-                                      <li>{{ sub }}</li>
-                                    }
-                                  </ul>
-                                }
-                                @if (step.details && !isArray(step.details)) {
-                                  <p class="substep-detail">{{ step.details }}</p>
-                                }
-                              </div>
-                            </li>
-                          }
+                  <!-- PREREQUISITES -->
+                  @if (section['prerequisites']?.length) {
+                    <div class="content-block" id="prerequisites">
+                      <h2 class="block-heading">Prerequisites</h2>
+                      <ul class="check-list">
+                        @for (item of asArray(section['prerequisites']); track $index) {
+                          <li>{{ item }}</li>
                         }
-                      </ol>
-                    } @else if (section['procedure']?.steps?.length) {
+                      </ul>
+                    </div>
+                  }
+
+                  <!-- NAVIGATION (numbered steps) -->
+                  @if (section['navigation']?.length) {
+                    <div class="content-block" id="navigation">
+                      <h2 class="block-heading">Navigation</h2>
                       <ol class="step-ol">
-                        @for (step of section['procedure'].steps; let i = $index; track i) {
+                        @for (step of asArray(section['navigation']); let i = $index; track i) {
                           <li>
                             <span class="step-num">{{ i + 1 }}</span
                             >{{ step }}
                           </li>
                         }
                       </ol>
-                    }
-                  </div>
-                }
+                    </div>
+                  }
 
-                <!-- STEPS (array of objects with title+details OR plain strings) -->
-                @if (section['steps'] && !isEmptySteps(section['steps'])) {
-                  <div class="content-block">
-                    <h2 class="block-heading">Steps</h2>
-                    @if (isArray(section['steps'])) {
-                      <ol class="step-ol">
-                        @for (step of renderProcedure(section['steps']); let i = $index; track i) {
-                          @if (step.type === 'string') {
+                  <!-- PROCEDURE -->
+                  @if (section['procedure']) {
+                    <div class="content-block" id="procedure">
+                      <h2 class="block-heading">Procedure</h2>
+                      @if (isArray(section['procedure'])) {
+                        <ol class="step-ol">
+                          @for (
+                            step of renderProcedure(section['procedure']);
+                            let i = $index;
+                            track i
+                          ) {
+                            @if (step.type === 'string') {
+                              <li>
+                                <span class="step-num">{{ i + 1 }}</span
+                                >{{ step.text }}
+                              </li>
+                            } @else {
+                              <li class="step-substep-container">
+                                <span class="step-num">{{ i + 1 }}</span>
+                                <div>
+                                  <details class="nested-details">
+                                    <summary class="nested-summary">
+                                      <strong>{{ step.title }}</strong>
+                                    </summary>
+                                    <div class="nested-content">
+                                      @if (step.substeps?.length) {
+                                        <ul class="substep-list">
+                                          @for (sub of step.substeps; track $index) {
+                                            <li>{{ sub }}</li>
+                                          }
+                                        </ul>
+                                      }
+                                      @if (step.details && !isArray(step.details)) {
+                                        <p class="substep-detail">{{ step.details }}</p>
+                                      }
+                                    </div>
+                                  </details>
+                                </div>
+                              </li>
+                            }
+                          }
+                        </ol>
+                      } @else if (section['procedure']?.steps?.length) {
+                        <ol class="step-ol">
+                          @for (step of section['procedure'].steps; let i = $index; track i) {
                             <li>
                               <span class="step-num">{{ i + 1 }}</span
-                              >{{ step.text }}
-                            </li>
-                          } @else {
-                            <li class="step-substep-container">
-                              <span class="step-num">{{ i + 1 }}</span>
-                              <div>
-                                @if (step.title) {
-                                  <strong>{{ step.title }}</strong>
-                                }
-                                @if (step.substeps?.length) {
-                                  <ul class="substep-list">
-                                    @for (sub of step.substeps; track $index) {
-                                      <li>{{ sub }}</li>
-                                    }
-                                  </ul>
-                                }
-                                @if (step.details && !isArray(step.details)) {
-                                  <p class="substep-detail">{{ step.details }}</p>
-                                }
-                                @if (isArray(step.details)) {
-                                  <ul class="substep-list">
-                                    @for (d of step.details; track $index) {
-                                      <li>{{ d }}</li>
-                                    }
-                                  </ul>
-                                }
-                                @if (step.forMultipleInputFields?.length) {
-                                  <div class="substep-sub-label">For multiple input fields:</div>
-                                  <ul class="substep-list">
-                                    @for (d of step.forMultipleInputFields; track $index) {
-                                      <li>{{ d }}</li>
-                                    }
-                                  </ul>
-                                }
-                                @if (step.forSingleInputField?.length) {
-                                  <div class="substep-sub-label">For single input field:</div>
-                                  <ul class="substep-list">
-                                    @for (d of step.forSingleInputField; track $index) {
-                                      <li>{{ d }}</li>
-                                    }
-                                  </ul>
-                                }
-                                @if (step.fieldConfiguration?.length) {
-                                  <div class="substep-sub-label">Field configuration:</div>
-                                  <ul class="substep-list">
-                                    @for (d of step.fieldConfiguration; track $index) {
-                                      <li>{{ d }}</li>
-                                    }
-                                  </ul>
-                                }
-                                @if (step.substeps?.length) {
-                                  <ul class="substep-list">
-                                    @for (d of step.substeps; track $index) {
-                                      <li>{{ d }}</li>
-                                    }
-                                  </ul>
-                                }
-                              </div>
+                              >{{ step }}
                             </li>
                           }
+                        </ol>
+                      }
+                    </div>
+                  }
+
+                  <!-- STEPS (array of objects with title+details OR plain strings) -->
+                  @if (section['steps'] && !isEmptySteps(section['steps'])) {
+                    <div class="content-block">
+                      <h2 class="block-heading">Steps</h2>
+                      @if (isArray(section['steps'])) {
+                        <ol class="step-ol">
+                          @for (
+                            step of renderProcedure(section['steps']);
+                            let i = $index;
+                            track i
+                          ) {
+                            @if (step.type === 'string') {
+                              <li>
+                                <span class="step-num">{{ i + 1 }}</span
+                                >{{ step.text }}
+                              </li>
+                            } @else {
+                              <li class="step-substep-container">
+                                <span class="step-num">{{ i + 1 }}</span>
+                                <div>
+                                  @if (step.title) {
+                                    <strong>{{ step.title }}</strong>
+                                  }
+                                  @if (step.substeps?.length) {
+                                    <ul class="substep-list">
+                                      @for (sub of step.substeps; track $index) {
+                                        <li>{{ sub }}</li>
+                                      }
+                                    </ul>
+                                  }
+                                  @if (step.details && !isArray(step.details)) {
+                                    <p class="substep-detail">{{ step.details }}</p>
+                                  }
+                                  @if (isArray(step.details)) {
+                                    <ul class="substep-list">
+                                      @for (d of step.details; track $index) {
+                                        <li>{{ d }}</li>
+                                      }
+                                    </ul>
+                                  }
+                                  @if (step.forMultipleInputFields?.length) {
+                                    <div class="substep-sub-label">For multiple input fields:</div>
+                                    <ul class="substep-list">
+                                      @for (d of step.forMultipleInputFields; track $index) {
+                                        <li>{{ d }}</li>
+                                      }
+                                    </ul>
+                                  }
+                                  @if (step.forSingleInputField?.length) {
+                                    <div class="substep-sub-label">For single input field:</div>
+                                    <ul class="substep-list">
+                                      @for (d of step.forSingleInputField; track $index) {
+                                        <li>{{ d }}</li>
+                                      }
+                                    </ul>
+                                  }
+                                  @if (step.fieldConfiguration?.length) {
+                                    <div class="substep-sub-label">Field configuration:</div>
+                                    <ul class="substep-list">
+                                      @for (d of step.fieldConfiguration; track $index) {
+                                        <li>{{ d }}</li>
+                                      }
+                                    </ul>
+                                  }
+                                  @if (step.substeps?.length) {
+                                    <ul class="substep-list">
+                                      @for (d of step.substeps; track $index) {
+                                        <li>{{ d }}</li>
+                                      }
+                                    </ul>
+                                  }
+                                </div>
+                              </li>
+                            }
+                          }
+                        </ol>
+                      }
+                    </div>
+                  }
+
+                  <!-- STEPS TO ADD / STEPS TO EDIT (any stepTo* key) -->
+                  @for (key of getStepKeys(section); track key) {
+                    <div class="content-block">
+                      <h2 class="block-heading">{{ toLabel(key) }}</h2>
+                      <ol class="step-ol">
+                        @for (step of asArray(section[key]); let i = $index; track i) {
+                          <li>
+                            <span class="step-num">{{ i + 1 }}</span
+                            >{{ step }}
+                          </li>
                         }
                       </ol>
-                    }
-                  </div>
-                }
-
-                <!-- STEPS TO ADD / STEPS TO EDIT (any stepTo* key) -->
-                @for (key of getStepKeys(section); track key) {
-                  <div class="content-block">
-                    <h2 class="block-heading">{{ toLabel(key) }}</h2>
-                    <ol class="step-ol">
-                      @for (step of asArray(section[key]); let i = $index; track i) {
-                        <li>
-                          <span class="step-num">{{ i + 1 }}</span
-                          >{{ step }}
-                        </li>
-                      }
-                    </ol>
-                  </div>
-                }
-
-                <!-- VIEWING / ACCESSING (two-column when both exist) -->
-                @if (section['viewing'] || section['accessing']) {
-                  <div
-                    class="two-col"
-                    [class.one-col]="!section['viewing'] || !section['accessing']"
-                  >
-                    @if (section['viewing']) {
-                      <div class="info-panel">
-                        <div class="info-panel-title">How to View</div>
-                        @if (isString(section['viewing'])) {
-                          <p>{{ section['viewing'] }}</p>
-                        } @else if (section['viewing']?.description) {
-                          <p>{{ section['viewing'].description }}</p>
-                        } @else {
-                          <ul class="plain-list">
-                            @for (item of asArray(section['viewing']); track $index) {
-                              <li>{{ item }}</li>
-                            }
-                          </ul>
-                        }
-                      </div>
-                    }
-                    @if (section['accessing']) {
-                      <div class="info-panel">
-                        <div class="info-panel-title">How to Access</div>
-                        @if (isString(section['accessing'])) {
-                          <p>{{ section['accessing'] }}</p>
-                        } @else {
-                          <ul class="plain-list">
-                            @for (item of asArray(section['accessing']); track $index) {
-                              <li>{{ item }}</li>
-                            }
-                          </ul>
-                        }
-                      </div>
-                    }
-                  </div>
-                }
-
-                <!-- FIELDS TABLE -->
-                @if (section['fields']?.length) {
-                  <div class="content-block">
-                    <h2 class="block-heading">Fields Reference</h2>
-                    <div class="table-wrap">
-                      <table class="ref-table">
-                        <thead>
-                          <tr>
-                            <th>Field</th>
-                            <th>Type</th>
-                            <th>Required</th>
-                            <th>Notes</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          @for (field of section['fields']; track field.name) {
-                            <tr>
-                              <td>
-                                <code>{{ field.name }}</code>
-                              </td>
-                              <td>
-                                <span class="type-badge">{{ field.type }}</span>
-                              </td>
-                              <td>
-                                @if (field.required) {
-                                  <span class="req-yes">Yes</span>
-                                } @else {
-                                  <span class="req-no">No</span>
-                                }
-                              </td>
-                              <td class="td-muted">
-                                {{ field.description || field.source || '—' }}
-                              </td>
-                            </tr>
-                          }
-                        </tbody>
-                      </table>
                     </div>
-                  </div>
-                }
+                  }
 
-                <!-- ADDING VALUE STREAM -->
-                @if (section['addingValueStream']) {
-                  @let avs = section['addingValueStream'];
-                  <div class="content-block callout-green-block">
-                    <h2 class="block-heading">{{ avs.title }}</h2>
-                    @if (avs.fields?.length) {
+                  <!-- VIEWING / ACCESSING (two-column when both exist) -->
+                  @if (section['viewing'] || section['accessing']) {
+                    <div
+                      class="two-col"
+                      [class.one-col]="!section['viewing'] || !section['accessing']"
+                    >
+                      @if (section['viewing']) {
+                        <div class="info-panel">
+                          <div class="info-panel-title">How to View</div>
+                          @if (isString(section['viewing'])) {
+                            <p>{{ section['viewing'] }}</p>
+                          } @else if (section['viewing']?.description) {
+                            <p>{{ section['viewing'].description }}</p>
+                          } @else {
+                            <ul class="plain-list">
+                              @for (item of asArray(section['viewing']); track $index) {
+                                <li>{{ item }}</li>
+                              }
+                            </ul>
+                          }
+                        </div>
+                      }
+                      @if (section['accessing']) {
+                        <div class="info-panel">
+                          <div class="info-panel-title">How to Access</div>
+                          @if (isString(section['accessing'])) {
+                            <p>{{ section['accessing'] }}</p>
+                          } @else {
+                            <ul class="plain-list">
+                              @for (item of asArray(section['accessing']); track $index) {
+                                <li>{{ item }}</li>
+                              }
+                            </ul>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  <!-- FIELDS TABLE -->
+                  @if (section['fields']?.length) {
+                    <div class="content-block" id="fields">
+                      <h2 class="block-heading">Fields Reference</h2>
                       <div class="table-wrap">
                         <table class="ref-table">
                           <thead>
@@ -796,231 +796,301 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                               <th>Field</th>
                               <th>Type</th>
                               <th>Required</th>
+                              <th>Notes</th>
                             </tr>
                           </thead>
                           <tbody>
-                            @for (f of avs.fields; track f.name) {
+                            @for (field of section['fields']; track field.name) {
                               <tr>
                                 <td>
-                                  <code>{{ f.name }}</code>
+                                  <code>{{ field.name }}</code>
                                 </td>
                                 <td>
-                                  <span class="type-badge">{{ f.type }}</span>
+                                  <span class="type-badge">{{ field.type }}</span>
                                 </td>
-                                <td>{{ f.required ? '✓' : '—' }}</td>
+                                <td>
+                                  @if (field.required) {
+                                    <span class="req-yes">Yes</span>
+                                  } @else {
+                                    <span class="req-no">No</span>
+                                  }
+                                </td>
+                                <td class="td-muted">
+                                  {{ field.description || field.source || '—' }}
+                                </td>
                               </tr>
                             }
                           </tbody>
                         </table>
                       </div>
-                    }
-                    @if (avs.steps?.length) {
-                      <ol class="step-ol mt-12">
-                        @for (step of avs.steps; let i = $index; track i) {
-                          <li>
-                            <span class="step-num">{{ i + 1 }}</span
-                            >{{ step }}
-                          </li>
-                        }
-                      </ol>
-                    }
-                    @if (avs.action) {
-                      <div class="action-note">→ {{ avs.action }}</div>
-                    }
-                  </div>
-                }
+                    </div>
+                  }
 
-                <!-- TYPES (expandable accordion) -->
-                @if (section['types'] && objectKeys(section['types']).length) {
-                  <div class="content-block">
-                    <h2 class="block-heading">Types & Categories</h2>
-                    @for (key of objectKeys(section['types']); track key) {
-                      @let typeData = section['types'][key];
-                      <details class="accordion">
-                        <summary class="accordion-summary">
-                          <span>{{ typeData.name || toLabel(key) }}</span>
-                          <svg class="acc-arrow" viewBox="0 0 12 12" fill="none" width="12">
-                            <path
-                              d="M3 4.5L6 7.5L9 4.5"
-                              stroke="currentColor"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                            />
-                          </svg>
-                        </summary>
-                        <div class="accordion-body">
-                          @if (typeData.description) {
-                            <p class="acc-desc">{{ typeData.description }}</p>
-                          }
-                          @if (typeData.navigation?.length || typeData.accessing?.length) {
-                            <div class="acc-sub-label">Access</div>
-                            <ol class="step-ol-sm">
-                              @for (
-                                s of asArray(typeData.navigation || typeData.accessing);
-                                let i = $index;
-                                track i
-                              ) {
-                                <li>
-                                  <span class="step-num-sm">{{ i + 1 }}</span
-                                  >{{ s }}
-                                </li>
+                  <!-- ADDING VALUE STREAM -->
+                  @if (section['addingValueStream']) {
+                    @let avs = section['addingValueStream'];
+                    <div class="content-block callout-green-block" id="addingValueStream">
+                      <h2 class="block-heading">{{ avs['title'] }}</h2>
+                      @if (avs['fields']?.length) {
+                        <div class="table-wrap">
+                          <table class="ref-table">
+                            <thead>
+                              <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @for (f of avs['fields']; track f.name) {
+                                <tr>
+                                  <td>
+                                    <code>{{ f.name }}</code>
+                                  </td>
+                                  <td>
+                                    <span class="type-badge">{{ f.type }}</span>
+                                  </td>
+                                  <td>{{ f.required ? '✓' : '—' }}</td>
+                                </tr>
                               }
-                            </ol>
-                          }
-                          @if (typeData.adding?.steps?.length) {
-                            <div class="acc-sub-label">Adding</div>
-                            <ol class="step-ol-sm">
-                              @for (s of typeData.adding.steps; let i = $index; track i) {
-                                <li>
-                                  <span class="step-num-sm">{{ i + 1 }}</span
-                                  >{{ s }}
-                                </li>
-                              }
-                            </ol>
-                          }
-                          @if (typeData.viewing) {
-                            <div class="acc-sub-label">Viewing</div>
-                            <p class="acc-desc">{{ typeData.viewing }}</p>
-                          }
+                            </tbody>
+                          </table>
                         </div>
-                      </details>
-                    }
-                  </div>
-                }
+                      }
+                      @if (avs['steps']?.length) {
+                        <ol class="step-ol mt-12">
+                          @for (step of avs['steps']; let i = $index; track i) {
+                            <li>
+                              <span class="step-num">{{ i + 1 }}</span
+                              >{{ step }}
+                            </li>
+                          }
+                        </ol>
+                      }
+                      @if (avs['action']) {
+                        <div class="action-note">→ {{ avs['action'] }}</div>
+                      }
+                    </div>
+                  }
 
-                <!-- DYNAMIC OBJECT SECTIONS (operations, components, listing page, etc) -->
-                @for (key of getDynamicObjectKeys(section); track key) {
-                  <div class="content-block">
-                    <h2 class="block-heading">{{ toLabel(key) }}</h2>
-                    <div class="dynamic-object">
-                      @for (subKey of objectKeys(section[key]); track subKey) {
-                        @let val = section[key][subKey];
-                        <div class="dyn-row">
-                          <div class="dyn-label">{{ toLabel(subKey) }}</div>
-                          <div class="dyn-value">
-                            @if (isString(val)) {
-                              {{ val }}
-                            } @else if (isArray(val)) {
-                              <ul class="plain-list-sm">
-                                @for (v of val; track $index) {
-                                  @if (isString(v)) {
-                                    <li>{{ v }}</li>
-                                  } @else if (v?.description || v?.name) {
-                                    <li>
-                                      <strong>{{ v.name || '' }}</strong
-                                      >{{ v.description ? ' — ' + v.description : '' }}
-                                    </li>
-                                  }
+                  <!-- TYPES (expandable accordion) -->
+                  @if (section['types'] && objectKeys(section['types']).length) {
+                    <div class="content-block" id="types">
+                      <h2 class="block-heading">Types & Categories</h2>
+                      @for (key of objectKeys(section['types']); track key) {
+                        @let typeData = section['types'][key];
+                        <details class="accordion">
+                          <summary class="accordion-summary">
+                            <span>{{ typeData.name || toLabel(key) }}</span>
+                            <svg class="acc-arrow" viewBox="0 0 12 12" fill="none" width="12">
+                              <path
+                                d="M3 4.5L6 7.5L9 4.5"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                              />
+                            </svg>
+                          </summary>
+                          <div class="accordion-body">
+                            @if (typeData.description) {
+                              <p class="acc-desc">{{ typeData.description }}</p>
+                            }
+                            @if (typeData.navigation?.length || typeData.accessing?.length) {
+                              <div class="acc-sub-label">Access</div>
+                              <ol class="step-ol-sm">
+                                @for (
+                                  s of asArray(typeData.navigation || typeData.accessing);
+                                  let i = $index;
+                                  track i
+                                ) {
+                                  <li>
+                                    <span class="step-num-sm">{{ i + 1 }}</span
+                                    >{{ s }}
+                                  </li>
                                 }
-                              </ul>
+                              </ol>
+                            }
+                            @if (typeData.adding?.steps?.length) {
+                              <div class="acc-sub-label">Adding</div>
+                              <ol class="step-ol-sm">
+                                @for (s of typeData.adding.steps; let i = $index; track i) {
+                                  <li>
+                                    <span class="step-num-sm">{{ i + 1 }}</span
+                                    >{{ s }}
+                                  </li>
+                                }
+                              </ol>
+                            }
+                            @if (typeData.viewing) {
+                              <div class="acc-sub-label">Viewing</div>
+                              <p class="acc-desc">{{ typeData.viewing }}</p>
                             }
                           </div>
-                        </div>
+                        </details>
                       }
                     </div>
-                  </div>
-                }
+                  }
 
-                <!-- NOTES -->
-                @if (section['notes']?.length) {
-                  <div class="callout callout-yellow">
-                    <div class="callout-icon">⚠️</div>
-                    <div>
-                      <div class="callout-label">Important Notes</div>
-                      <ul class="note-list">
-                        @for (note of section['notes']; track $index) {
-                          <li>{{ note }}</li>
+                  <!-- DYNAMIC OBJECT SECTIONS (operations, components, listing page, etc) -->
+                  @for (key of getDynamicObjectKeys(section); track key) {
+                    <div class="content-block">
+                      <h2 class="block-heading">{{ toLabel(key) }}</h2>
+                      <div class="dynamic-object">
+                        @for (subKey of objectKeys(section[key]); track subKey) {
+                          @let val = section[key][subKey];
+                          <div class="dyn-row">
+                            <div class="dyn-label">{{ toLabel(subKey) }}</div>
+                            <div class="dyn-value">
+                              @if (isString(val)) {
+                                {{ val }}
+                              } @else if (isArray(val)) {
+                                <ul class="plain-list-sm">
+                                  @for (v of val; track $index) {
+                                    @if (isString(v)) {
+                                      <li>{{ v }}</li>
+                                    } @else if (v?.description || v?.name) {
+                                      <li>
+                                        <strong>{{ v.name || '' }}</strong
+                                        >{{ v.description ? ' — ' + v.description : '' }}
+                                      </li>
+                                    }
+                                  }
+                                </ul>
+                              }
+                            </div>
+                          </div>
                         }
-                      </ul>
+                      </div>
                     </div>
-                  </div>
-                }
-
-                <!-- SCREENSHOTS -->
-                @if (section['screenshots']?.length) {
-                  <div class="content-block">
-                    <h2 class="block-heading">Screenshots</h2>
-                    <div class="screenshots-grid">
-                      @for (img of section['screenshots']; let i = $index; track i) {
-                        <div class="screenshot-card" (click)="openViewer(img, i)">
-                          <div class="screenshot-img-wrap">
-                            <img
-                              [src]="'/assets/images/screenshots/' + img"
-                              [alt]="img"
-                              (error)="onImgError($event)"
-                            />
-                          </div>
-                          <div class="screenshot-label">
-                            <code>{{ img }}</code>
-                          </div>
-                        </div>
-                      }
-                    </div>
-                  </div>
-                }
-
-                <!-- PREV / NEXT NAVIGATION -->
-                <div class="page-nav">
-                  <button class="page-nav-btn" (click)="prevSection()" [disabled]="!hasPrev()">
-                    <svg viewBox="0 0 16 16" fill="none" width="14">
-                      <path
-                        d="M10 3L6 8l4 5"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    Previous
-                  </button>
-                  <span class="page-nav-counter">{{ section.id }} of {{ getTotalSections() }}</span>
-                  <button
-                    class="page-nav-btn page-nav-next"
-                    (click)="nextSection()"
-                    [disabled]="!hasNext()"
-                  >
-                    Next
-                    <svg viewBox="0 0 16 16" fill="none" width="14">
-                      <path
-                        d="M6 3l4 5-4 5"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <!-- /section-content -->
-
-              <!-- RIGHT RAIL: On This Page -->
-              <aside class="right-rail">
-                <div class="rr-title">On this page</div>
-                <nav class="rr-nav">
-                  @for (anchor of getAnchors(section); track anchor.key) {
-                    <a class="rr-link" [href]="'#' + anchor.key">{{ anchor.label }}</a>
                   }
-                </nav>
 
-                <div class="rr-divider"></div>
-                <div class="rr-meta">
-                  <div class="rr-meta-row">
-                    <span class="rr-meta-label">Module</span>
-                    <span>{{ mod.name }}</span>
+                  <!-- NOTES -->
+                  @if (section['notes']?.length) {
+                    <div class="callout callout-yellow" id="notes">
+                      <div class="callout-icon">⚠️</div>
+                      <div>
+                        <div class="callout-label">Important Notes</div>
+                        <ul class="note-list">
+                          @for (note of section['notes']; track $index) {
+                            <li>{{ note }}</li>
+                          }
+                        </ul>
+                      </div>
+                    </div>
+                  }
+
+                  <!-- SCREENSHOTS -->
+                  @if (section['screenshots']?.length) {
+                    <div class="content-block">
+                      <h2 class="block-heading">Screenshots</h2>
+                      <div class="screenshots-grid">
+                        @for (img of section['screenshots']; let i = $index; track i) {
+                          <div
+                            class="screenshot-card"
+                            role="button"
+                            tabindex="0"
+                            (click)="openViewer(img, i)"
+                            (keydown.enter)="openViewer(img, i)"
+                            (keydown.space)="$any($event).preventDefault(); openViewer(img, i)"
+                          >
+                            <div class="screenshot-img-wrap">
+                              <img
+                                [src]="'/assets/images/screenshots/' + img"
+                                [alt]="img"
+                                (error)="onImgError($event)"
+                              />
+                            </div>
+                            <div class="screenshot-label">
+                              <code>{{ img }}</code>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  }
+
+                  <!-- PREV / NEXT NAVIGATION -->
+                  <div class="page-nav">
+                    <button class="page-nav-btn" (click)="prevSection()" [disabled]="!hasPrev()">
+                      <svg viewBox="0 0 16 16" fill="none" width="14">
+                        <path
+                          d="M10 3L6 8l4 5"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      Previous
+                    </button>
+                    <span class="page-nav-counter"
+                      >{{ section.id }} of {{ getTotalSections() }}</span
+                    >
+                    <button
+                      class="page-nav-btn page-nav-next"
+                      (click)="nextSection()"
+                      [disabled]="!hasNext()"
+                    >
+                      Next
+                      <svg viewBox="0 0 16 16" fill="none" width="14">
+                        <path
+                          d="M6 3l4 5-4 5"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </button>
                   </div>
-                  <div class="rr-meta-row">
-                    <span class="rr-meta-label">Section</span>
-                    <span>#{{ section.id }}</span>
+                </div>
+                <!-- /section-content -->
+
+                <!-- RIGHT RAIL: On This Page -->
+                <aside class="right-rail" [class.collapsed]="rightRailCollapsed()">
+                  <div class="rr-title">
+                    On this page
+                    <button
+                      class="rr-toggle"
+                      type="button"
+                      (click)="toggleRightRail()"
+                      [attr.aria-expanded]="!rightRailCollapsed()"
+                      aria-label="Toggle table of contents"
+                    >
+                      ▢
+                    </button>
                   </div>
-                  @if (section.screenshots?.length) {
+                  <nav class="rr-nav">
+                    @for (anchor of getAnchors(section); track anchor.key) {
+                      <a
+                        class="rr-link"
+                        [href]="'#' + anchor.key"
+                        (click)="scrollToAnchor(anchor.key, $any($event))"
+                        >{{ anchor.label }}</a
+                      >
+                    }
+                  </nav>
+
+                  <div class="rr-divider"></div>
+                  <div class="rr-meta">
                     <div class="rr-meta-row">
-                      <span class="rr-meta-label">Screenshots</span>
-                      <span>{{ section.screenshots!.length }}</span>
+                      <span class="rr-meta-label">Module</span>
+                      <span>{{ mod.name }}</span>
                     </div>
-                  }
-                </div>
-              </aside>
+                    <div class="rr-meta-row">
+                      <span class="rr-meta-label">Section</span>
+                      <span>#{{ section.id }}</span>
+                    </div>
+                    @if (section.screenshots?.length) {
+                      <div class="rr-meta-row">
+                        <span class="rr-meta-label">Screenshots</span>
+                        <span>{{ section.screenshots?.length }}</span>
+                      </div>
+                    }
+                  </div>
+                </aside>
+              </div>
+              <!-- /section-body-inner -->
             </div>
             <!-- /section-body -->
           }
@@ -1474,7 +1544,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         margin-bottom: 12px;
       }
       .hero-title {
-        font-size: 30px;
+        font-size: 34px;
         font-weight: 700;
         color: #fff;
         line-height: 1.25;
@@ -1556,12 +1626,12 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         border: 1px solid var(--border);
       }
       .mc-name {
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 600;
         color: var(--text-primary);
       }
       .mc-desc {
-        font-size: 13px;
+        font-size: 14px;
         color: var(--text-secondary);
         line-height: 1.55;
         flex: 1;
@@ -1575,6 +1645,54 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         font-weight: 500;
         margin-top: 4px;
       }
+      /* Thumbnails & subtle image hover */
+      .mc-thumb {
+        margin-top: 12px;
+        width: 100%;
+        height: 120px;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+      .mc-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .slc-thumb {
+        width: 96px;
+        height: 64px;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+      .slc-thumb img,
+      .search-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .search-thumb {
+        width: 80px;
+        height: 56px;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        margin: 6px 0;
+      }
+      .screenshot-card {
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      .screenshot-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(2, 6, 23, 0.12);
+      }
 
       .search-results-grid {
         display: grid;
@@ -1582,6 +1700,9 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         gap: 10px;
       }
       .search-result-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
         background: var(--bg);
         border: 1px solid var(--border);
         border-radius: 6px;
@@ -1600,7 +1721,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         margin-bottom: 5px;
       }
       .src-title {
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 500;
         color: var(--text-primary);
         margin-bottom: 4px;
@@ -1754,7 +1875,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         background: none;
         border: none;
         padding: 0;
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 600;
         color: var(--blue);
         font-family: inherit;
@@ -1769,7 +1890,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         text-decoration: underline;
       }
       .slc-desc {
-        font-size: 13px;
+        font-size: 14px;
         color: var(--text-secondary);
         line-height: 1.5;
         margin-bottom: 8px;
@@ -1842,7 +1963,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         margin-bottom: 6px;
       }
       .sph-title {
-        font-size: 26px;
+        font-size: 28px;
         font-weight: 700;
         color: var(--text-primary);
         line-height: 1.2;
@@ -1881,13 +2002,24 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
 
       .section-body {
         display: flex;
+        justify-content: center;
         flex: 1;
       }
+      .section-body-inner {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+        padding: 0 20px;
+        box-sizing: border-box;
+      }
       .section-content {
-        flex: 1;
+        flex: 0 1 780px;
         min-width: 0;
         padding: 32px 40px 56px;
         max-width: 780px;
+        margin: 0;
       }
 
       /* ── CONTENT BLOCKS ──────────────────────────────────── */
@@ -1895,7 +2027,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         margin-bottom: 32px;
       }
       .block-heading {
-        font-size: 16px;
+        font-size: 17px;
         font-weight: 600;
         color: var(--text-primary);
         margin-bottom: 14px;
@@ -1903,7 +2035,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         border-bottom: 1px solid var(--border);
       }
       .prose-text {
-        font-size: 14px;
+        font-size: 15px;
         color: var(--text-secondary);
         line-height: 1.75;
         margin-bottom: 24px;
@@ -1976,7 +2108,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         display: flex;
         align-items: flex-start;
         gap: 12px;
-        font-size: 13.5px;
+        font-size: 14px;
         color: var(--text-secondary);
         line-height: 1.6;
       }
@@ -2280,6 +2412,45 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         color: var(--text-muted);
         margin-bottom: 6px;
       }
+      /* Nested details (AWS-like) */
+      .nested-details {
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        overflow: hidden;
+        margin-top: 8px;
+        background: var(--bg-subtle);
+      }
+      .nested-summary {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--text-primary);
+        background: transparent;
+        user-select: none;
+        list-style: none;
+      }
+      .nested-summary::-webkit-details-marker {
+        display: none;
+      }
+      .nested-summary::after {
+        content: '\\25B6';
+        margin-left: auto;
+        transform: rotate(0deg);
+        transition: transform 0.18s ease;
+        color: #111;
+        font-size: 12px;
+      }
+      details[open] > .nested-summary::after {
+        transform: rotate(90deg);
+      }
+      .nested-content {
+        padding: 10px 12px 14px;
+        border-top: 1px solid var(--border);
+        background: var(--bg);
+      }
 
       /* Dynamic object */
       .dynamic-object {
@@ -2416,6 +2587,10 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         overflow-y: auto;
         border-left: 1px solid var(--border);
         background: var(--bg-subtle);
+        transition:
+          transform 0.22s ease,
+          right 0.22s ease;
+        z-index: 60;
       }
       .rr-title {
         font-size: 11px;
@@ -2605,6 +2780,26 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
           grid-template-columns: 1fr;
         }
       }
+      /* Fix: pin right-rail to viewport edge on wide screens so it's not centered */
+      @media (min-width: 900px) {
+        .right-rail {
+          position: fixed;
+          right: 18px;
+          top: calc(var(--navbar-h) + 12px);
+          width: 260px;
+          height: calc(100vh - var(--navbar-h) - 36px);
+          border-left: 1px solid var(--border);
+          background: var(--bg-subtle);
+          box-shadow: 0 6px 22px rgba(2, 6, 23, 0.06);
+        }
+        .right-rail.collapsed {
+          transform: translateX(120%);
+        }
+        /* ensure section body inner has space to accommodate fixed rail */
+        .section-body-inner {
+          padding-right: 300px;
+        }
+      }
       @media (max-width: 600px) {
         .hero-title {
           font-size: 22px;
@@ -2630,6 +2825,7 @@ export class DocsComponent implements OnInit {
   searchQuery = signal('');
   sidebarCollapsed = signal(false);
   expandedModules = signal<Set<string>>(new Set());
+  rightRailCollapsed = signal(false);
 
   // Image viewer
   viewerOpen = signal(false);
@@ -2757,6 +2953,24 @@ export class DocsComponent implements OnInit {
   // Wrapper used from template to toggle sidebar state (arrow functions are not allowed in templates)
   toggleSidebarCollapsed(): void {
     this.sidebarCollapsed.update((v) => !v);
+  }
+
+  // Toggle the right-hand "On this page" rail (collapsible)
+  toggleRightRail(): void {
+    this.rightRailCollapsed.update((v) => !v);
+  }
+
+  scrollToAnchor(key: string, ev?: Event): void {
+    try {
+      if (ev) ev.preventDefault();
+      const el = document.getElementById(key);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } catch (e) {
+      // fallback: set location hash
+      location.hash = '#' + key;
+    }
   }
 
   getFilteredSections(moduleKey: string): Section[] {
@@ -2950,6 +3164,14 @@ export class DocsComponent implements OnInit {
     if (Array.isArray(val)) return val;
     if (typeof val === 'string') return [val];
     return [];
+  }
+
+  // Return the first screenshot filename (safe, type-checked)
+  firstScreenshot(section?: Section | null): string | null {
+    if (!section) return null;
+    const ss = section.screenshots;
+    if (!Array.isArray(ss) || ss.length === 0) return null;
+    return ss[0] ?? null;
   }
 
   // ── IMAGE VIEWER ─────────────────────────────────────
