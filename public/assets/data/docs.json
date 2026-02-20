@@ -1,0 +1,156 @@
+{
+  "documentInfo": {
+    "title": "My IDEXHUB System Documentation",
+    "version": "1.0",
+    "company": "IDEX Corporation",
+    "tagline": "Trusted Solutions, Improving Lives",
+    "lastUpdated": "2025-02-18"
+  },
+  "categories": [
+    {
+      "id": "master-data",
+      "title": "Master Data Management",
+      "description": "Core master data configuration and setup for the MyIDEX HUB system",
+      "icon": "database",
+      "color": "blue",
+      "modules": [
+        {
+          "id": "region-master",
+          "title": "Region Master",
+          "description": "Manage regions, currencies, and regional settings",
+          "pdfUrl": null,
+          "pages": [
+            {
+              "id": "region-intro",
+              "title": "Overview",
+              "path": "region-overview",
+              "content": "# Region Master\n\n## Purpose\nThe Region Master module allows you to manage and configure regions within the MyIDEX HUB platform.\n\n## Key Features\n- Add new regions\n- Configure regional currency settings\n- Edit and delete existing regions\n- Manage region-specific parameters\n\n## Getting Started\nTo access the Region Master:\n1. Navigate to the 'Master' tab in the left navigation\n2. Select 'Region' from the submenu\n3. View the list of existing regions",
+              "children": [
+                {
+                  "id": "region-add",
+                  "title": "Adding a Region",
+                  "path": "region-add",
+                  "content": "## How to Add a Region\n\n### Prerequisites\n- Valid login credentials\n- Appropriate permissions\n\n### Steps\n1. Click the blue 'Add' button in the Region Master page\n2. Enter the desired region name in the 'Enter Name' field\n3. Select the currency from the 'Select Currency' dropdown\n4. Review the information\n5. Click 'Save' to create the region\n\n### Tips\n- Region names should be unique\n- Currency selection is mandatory\n- You can edit the region after creation"
+                },
+                {
+                  "id": "region-edit",
+                  "title": "Editing a Region",
+                  "path": "region-edit",
+                  "content": "## How to Edit a Region\n\n### Steps\n1. Locate the region you wish to edit in the list\n2. Click the pencil (edit) icon in the 'Action' column\n3. Modify the necessary fields\n4. Click 'Update' to save changes\n\n### Editable Fields\n- Region name\n- Currency assignment\n- Regional parameters"
+                }
+              ]
+            },
+            {
+              "id": "groups-master",
+              "title": "Groups Management",
+              "path": "groups-master",
+              "content": "# Groups Master\n\nManage customer groups and classifications.\n\n## Overview\nGroups allow you to organize and categorize customers based on business criteria.\n\n## Features\n- Create customer groups\n- Assign customers to groups\n- Define group hierarchies",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "master-currency",
+          "title": "Currency Master",
+          "description": "Configure and manage currency settings",
+          "pdfUrl": null,
+          "pages": [
+            {
+              "id": "currency-intro",
+              "title": "Currency Configuration",
+              "path": "currency-intro",
+              "content": "# Currency Master\n\nManage currency configurations for international transactions.\n\n## Available Currencies\n- USD - US Dollar\n- EUR - Euro\n- GBP - British Pound\n- INR - Indian Rupee\n- JPY - Japanese Yen\n\n## Configuration Steps\n1. Access the Currency Master from Master menu\n2. Add or edit currency settings\n3. Set exchange rates\n4. Save configuration",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "orders",
+      "title": "Order Management",
+      "description": "Create, manage, and track orders in the system",
+      "icon": "shopping-cart",
+      "color": "green",
+      "modules": [
+        {
+          "id": "order-creation",
+          "title": "Order Creation & Management",
+          "description": "Create new orders and manage existing ones",
+          "pdfUrl": null,
+          "pages": [
+            {
+              "id": "order-intro",
+              "title": "Creating Orders",
+              "path": "order-intro",
+              "content": "# Order Management\n\n## Creating a New Order\n\n### Prerequisites\n- Valid customer information\n- Product availability\n- Authorized user account\n\n### Order Creation Process\n1. Navigate to Orders Management\n2. Click 'Create New Order'\n3. Select customer from dropdown\n4. Add line items\n5. Set delivery date\n6. Review and submit\n\n## Order Status\n- Draft\n- Submitted\n- Confirmed\n- In Progress\n- Shipped\n- Delivered",
+              "children": [
+                {
+                  "id": "order-lineitem",
+                  "title": "Adding Line Items",
+                  "path": "order-lineitem",
+                  "content": "## Adding Line Items to Order\n\n### Steps\n1. Search for product\n2. Select product from search results\n3. Enter quantity\n4. Set unit price (auto-populated by default)\n5. Click 'Add Item'\n\n### Tips\n- You can add multiple line items\n- Discounts can be applied per item\n- Item totals auto-calculate"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dashboards",
+      "title": "Dashboards & Reports",
+      "description": "Monitor business metrics and generate reports",
+      "icon": "chart-line",
+      "color": "purple",
+      "modules": [
+        {
+          "id": "common-dashboard",
+          "title": "Common Dashboard",
+          "description": "View key metrics and KPIs",
+          "pdfUrl": null,
+          "pages": [
+            {
+              "id": "dashboard-overview",
+              "title": "Dashboard Overview",
+              "path": "dashboard-overview",
+              "content": "# Common Dashboard\n\n## Key Metrics\n\n### Sales KPI\n- Total Orders: Displays total number of orders\n- Revenue: Shows total revenue generated\n- Average Order Value: Calculates AOV\n\n### Operational Metrics\n- Pending Orders: Count of orders awaiting processing\n- Delivery Performance: On-time delivery percentage\n- Customer Satisfaction: CSAT score\n\n## Customizing Your Dashboard\n1. Click 'Customize' button\n2. Select metrics to display\n3. Arrange widgets\n4. Save layout",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "users",
+      "title": "User Management",
+      "description": "Manage user accounts and access permissions",
+      "icon": "users",
+      "color": "orange",
+      "modules": [
+        {
+          "id": "user-admin",
+          "title": "User Administration",
+          "description": "Create and manage user accounts",
+          "pdfUrl": null,
+          "pages": [
+            {
+              "id": "user-intro",
+              "title": "User Management",
+              "path": "user-intro",
+              "content": "# User Management\n\n## Overview\nThe User Management module allows administrators to create, edit, and manage user accounts with appropriate permissions.\n\n## User Roles\n- Admin: Full system access\n- Manager: Department-level access\n- User: Standard access\n- Guest: Read-only access\n\n## Key Tasks\n- Create new user accounts\n- Assign roles and permissions\n- Reset passwords\n- Deactivate/activate users\n- Manage user profiles",
+              "children": [
+                {
+                  "id": "user-create",
+                  "title": "Creating a User",
+                  "path": "user-create",
+                  "content": "## How to Create a User\n\n### Steps\n1. Navigate to User Management\n2. Click 'Add New User'\n3. Enter user details:\n   - First Name\n   - Last Name\n   - Email Address\n   - Username\n4. Select role from dropdown\n5. Set initial password\n6. Click 'Create User'\n\n### Assignment\nuser will receive email notification with login instructions"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

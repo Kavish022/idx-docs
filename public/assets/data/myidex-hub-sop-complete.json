@@ -1,0 +1,2090 @@
+{
+  "documentInfo": {
+    "title": "My IDEXHUB Customer Standard Operation Procedure",
+    "version": "1.0",
+    "company": "IDEX Corporation",
+    "tagline": "Trusted Solutions, Improving Lives",
+    "totalSections": 41,
+    "lastUpdated": "2025-02-18"
+  },
+  "tableOfContents": [
+    {
+      "id": 1,
+      "title": "Region Master",
+      "page": 3,
+      "module": "master"
+    },
+    {
+      "id": 2,
+      "title": "Groups Master",
+      "page": 4,
+      "module": "master"
+    },
+    {
+      "id": 3,
+      "title": "Value Streams (BU) Master",
+      "page": 5,
+      "module": "master"
+    },
+    {
+      "id": 4,
+      "title": "Internal Stages Master",
+      "page": 6,
+      "module": "master"
+    },
+    {
+      "id": 5,
+      "title": "Payment Term Master",
+      "page": 7,
+      "module": "master"
+    },
+    {
+      "id": 6,
+      "title": "80/20 Product Master",
+      "page": 10,
+      "module": "master"
+    },
+    {
+      "id": 7,
+      "title": "80/20 Customer Master",
+      "page": 11,
+      "module": "master"
+    },
+    {
+      "id": 8,
+      "title": "Application Master",
+      "page": 12,
+      "module": "master"
+    },
+    {
+      "id": 9,
+      "title": "Currency Master",
+      "page": 13,
+      "module": "master"
+    },
+    {
+      "id": 10,
+      "title": "Delayed Reason Master",
+      "page": 14,
+      "module": "master"
+    },
+    {
+      "id": 11,
+      "title": "Document List Master",
+      "page": 15,
+      "module": "master"
+    },
+    {
+      "id": 12,
+      "title": "Freight Scope Master",
+      "page": 16,
+      "module": "master"
+    },
+    {
+      "id": 13,
+      "title": "Industry/Segment Master",
+      "page": 17,
+      "module": "master"
+    },
+    {
+      "id": 14,
+      "title": "Insurance Scope Master",
+      "page": 18,
+      "module": "master"
+    },
+    {
+      "id": 15,
+      "title": "KPI Settings in MyIDEX HUB",
+      "page": 19,
+      "module": "master"
+    },
+    {
+      "id": 16,
+      "title": "LD Clause Master",
+      "page": 21,
+      "module": "master"
+    },
+    {
+      "id": 17,
+      "title": "Inco Terms Master",
+      "page": 23,
+      "module": "master"
+    },
+    {
+      "id": 18,
+      "title": "Nature of Complaints Master",
+      "page": 24,
+      "module": "master"
+    },
+    {
+      "id": 19,
+      "title": "Nominated Transport Master",
+      "page": 25,
+      "module": "master"
+    },
+    {
+      "id": 20,
+      "title": "Order Type Master",
+      "page": 26,
+      "module": "master"
+    },
+    {
+      "id": 21,
+      "title": "Plant Location Master",
+      "page": 27,
+      "module": "master"
+    },
+    {
+      "id": 22,
+      "title": "Product Family Master",
+      "page": 28,
+      "module": "master"
+    },
+    {
+      "id": 23,
+      "title": "Products Master",
+      "page": 29,
+      "module": "master"
+    },
+    {
+      "id": 24,
+      "title": "Rejected Reasons Master",
+      "page": 30,
+      "module": "master"
+    },
+    {
+      "id": 25,
+      "title": "SEZ Master",
+      "page": 31,
+      "module": "master"
+    },
+    {
+      "id": 26,
+      "title": "Spare 1 Master",
+      "page": 32,
+      "module": "master"
+    },
+    {
+      "id": 27,
+      "title": "Spare 2 Master",
+      "page": 33,
+      "module": "master"
+    },
+    {
+      "id": 28,
+      "title": "Spare 3 Master",
+      "page": 34,
+      "module": "master"
+    },
+    {
+      "id": 29,
+      "title": "TPI Agency Master",
+      "page": 35,
+      "module": "master"
+    },
+    {
+      "id": 30,
+      "title": "Zone Master",
+      "page": 36,
+      "module": "master"
+    },
+    {
+      "id": 31,
+      "title": "Role Master",
+      "page": 37,
+      "module": "master"
+    },
+    {
+      "id": 32,
+      "title": "User Management",
+      "page": 39,
+      "module": "users"
+    },
+    {
+      "id": 33,
+      "title": "Pre Defined Field Master",
+      "page": 43,
+      "module": "master"
+    },
+    {
+      "id": 34,
+      "title": "Template Master",
+      "page": 45,
+      "module": "master"
+    },
+    {
+      "id": 35,
+      "title": "Custom Form Master",
+      "page": 47,
+      "module": "master"
+    },
+    {
+      "id": 36,
+      "title": "WorkFlow Master",
+      "page": 51,
+      "module": "master"
+    },
+    {
+      "id": 37,
+      "title": "Order Creation & Listing",
+      "page": 55,
+      "module": "orders"
+    },
+    {
+      "id": 38,
+      "title": "Common Dashboard",
+      "page": 61,
+      "module": "dashboard"
+    },
+    {
+      "id": 39,
+      "title": "Customer Dashboard",
+      "page": 63,
+      "module": "dashboard"
+    },
+    {
+      "id": 40,
+      "title": "Executive Dashboard",
+      "page": 66,
+      "module": "dashboard"
+    },
+    {
+      "id": 41,
+      "title": "Service Request Module",
+      "page": 68,
+      "module": "service"
+    }
+  ],
+  "modules": {
+    "master": {
+      "name": "Master Data Management",
+      "description": "Core master data configuration for MyIDEX HUB system",
+      "sections": [
+        {
+          "id": 1,
+          "title": "Region Master",
+          "objective": "This SOP outlines the steps to manage regions within the MyIDEX HUB platform, including adding, editing, and deleting region entries.",
+          "prerequisites": [
+            "Valid login credentials for accessing the MyIDEX HUB platform",
+            "Appropriate permissions to access and modify Region data under the 'Master' module"
+          ],
+          "procedure": {
+            "steps": [
+              "Navigate to the 'Master' tab on the left navigation menu",
+              "Select the 'Region' sub-tab from the top menu",
+              "Enter the desired region name in the 'Enter Name' field",
+              "Select the currency from the 'Select Currency' dropdown",
+              "Click the blue 'Add' button to save the new region"
+            ]
+          },
+          "notes": [
+            "To edit a region, click the pencil (edit) icon under the 'Action' column",
+            "To delete a region, click the trash bin icon under the 'Action' column"
+          ],
+          "screenshots": [
+            "region-master-interface.png"
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Groups Master",
+          "description": "This SOP document provides a step-by-step guide for managing Groups in the MyIDEX HUB portal. This includes adding, editing, and deleting Groups associated with various regions.",
+          "steps": [
+            {
+              "title": "Navigate to Groups Section",
+              "details": [
+                "Login to the MyIDEX HUB portal",
+                "From the left-hand menu, click on 'Master'",
+                "Select the 'Groups' tab from the top navigation bar"
+              ]
+            },
+            {
+              "title": "Add a New Group",
+              "details": [
+                "Enter the Group Name in the 'Enter Name*' field",
+                "Select the appropriate Region from the 'Select Region*' dropdown",
+                "Click the 'Add' button to save the group",
+                "The newly added group will appear in the list below"
+              ]
+            },
+            {
+              "title": "Edit or Delete a Group",
+              "details": [
+                "Click the edit (pencil) icon next to the group you want to modify",
+                "Make the necessary changes and click 'Update'",
+                "To delete a group, click the delete (trash bin) icon"
+              ]
+            }
+          ],
+          "notes": [
+            "Deleting a group is irreversible and should be done with caution"
+          ],
+          "screenshots": [
+            "groups-master-interface.png"
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Value Streams (BU) Master",
+          "objective": "This SOP outlines the steps for managing and maintaining Value Streams in the MyIDEX HUB system. Value Streams help categorize and organize business units, their associated margin percentages, and related configuration.",
+          "navigation": [
+            "Login to MyIDEX HUB",
+            "From the left-hand menu, click on 'Master'",
+            "Navigate to the top navigation bar and click on 'Value Stream'"
+          ],
+          "addingValueStream": {
+            "title": "Adding a New Value Stream",
+            "steps": [
+              "Navigate to the Value Streams (BU) Master section from the left menu",
+              "Click the 'Add' or '+' button to open the Value Stream creation form",
+              "Enter the Value Stream Name in the text field (required)",
+              "Enter the Margin % (required) - this represents the profit margin for the value stream",
+              "Select the Group from the dropdown menu (required)",
+              "Enter or select the Region in the text field (required)",
+              "Select the Service Receiver from the dropdown menu (required)",
+              "Review all the entered information for accuracy",
+              "Click the 'Submit' or 'Save' button to create the new Value Stream entry",
+              "The new Value Stream will now appear in the listing with a unique ID"
+            ]
+          },
+          "management": {
+            "edit": "Click the pencil icon to edit an entry",
+            "delete": "Click the trash icon to delete an entry"
+          },
+          "screenshots": [
+            "value-stream-interface.png"
+          ]
+        },
+        {
+          "id": 4,
+          "title": "Internal Stages Master",
+          "description": "This SOP outlines the process of managing Internal Stages within the MyIDEX HUB platform",
+          "steps": [
+            {
+              "step": 1,
+              "title": "Navigate to the Master Section",
+              "details": "From the left sidebar, click on the 'Master' tab. This section provides various configuration options including Workflow, Template, Pre Defined Fields, and Internal Stage"
+            },
+            {
+              "step": 2,
+              "title": "Access Internal Stage Tab",
+              "details": "Click on the 'Internal Stage' tab at the top of the page. This tab allows users to manage stages that are used in different workflow processes within the system"
+            },
+            {
+              "step": 3,
+              "title": "Add a New Internal Stage",
+              "substeps": [
+                "Enter the stage name in the 'Enter Name' field",
+                "Click the blue 'Add' button to save the new stage",
+                "To cancel the action, click the 'Cancel' button"
+              ]
+            },
+            {
+              "step": 4,
+              "title": "Manage Existing Stages",
+              "details": "The list below the input field shows all existing internal stages. Each entry includes a serial number, the stage name, and action buttons (Edit and Delete) on the right side. You can click the pencil icon to edit a stage or the trash icon to delete it"
+            }
+          ],
+          "screenshots": [
+            "internal-stage-interface.png"
+          ]
+        },
+        {
+          "id": 5,
+          "title": "Payment Term Master",
+          "description": "Payment Terms define the payment conditions and timelines for customer orders. Simple Payment Terms have fixed credit days, while Milestone Payment Terms link payments to project milestones.",
+          "types": {
+            "simplePaymentTerm": {
+              "name": "Simple Payment Terms",
+              "description": "Fixed payment terms based on credit days from invoice date. Examples include \"Net 30\" (30 days credit) or \"Net 60\" (60 days credit).",
+              "navigation": [
+                "Go to Master \u2192 Payment Terms",
+                "Click on the \"Simple Payment Terms\" tab"
+              ],
+              "adding": {
+                "steps": [
+                  "Click the \"Add\" button",
+                  "Enter Payment Code (e.g., PT30, PT60)",
+                  "Enter Payment Description (e.g., Net 30 Days)",
+                  "Enter Credit Days (e.g., 30, 60)",
+                  "Click \"Save\" to create the payment term"
+                ]
+              }
+            },
+            "milestonePaymentTerm": {
+              "name": "Milestone Payment Terms",
+              "description": "Payment terms linked to project milestones. Payments are released upon completion of specific project phases or deliverables.",
+              "accessing": [
+                "Go to Master \u2192 Payment Terms",
+                "Click on the \"Milestone Payment Terms\" tab"
+              ],
+              "adding": {
+                "steps": [
+                  "Click the \"Add\" button",
+                  "Enter Payment Code (e.g., MPT-PRJ1)",
+                  "Enter Payment Description",
+                  "Define milestones with percentage allocations",
+                  "Ensure total milestone percentage equals 100%",
+                  "Enter total credit days for final payment",
+                  "Click \"Save\" to create the milestone payment term"
+                ]
+              }
+            }
+          },
+          "screenshots": [
+            "payment-terms-simple.png",
+            "payment-terms-milestone.png"
+          ],
+          "objective": "Understand and manage two types of payment terms: Simple Payment Terms and Milestone Payment Terms in the MyIDEX HUB system",
+          "navigation": [
+            "Log into MyIDEX HUB system",
+            "Click on \"Master\" from the left navigation menu",
+            "Select \"Payment Terms\" from the menu options"
+          ]
+        },
+        {
+          "id": 6,
+          "title": "80/20 Product Master",
+          "description": "This SOP provides steps for managing 80/20 Product data in the MyIDEX HUB platform",
+          "accessing": "Navigate to the 'Master' section in the left-hand menu and select the '80/20 Product' tab on the top menu",
+          "operations": {
+            "add": [
+              "In the 'Add 80/20 Product' section, enter the name of the product (e.g., '80' or '20')",
+              "Click the 'Add' button to save the new entry",
+              "The new entry will appear in the table below with an auto-generated serial number"
+            ],
+            "edit": [
+              "Click the pencil (edit) icon under the 'Action' column for the entry you wish to update",
+              "Modify the name as needed in the text field",
+              "Click the 'Update' button to save changes"
+            ],
+            "delete": [
+              "Click the trash bin icon under the 'Action' column for the respective entry",
+              "Confirm deletion if prompted",
+              "The entry will be removed from the list"
+            ]
+          },
+          "screenshots": [
+            "80-20-product-interface.png"
+          ]
+        },
+        {
+          "id": 7,
+          "title": "80/20 Customer Master",
+          "description": "This SOP outlines the procedure to add or manage entries in the 80/20 Customer Master within the MyIDEX HUB portal. The 80/20 classification helps in customer segmentation based on the Pareto principle",
+          "steps": [
+            "Login to the MyIDEX HUB application",
+            "Navigate to the 'Master' section from the left sidebar menu",
+            "Click on the '80/20 Customer' tab at the top navigation",
+            "Use the 'Enter Name' field to input the name or classification (e.g., 20 or 80)",
+            "Click on the 'Add' button to save the entry",
+            "To edit or delete an existing entry, use the respective icons under the 'Action' column",
+            "Use the search bar to find specific entries quickly"
+          ],
+          "screenshots": [
+            "80-20-customer-interface.png"
+          ]
+        },
+        {
+          "id": 8,
+          "title": "Application Master",
+          "description": "This SOP provides steps for managing Application data in the MyIDEX HUB platform",
+          "steps": [
+            {
+              "step": 1,
+              "title": "Navigate to Application Section",
+              "details": "From the dashboard, go to the 'Master' section on the left-hand menu. Then select 'Application' from the top navigation bar"
+            },
+            {
+              "step": 2,
+              "title": "Add Application",
+              "details": "To add a new application, enter the application name in the 'Name' field under the 'Add Application' section. Click the blue 'Add' button to save it. Use the 'Cancel' button to discard the action"
+            },
+            {
+              "step": 3,
+              "title": "View, Edit, or Delete Application",
+              "details": "Below the form, the existing applications are listed with options to edit or delete using the icons under the 'Action' column"
+            }
+          ],
+          "screenshots": [
+            "application-master-interface.png"
+          ]
+        },
+        {
+          "id": 9,
+          "title": "Currency Master",
+          "description": "This SOP provides step-by-step instructions for managing Currency Master in the MyIDEX HUB application. The Currency Master allows the user to define various currencies with their corresponding symbols and exchange rates against the base currency (INR)",
+          "steps": [
+            "Navigate to the Master section in the left-hand menu",
+            "Click on the 'Currency' tab from the top navigation bar",
+            {
+              "title": "To add a new currency",
+              "substeps": [
+                "Enter the currency Name in the 'Name*' field",
+                "Enter the corresponding Symbol in the 'Symbol*' field",
+                "Enter the Exchange Rate (Base: INR) in the corresponding field",
+                "Click the 'Add' button to save the new currency"
+              ]
+            },
+            "To edit or delete an existing currency, use the respective icons under the 'Action' column"
+          ],
+          "screenshots": [
+            "currency-master-interface.png"
+          ]
+        },
+        {
+          "id": 10,
+          "title": "Delayed Reason Master",
+          "description": "This SOP outlines the process for managing delayed reasons in the MyIDEX HUB platform under the 'Master' section. It describes how to add, edit, and remove delayed reasons that are used to document and track causes for delivery delays",
+          "steps": [
+            "Navigate to the MyIDEX HUB dashboard",
+            "From the left sidebar, click on 'Master'",
+            "Select 'Delayed Reason' from the top tab bar",
+            {
+              "title": "To add a new reason",
+              "substeps": [
+                "Enter the reason in the input box labeled 'Enter Name*'",
+                "Click the 'Add' button to save the new delayed reason"
+              ]
+            },
+            "Existing reasons are listed in a table with options to edit or delete each entry",
+            "To edit an entry, click the pencil icon under the 'Action' column",
+            "To delete an entry, click the trash bin icon under the 'Action' column"
+          ],
+          "screenshots": [
+            "delayed-reason-interface.png"
+          ]
+        },
+        {
+          "id": 11,
+          "title": "Document List Master",
+          "description": "This Standard Operating Procedure (SOP) outlines the steps to manage the Document List in the MyIDEX HUB platform.",
+          "steps": [
+            "Log into the MyIDEX HUB platform.",
+            "From the left-hand side menu, navigate to 'Master'.",
+            "Click on the 'Document List' tab from the top navigation bar.",
+            "The Document List page will be displayed.",
+            {
+              "title": "To add a new document",
+              "substeps": [
+                "Enter the document name in the 'Name*' input box under 'Add Document List'.",
+                "Click the 'Add' button to save the document.",
+                "To cancel the operation, click the 'Cancel' button."
+              ]
+            },
+            "To edit or delete a document, use the respective edit (pencil) or delete (trash bin) icons in the 'Action' column."
+          ],
+          "screenshots": [
+            "document-list-interface.png"
+          ]
+        },
+        {
+          "id": 12,
+          "title": "Freight Scope Master",
+          "description": "This Standard Operating Procedure (SOP) provides steps to manage the Freight Scope section in the MyIDEX HUB platform. It includes viewing existing freight scopes and the procedure for adding or editing them.",
+          "viewing": {
+            "description": "To view the existing freight scopes, navigate to the 'Master' section on the left panel and click on 'Freight Scope' from the top menu. The screen will display the list of available freight scopes."
+          },
+          "managing": {
+            "add": "Click on the 'Add Freight Scope' button to add a new Freight Scope.",
+            "edit": "Click the pencil (edit) icon under the 'Action' column to edit an existing Freight Scope.",
+            "delete": "Click the trash bin icon under the 'Action' column to delete a Freight Scope.",
+            "search": "Use the search bar to filter freight scopes by name quickly."
+          },
+          "screenshots": [
+            "freight-scope-interface.png"
+          ]
+        },
+        {
+          "id": 13,
+          "title": "Industry/Segment Master",
+          "description": "This Standard Operating Procedure (SOP) outlines the steps to manage Industry/Segment data in the MyIDEX HUB platform. This includes adding new Industry/Segment entries and viewing or editing existing ones under the 'Master' section.",
+          "steps": [
+            "Navigate to the 'Master' section in the left menu.",
+            "Click on the 'Industry/Segment' tab from the top menu.",
+            {
+              "title": "To add a new Industry/Segment",
+              "substeps": [
+                "Click on 'Add Industry/Segment' button.",
+                "Enter the industry/segment name in the text box.",
+                "Click 'Add' to save the new entry or 'Cancel' to discard."
+              ]
+            },
+            "To search for an existing Industry/Segment, use the search bar.",
+            "To edit or delete an existing entry, use the respective action icons under the 'Action' column."
+          ],
+          "screenshots": [
+            "industry-segment-interface.png"
+          ]
+        },
+        {
+          "id": 14,
+          "title": "Insurance Scope Master",
+          "purpose": "This SOP outlines the steps required to manage the Insurance Scope section in the MyIDEX HUB system. It includes instructions for viewing, adding, editing, and deleting entries under the Insurance Scope.",
+          "scope": "This SOP is applicable to all users who are responsible for maintaining insurance-related data within the MyIDEX HUB platform.",
+          "procedure": [
+            "Navigate to the 'Master' section in the left-side menu.",
+            "Click on the 'Insurance Scope' tab in the top navigation bar.",
+            "View the list of existing Insurance Scopes.",
+            {
+              "title": "To add a new Insurance Scope",
+              "substeps": [
+                "Enter the name in the 'Enter Name' field.",
+                "Click on the blue 'Add' button."
+              ]
+            },
+            "To edit an existing entry, click the pencil (edit) icon under the 'Action' column.",
+            "To delete an entry, click the trash (delete) icon under the 'Action' column."
+          ],
+          "screenshots": [
+            "insurance-scope-interface.png"
+          ]
+        },
+        {
+          "id": 15,
+          "title": "KPI Settings in MyIDEX HUB",
+          "description": "This Standard Operating Procedure (SOP) provides steps for managing KPI Settings data in the MyIDEX HUB platform. It includes the process for adding, editing, and deleting entries in the KPI Settings section.",
+          "steps": {
+            "navigate": {
+              "title": "Step 1: Navigate to KPI Settings",
+              "substeps": [
+                "Log in to the MyIDEX HUB application.",
+                "From the left-hand sidebar, click on 'KPI Setting' to view the KPI records."
+              ]
+            },
+            "add": {
+              "title": "Step 2: Add KPI Setting",
+              "substeps": [
+                "Click on the 'Add KPI Setting' button located at the top-right.",
+                "Fill in the required fields such as BU, Year, Annual Sale, Margins, etc.",
+                "Enter monthly data for Sales, Margin %, Order Inflow, etc.",
+                "Click the 'Add' button to save the data."
+              ]
+            },
+            "edit": {
+              "title": "Step 3: Edit KPI Setting",
+              "substeps": [
+                "Locate the KPI entry you want to edit in the list.",
+                "Click the pencil/edit icon under the 'Action' column.",
+                "Update the necessary information in the form.",
+                "Click the 'Update' or 'Save' button to apply the changes."
+              ]
+            },
+            "delete": {
+              "title": "Step 4: Delete KPI Setting",
+              "substeps": [
+                "Locate the KPI entry you wish to delete.",
+                "Click the trash/delete icon under the 'Action' column.",
+                "Confirm the deletion when prompted.",
+                "The KPI entry will be permanently removed from the list."
+              ]
+            }
+          },
+          "notes": [
+            "Only one KPI Setting can be added per BU for a particular year."
+          ],
+          "screenshots": [
+            "kpi-settings-interface.png"
+          ]
+        },
+        {
+          "id": 16,
+          "title": "LD Clause Master",
+          "purpose": "The purpose of this Standard Operating Procedure (SOP) is to provide clear instructions for managing the LD (Liquidated Damages) Clauses within the MyIDEX HUB platform. This includes adding, editing, and deleting LD Clauses.",
+          "scope": "This procedure applies to all users with access rights to modify the Master section under the LD Clauses tab in the MyIDEX HUB system.",
+          "responsibilities": "It is the responsibility of the authorized personnel to ensure that accurate LD Clauses are maintained within the system.",
+          "procedure": [
+            "Log in to the MyIDEX HUB platform.",
+            "Navigate to the 'Master' section from the left-hand menu.",
+            "Click on the 'LD Clauses' tab at the top.",
+            "To add a new clause, enter the name of the LD Clause in the 'Add LD Clauses' section and click 'Add'.",
+            "To edit an existing entry, click the pencil icon under the 'Action' column.",
+            "To delete an entry, click the trash icon under the 'Action' column."
+          ],
+          "notes": [
+            "Ensure that all data entered is accurate and up to date. Deleting or editing clauses should be done with caution as it affects compliance tracking."
+          ],
+          "screenshots": [
+            "ld-clause-interface.png"
+          ]
+        },
+        {
+          "id": 17,
+          "title": "Inco Terms Master",
+          "description": "This Standard Operating Procedure (SOP) outlines the steps to view, add, edit, and delete Inco Terms in the MyIDEX HUB platform.",
+          "steps": [
+            {
+              "title": "Access the Inco Terms Section",
+              "details": "Navigate to the 'Master' section on the left-hand panel, then select 'Inco Terms' from the tab options at the top of the screen."
+            },
+            {
+              "title": "Add a New Inco Term",
+              "substeps": [
+                "Enter the name of the Inco Term in the 'Enter Name' field.",
+                "Select the type from the dropdown (e.g., import).",
+                "Enter a description in the 'Enter Description' field.",
+                "Click on the 'Add' button to save the new Inco Term."
+              ]
+            },
+            {
+              "title": "Edit or Delete Existing Inco Terms",
+              "details": "In the list of existing Inco Terms, use the pencil icon under the 'Action' column to edit a term, or the trash bin icon to delete it."
+            }
+          ],
+          "screenshots": [
+            "inco-terms-interface.png"
+          ]
+        },
+        {
+          "id": 18,
+          "title": "Nature of Component Interface",
+          "objective": "The purpose of this SOP is to outline the steps required to manage the 'Nature of Complaints' section in the MyIDEX HUB system. This ensures that all complaint types are recorded accurately for future tracking and reporting.",
+          "scope": "This SOP is applicable to all users who are responsible for maintaining complaint categories in the MyIDEX HUB system.",
+          "procedure": [
+            "Navigate to the 'Master' module from the left-hand menu.",
+            "Click on the 'Nature of Complaints' tab from the top navigation bar.",
+            {
+              "title": "To add a new complaint type",
+              "substeps": [
+                "Enter the name of the complaint in the 'Name' field under 'Add Nature of Complaint'.",
+                "Click the 'Add' button."
+              ]
+            },
+            "To edit an existing complaint type, click the pencil icon next to the respective entry.",
+            "To delete an existing complaint type, click the trash bin icon next to the respective entry.",
+            "Use the search bar to quickly locate a specific complaint type."
+          ],
+          "screenshots": [
+            "nature-of-complaints-interface.png"
+          ]
+        },
+        {
+          "id": 19,
+          "title": "Nominated Transport Master",
+          "description": "This document outlines the steps and interface for managing the 'Nominated Transport' section in the MyIDEX HUB platform. Users can add, edit, or delete transporter names that are nominated for shipments.",
+          "steps": [
+            "Navigate to the 'Master' tab on the left menu.",
+            "Click on the 'Nominated Transport' option from the top navigation bar.",
+            "To add a new transporter, enter the name in the input box under 'Add Nominated Transport' and click 'Add'.",
+            "To edit an existing transporter name, click the edit icon under the 'Action' column.",
+            "To delete a transporter, click the delete icon under the 'Action' column."
+          ],
+          "screenshots": [
+            "nominated-transport-interface.png"
+          ]
+        },
+        {
+          "id": 20,
+          "title": "Order Type Master",
+          "objective": "This SOP outlines the steps to add and manage Order Types within the MyIDEX HUB application under the 'Master' module.",
+          "prerequisites": [
+            "User must be logged into MyIDEX HUB.",
+            "User must have the necessary permissions to add or edit Order Types."
+          ],
+          "steps": [
+            "Navigate to the 'Master' module from the left-side menu.",
+            "Click on the 'Order Type' tab from the top sub-menu.",
+            "Enter the name of the Order Type in the 'Enter Name*' field.",
+            "Click the 'Add' button to add the Order Type.",
+            "To edit an existing Order Type, click the pencil icon under the 'Action' column.",
+            "To delete an Order Type, click the trash bin icon under the 'Action' column."
+          ],
+          "screenshots": [
+            "order-type-interface.png"
+          ]
+        },
+        {
+          "id": 21,
+          "title": "Plant Location Master",
+          "description": "This Standard Operating Procedure (SOP) provides steps for managing Plant Location data in the MyIDEX HUB platform. It includes the process for adding, editing, and deleting entries in the plant location section under the Master module.",
+          "steps": [
+            {
+              "title": "Step 1: Navigate to 'Plant Location'",
+              "details": "From the left sidebar menu, click on 'Master'. Then from the top menu, select the 'Plant Location' tab. You will be directed to the Plant Location management screen."
+            },
+            {
+              "title": "Step 2: Add a New Plant Location",
+              "details": "In the 'Add Plant Location' section, enter the name of the plant location in the provided text field. Once entered, click the blue 'Add' button to save the new plant location."
+            },
+            {
+              "title": "Step 3: View or Manage Existing Locations",
+              "details": "All added plant locations will be listed in a table below the entry form. You can use the edit (pencil icon) or delete (trash icon) buttons under the 'Action' column to modify or remove a location."
+            }
+          ],
+          "screenshots": [
+            "plant-location-interface.png"
+          ]
+        },
+        {
+          "id": 22,
+          "title": "Product Family Master",
+          "description": "This Standard Operating Procedure (SOP) outlines the steps to manage the 'Product Family' section within the MyIDEX HUB platform. This module allows users to add, edit, and delete Product Families.",
+          "navigation": [
+            "Log into the MyIDEX HUB system.",
+            "Navigate to the left sidebar and click on 'Master'.",
+            "Click on the 'Product Family' tab on the top menu."
+          ],
+          "addProductFamily": {
+            "steps": [
+              "Enter the name of the product family in the 'Enter Name' field.",
+              "Click the blue 'Add' button to save the new product family."
+            ]
+          },
+          "management": {
+            "edit": "Click the pencil (edit) icon under the 'Action' column to modify the existing name.",
+            "delete": "Click the trash bin icon under the 'Action' column to remove the product family."
+          },
+          "screenshots": [
+            "product-family-interface.png"
+          ]
+        },
+        {
+          "id": 23,
+          "title": "Products Master",
+          "objective": "This Standard Operating Procedure (SOP) outlines the steps to add and manage products in the 'Product' section of the MyIDEX HUB application.",
+          "scope": "This procedure applies to all users responsible for managing product master data in the system.",
+          "procedure": [
+            "Navigate to the MyIDEX HUB and log in.",
+            "From the left-hand navigation menu, click on 'Master'.",
+            "Select 'Products' from the top navigation bar.",
+            {
+              "title": "To add a new product",
+              "substeps": [
+                "Enter the product name in the 'Enter Name' input field.",
+                "Click the 'Add' button to save the product."
+              ]
+            },
+            "The added product will appear in the table below.",
+            "To edit or delete a product, use the respective icons under the 'Action' column."
+          ],
+          "screenshots": [
+            "products-master-interface.png"
+          ]
+        },
+        {
+          "id": 24,
+          "title": "Rejected Reasons Master",
+          "description": "This Standard Operating Procedure (SOP) provides step-by-step instructions to manage 'Rejected Reasons' in the MyIDEX HUB system under the Master section.",
+          "stepsToAdd": [
+            "Navigate to the 'Master' section from the sidebar.",
+            "Click on the 'Rejected Reason' tab in the top navigation menu.",
+            "Enter the reason for rejection in the 'Enter Name' field under 'Add Rejected Reasons'.",
+            "Click on the blue 'Add' button to save the new reason.",
+            "To cancel, click on the 'Cancel' button."
+          ],
+          "editingOrDeleting": [
+            "Locate the reason in the list displayed.",
+            "Use the edit (pencil) icon under the 'Action' column to modify the reason.",
+            "Use the delete (trash bin) icon to remove the reason from the list."
+          ],
+          "screenshots": [
+            "rejected-reasons-interface.png"
+          ]
+        },
+        {
+          "id": 25,
+          "title": "SEZ Master",
+          "description": "This document provides a Standard Operating Procedure (SOP) for adding an SEZ entry in the MyIDEX HUB platform.",
+          "steps": [
+            {
+              "title": "Step 1: Navigate to SEZ Section",
+              "substeps": [
+                "Log in to MyIDEX HUB.",
+                "From the left sidebar, click on 'Master'.",
+                "From the top tab options, click on 'SEZ'."
+              ]
+            },
+            {
+              "title": "Step 2: Add SEZ Entry",
+              "substeps": [
+                "Enter the SEZ name (e.g., 'Yes' or 'No') in the input field under the 'Add SEZ' section.",
+                "Click the 'Add' button to save the entry.",
+                "The new entry will appear in the list below with options to edit or delete."
+              ]
+            }
+          ],
+          "screenshots": [
+            "sez-interface.png"
+          ]
+        },
+        {
+          "id": 26,
+          "title": "Spare 1 Master",
+          "description": "This document outlines the Standard Operating Procedure (SOP) for adding entries into the 'Spare 1' section of the MyIDEX HUB system.",
+          "steps": [
+            "Log in to the MyIDEX HUB system.",
+            "Navigate to the left-hand panel and click on the 'Master' menu.",
+            "Click on the 'Spare 1' tab at the top navigation panel.",
+            "In the 'Add Spare 1' section, enter the desired name into the text input box.",
+            "Click on the blue 'Add' button to save the entry.",
+            "The newly added entry will appear in the table below with a serial number.",
+            "Use the 'Edit' (pencil icon) or 'Delete' (trash icon) options under the 'Action' column for any modifications."
+          ],
+          "screenshots": [
+            "spare1-interface.png"
+          ]
+        },
+        {
+          "id": 27,
+          "title": "Spare 2 Master",
+          "objective": "To provide a step-by-step guide on how to add a new entry in the Spare 2 section of the MyIDEX HUB platform.",
+          "scope": "This SOP is applicable to all users who are responsible for maintaining Spare 2 data in the Master section of MyIDEX HUB.",
+          "procedure": [
+            "Navigate to the Master section from the left-hand side menu.",
+            "Click on the 'Spare 2' tab.",
+            "In the 'Add Spare 2' field, enter the name of the spare item.",
+            "Click on the 'Add' button to save the entry.",
+            "The newly added item will appear in the list below with options to edit or delete."
+          ],
+          "screenshots": [
+            "spare2-interface.png"
+          ]
+        },
+        {
+          "id": 28,
+          "title": "Spare 3 Master",
+          "introduction": "This Standard Operating Procedure (SOP) outlines the steps required to add a new Spare 3 item in the MyIDEX HUB platform. The purpose of this SOP is to guide users through the interface and ensure consistency in data entry.",
+          "prerequisites": [
+            "Access to the MyIDEX HUB platform.",
+            "User account with necessary permissions to access the 'Master' section.",
+            "Internet connection and a web browser."
+          ],
+          "steps": [
+            "Login to MyIDEX HUB and navigate to the Master section.",
+            "Click on the 'Spare 3' tab from the available sub-tabs.",
+            "Enter the spare name in the 'Enter Name' field under the 'Add Spare 3' section.",
+            "Click on the blue 'Add' button to save the spare entry.",
+            "The newly added spare will appear in the list below with options to edit or delete it."
+          ],
+          "screenshots": [
+            "spare3-interface.png"
+          ]
+        },
+        {
+          "id": 29,
+          "title": "TPI Agency Master",
+          "description": "This Standard Operating Procedure (SOP) provides a step-by-step guide for managing the 'TPI Agency' section in the MyIDEX HUB system. This module is used to maintain Third-Party Inspection (TPI) agencies that are associated with various service or product quality checks.",
+          "stepsToAdd": [
+            "Navigate to the 'Master' section in the left menu.",
+            "Select 'TPI Agency' from the top menu.",
+            "In the 'Add TPI Agency' section, enter the name of the new TPI agency.",
+            "Click on the blue 'Add' button to save the new agency.",
+            "The added agency will appear in the list with a serial number."
+          ],
+          "stepsToEditOrDelete": [
+            "To edit an existing TPI agency, click the pencil (edit) icon under the 'Action' column.",
+            "Update the name and save the changes.",
+            "To delete a TPI agency, click the trash bin (delete) icon under the 'Action' column."
+          ],
+          "screenshots": [
+            "tpi-agency-interface.png"
+          ]
+        },
+        {
+          "id": 30,
+          "title": "Zone Master",
+          "description": "This document outlines the steps to manage zones in the MyIDEX HUB system under the 'Master' module.",
+          "sections": {
+            "accessing": {
+              "title": "Accessing the Zone Section",
+              "steps": [
+                "Navigate to the 'Master' tab in the left-hand menu.",
+                "Click on the 'Zone' tab from the top navigation bar.",
+                "The page displays a list of existing zones with options to edit or delete each zone."
+              ]
+            },
+            "adding": {
+              "title": "Adding a New Zone",
+              "steps": [
+                "Enter the desired zone name in the 'Add Zone' input field.",
+                "Click on the 'Add' button to save the new zone.",
+                "If you want to cancel, click the 'Cancel' button."
+              ]
+            },
+            "managing": {
+              "title": "Managing Existing Zones",
+              "actions": [
+                "Click the pencil icon under the 'Action' column to edit a zone.",
+                "Click the trash bin icon to delete a zone.",
+                "Use the search bar to filter the list of zones."
+              ]
+            }
+          },
+          "screenshots": [
+            "zone-master-interface.png"
+          ]
+        },
+        {
+          "id": 31,
+          "title": "Role Master",
+          "objective": "This SOP outlines the procedure for managing user roles within the MyIDEX HUB platform, including adding, editing, and deleting roles.",
+          "prerequisites": [
+            "Valid login credentials for accessing the MyIDEX HUB platform.",
+            "Appropriate permissions to access and modify Role data under the 'Master' module."
+          ],
+          "procedure": [
+            "Navigate to the 'Master' tab on the left navigation menu.",
+            "Select the 'Roles' sub-tab from the top menu.",
+            "Enter the desired role name in the 'Enter Role Name' field.",
+            "Choose the role type (Internal/External) from the 'Select Type' dropdown.",
+            "Click the blue 'Add' button to save the new role."
+          ],
+          "notes": [
+            "To edit a role, click the pencil (edit) icon under the 'Action' column.",
+            "To delete a role, click the trash bin icon under the 'Action' column.",
+            "You can assign permissions of different Master modules to roles by clicking the user icon in the 'Action' column."
+          ],
+          "rolePermissionMapping": {
+            "description": "Once a role is created, permissions for different modules and functionalities can be assigned by clicking the user icon under the 'Action' column.",
+            "permissionColumns": [
+              "Read",
+              "Create",
+              "Update",
+              "Delete"
+            ],
+            "steps": [
+              "Each row represents a module or feature in the system.",
+              "Use the toggle switches under Read, Create, Update, and Delete columns to enable or disable specific permissions for the role.",
+              "You can use 'Select All Permissions' or 'Select All Master' options to bulk assign permissions.",
+              "Changes are saved after clicking on the Save button and particular permissions are assigned to the specific Role."
+            ]
+          },
+          "screenshots": [
+            "role-master-interface.png",
+            "role-permission-mapping.png"
+          ]
+        },
+        {
+          "id": 33,
+          "title": "Pre Defined Field Master",
+          "description": "This SOP outlines the steps to add a Pre Defined Field in the MyIDEX HUB platform. The feature is found under the 'Master' section of the application and is used to manage custom fields that can be utilized across various modules.",
+          "steps": [
+            "Navigate to the 'Master' menu from the left-side panel.",
+            "Click on the 'Pre Defined Field' tab located in the top navigation bar.",
+            "Use the input section titled 'Add Pre Defined Field' to add new entries.",
+            {
+              "title": "Fill in the following details",
+              "substeps": [
+                "Enter Label \u2013 The name for the new field.",
+                "Select Field Type \u2013 Choose the type (e.g., textarea, number, checkbox, etc.).",
+                "Select Data Type \u2013 Choose the data type this field is associated with (Custom Form, OI Filter, Template).",
+                "Optionally, choose the Grouping Type if applicable (SO fields, OI form, etc.)."
+              ]
+            },
+            "Click the blue 'Add' button to save the new field.",
+            "The new entry will be listed in the table below once successfully added.",
+            "To edit an existing entry, click the pencil (edit) icon under the 'Action' column.",
+            "To delete an entry, click the trash (delete) icon under the 'Action' column."
+          ],
+          "notes": [
+            "Case 1: When Data Type 'Custom Forms' is selected, the predefined field will appear in Custom Forms Master.",
+            "Case 2: When Data Type 'Templates' is selected, the predefined field will appear in Template Master."
+          ],
+          "screenshots": [
+            "pre-defined-field-interface.png"
+          ]
+        },
+        {
+          "id": 34,
+          "title": "Template Master",
+          "description": "This SOP outlines the steps to manage email templates in the MyIDEX HUB platform under the Master section.",
+          "steps": [
+            {
+              "step": 1,
+              "title": "Navigate to Template Section",
+              "details": "Login to MyIDEX HUB and from the left side menu, click on 'Master'. Then select 'Template' under the 'Master' section to view the list of existing templates."
+            },
+            {
+              "step": 2,
+              "title": "Add New Template",
+              "details": "Click on the 'Add Template' button on the top right corner to create a new template."
+            },
+            {
+              "step": 3,
+              "title": "Fill Template Details",
+              "details": "Enter the Name and Subject of the template and select Applicable BU from the dropdown list."
+            },
+            {
+              "step": 4,
+              "title": "Predefined Field Master Reference",
+              "details": "The left panel shows the fields which are maintained under 'Pre Defined Field'. These fields are used as placeholders and can be dragged and dropped into the template editor.",
+              "note": "These placeholders are replaced by the actual value related to the Order."
+            },
+            {
+              "step": 5,
+              "title": "Edit or Delete Template",
+              "details": "To edit a template, click the pencil (edit) icon next to the respective template row. To delete a template, click the trash (delete) icon. Only authorized users can perform these actions."
+            }
+          ],
+          "screenshots": [
+            "template-master-interface.png",
+            "template-master-option2.png"
+          ]
+        },
+        {
+          "id": 35,
+          "title": "Custom Form Master",
+          "description": "This SOP provides detailed instructions for creating a custom form. Following these steps ensures consistency and efficiency in form development.",
+          "navigation": "Login to MyIDEX HUB and from the left side menu, click on 'Master'. Under the 'Master' section click on the Custom forms.",
+          "steps": [
+            {
+              "step": 1,
+              "title": "Insert a Panel",
+              "substeps": [
+                "Open the Custom Form Master under Masters tab.",
+                "Navigate to the Layout tab on the left panel.",
+                "Drag and drop a Panel component into the form workspace."
+              ]
+            },
+            {
+              "step": 2,
+              "title": "Insert Input Controls",
+              "forMultipleInputFields": [
+                "Navigate to the Layout tab.",
+                "Drag and drop a Columns component into the panel.",
+                "Set the number of divisions (columns) as per the requirement.",
+                "Adjust the width of each column (e.g., 6-6 for two equal columns, 4-4-4 for three equal columns).",
+                "Drag and drop the required input fields (Text Field, Number, Select, etc.) into the respective columns."
+              ],
+              "fieldConfiguration": [
+                "Label: Set a meaningful name.",
+                "Key: Do not make any changes to the key.",
+                "Validation: Define required rules (mandatory, min/max length, etc.).",
+                "Click Save for each component."
+              ],
+              "forSingleInputField": [
+                "Even if inserting only one input field, first insert a Columns component.",
+                "Set the column width to 12 to span the entire form width.",
+                "Drag and drop the desired input field into the column.",
+                "Configure the input field as needed (label, key, validation, etc.).",
+                "Click Save to apply the settings."
+              ]
+            },
+            {
+              "step": 3,
+              "title": "Insert Buttons",
+              "substeps": [
+                "Navigate to the Basic tab in the left panel.",
+                "Drag and drop a Button component directly into the panel (with or without a column container)."
+              ]
+            },
+            {
+              "step": 4,
+              "title": "Save and Test the Form",
+              "substeps": [
+                "Click the Save Form button to store all changes.",
+                "Preview the form by clicking the Preview button."
+              ]
+            }
+          ],
+          "screenshots": [
+            "custom-form-master-interface.png",
+            "custom-form-option2.png",
+            "custom-form-option3.png",
+            "custom-form-option4.png"
+          ]
+        },
+        {
+          "id": 36,
+          "title": "WorkFlow Master",
+          "description": "This Standard Operating Procedure (SOP) provides steps for managing workflow data in the MyIDEX HUB platform. It includes the process for adding, editing, and deleting entries in the workflow section under the Master module.",
+          "navigation": "Login to MyIDEX HUB and from the left side menu, click on 'Master'. Then select 'Workflow' under the 'Master' section to view the list of existing workflows.",
+          "workflowListingPage": {
+            "description": "This section allows users to view and manage existing workflows. Users can search workflows, add new workflows, and edit or delete existing ones."
+          },
+          "workflowFormPage": {
+            "description": "This section is used for creating or updating workflow details including associated business unit (multiple), reference workflow, and defining activity steps.",
+            "fields": {
+              "workflowReference": "Represents taking another workflow as a reference.",
+              "forwardAndBackwardDependency": "Check box enables both dependency columns in the activities section.",
+              "activities": {
+                "internalStage": "Internal Stage dropdown is populated from the Internal Stage master.",
+                "actionBy": "Action By dropdown is populated from the Role master.",
+                "activityID": "Activity ID is auto-generated sequentially (e.g., 101, 102...).",
+                "activityName": "Activity Name is an input field where users enter the activity name.",
+                "targetDays": "Target Days indicates the number of days required to complete the activity.",
+                "forwardDependency": "Forward Dependency defines which activity should follow the current one.",
+                "backwardDependency": "Backward Dependency is used to calculate the target date of the selected activity in a bottom-to-top flow.",
+                "backwardDateCheck": "Represents from which activity the backward calculation should start."
+              }
+            }
+          },
+          "notificationSections": {
+            "description": "There are three notification sections: Internal, Customer, and Distributor.",
+            "internal": {
+              "description": "Populated from the Role Master.",
+              "excludedRoles": [
+                "AdminL1",
+                "AdminL2",
+                "AdminL3",
+                "Distributor"
+              ]
+            },
+            "customer": {
+              "description": "Includes internal users and all three types of contact persons from the Customer Master.",
+              "contactPersonTypes": [
+                "Technical Contact Person",
+                "Commercial Contact Person",
+                "Project Contact Person"
+              ]
+            },
+            "distributor": {
+              "description": "Includes internal users and distributor names."
+            },
+            "commonFields": {
+              "description": "All three sections contain two common fields.",
+              "fields": [
+                "Template (fetched from Template Master)",
+                "Document List (fetched from Document List Master)"
+              ],
+              "purpose": "Used to define which users will receive a specific email when a particular activity is completed, along with the selected email template and documents."
+            }
+          },
+          "applicableFormList": {
+            "source": "Custom Form Master",
+            "purpose": "Used to specify which form is selected for a particular activity stage in Orders."
+          },
+          "tabName": {
+            "description": "Represents the name of the tab for a specific activity. This tab name is displayed when an order is created."
+          },
+          "activitySymbols": {
+            "plus": "Used to add a new activity to the workflow.",
+            "minus": "Used to remove an activity from the workflow."
+          },
+          "buttons": {
+            "yellowButton": "Located in the top right corner. Used to preview the flowchart of the workflow.",
+            "greenButton": "Located in the top right corner. Used to download all workflow data in Excel format."
+          },
+          "screenshots": [
+            "workflow-listing.png",
+            "workflow-form.png",
+            "workflow-activities.png"
+          ]
+        }
+      ]
+    },
+    "users": {
+      "name": "User Management",
+      "description": "User administration and role management",
+      "sections": [
+        {
+          "id": 32,
+          "title": "User Management",
+          "description": "This SOP outlines the standard operating procedure for managing users in the MyIDEX HUB system. It includes steps for listing users, adding new users, and understanding the functionality of each icon present in the user interface",
+          "userTypes": {
+            "internal": "Internal User Section",
+            "customer": "Customer User Section",
+            "distributor": "Distributor User Section"
+          },
+          "note": "Internal and Distributor users are created from the same 'Add User' page. The user is categorized based on the selected role \u2014 if the role is 'Distributor', the user appears in the Distributor listing page; otherwise, the user is listed under Internal users",
+          "listingPage": {
+            "title": "User Listing Page",
+            "description": "The user listing page provides a comprehensive overview of all internal users",
+            "icons": [
+              {
+                "icon": "\ud83d\udd12",
+                "name": "Lock icon",
+                "description": "Indicates whether a user is active or inactive"
+              },
+              {
+                "icon": "\ud83d\udce7",
+                "name": "Email box icon",
+                "description": "Used to resend the registration mail to the user"
+              },
+              {
+                "icon": "\ud83d\udc64",
+                "name": "User icon",
+                "description": "Opens the permission settings for the selected user"
+              },
+              {
+                "icon": "\ud83d\udd01",
+                "name": "Arrow icon",
+                "description": "Used to transfer assets to another user"
+              },
+              {
+                "icon": "\u270f\ufe0f",
+                "name": "Edit icon",
+                "description": "Allows editing of the existing user's information"
+              },
+              {
+                "icon": "\ud83d\uddd1\ufe0f",
+                "name": "Delete icon",
+                "description": "Deletes the user from the system"
+              }
+            ]
+          },
+          "addUserPage": {
+            "title": "Add User Page",
+            "mandatoryFields": [
+              "First Name",
+              "Last Name",
+              "Email",
+              "Role",
+              "Region",
+              "Group",
+              "User Value Stream"
+            ],
+            "note": "The dropdowns for 'Role', 'Region', 'Group', and 'User Value Stream' are dynamically populated from their respective master lists",
+            "userCreationRules": {
+              "adminL1": {
+                "description": "When creating Admin L1",
+                "rules": [
+                  "All groups and Business Units (BUs) are automatically selected",
+                  "The user can only select the region"
+                ]
+              },
+              "adminL2FromL1": {
+                "description": "When creating Admin L2 from Admin L1",
+                "rules": [
+                  "The region and groups can be selected by the user",
+                  "All Business Units (BUs) are selected by default"
+                ]
+              },
+              "adminL3FromL1": {
+                "description": "When creating Admin L3 from Admin L1",
+                "rules": [
+                  "The region, groups, and BUs will be selected by user"
+                ]
+              },
+              "adminL3FromL2": {
+                "description": "When creating Admin L3 from Admin L2",
+                "rules": [
+                  "The region is selected by default",
+                  "Groups and Business Units (BUs) are selected by user"
+                ]
+              },
+              "anyUserFromL3": {
+                "description": "When any user is created by Admin L3",
+                "rules": [
+                  "The region and groups are automatically selected",
+                  "BUs will be selected by the user"
+                ]
+              }
+            },
+            "postCreation": "After a user is created, the system sends an email to the user's registered email address. The email contains a user registration link. By clicking this link, the user can set their password via OTP verification"
+          },
+          "customerUserSection": {
+            "title": "Customer User Section",
+            "description": "Customer users are fetched from the Customer Master. Each customer entry in the system includes three types of contact persons",
+            "contactTypes": [
+              "Technical Contact Person",
+              "Commercial Contact Person",
+              "Project Contact Person"
+            ]
+          },
+          "screenshots": [
+            "role-master-interface.png",
+            "role-permission-mapping.png",
+            "user-listing.png"
+          ]
+        }
+      ]
+    },
+    "orders": {
+      "name": "Order Management",
+      "description": "Order creation, tracking, and workflow management",
+      "sections": [
+        {
+          "id": 37,
+          "title": "Order Creation & Listing",
+          "description": "This SOP provides steps for managing Orders data in the MyIDEX HUB platform",
+          "orderListingPage": {
+            "description": "The Order Listing Page displays all existing orders with customizable columns",
+            "features": [
+              "The gear (settings) icon allows the user to customize the visible columns on the order listing page",
+              "Columns such as OMS Order ID, OI Date, Sales Representative, BU/Value Stream, Status, and Current Order Stage can be selected or deselected",
+              "Click on the Add order Button for new order creation"
+            ]
+          },
+          "orderCreationForm": {
+            "fields": [
+              {
+                "name": "Sales Representative",
+                "description": "Indicates the person who created the order. Typically, this should be a user with the sales role"
+              },
+              {
+                "name": "VSM/BU",
+                "type": "dropdown",
+                "description": "Displays all value streams. It specifies the Business Unit under which the order is created"
+              },
+              {
+                "name": "Workflow",
+                "type": "dropdown",
+                "description": "Shows all workflows associated with the selected BU"
+              },
+              {
+                "name": "Order Type",
+                "source": "Order Type Master"
+              },
+              {
+                "name": "Bill to Customer Name",
+                "source": "Customer Master",
+                "autoFills": [
+                  "Bill to Customer Code",
+                  "Bill to Address"
+                ]
+              },
+              {
+                "name": "Ship to Name",
+                "source": "Customer Master",
+                "autoFills": [
+                  "Ship to Code",
+                  "Ship to Address",
+                  "Project Contact Person",
+                  "Commercial Contact Person",
+                  "Technical Contact Person"
+                ]
+              },
+              {
+                "name": "Zone",
+                "source": "Zone Master"
+              },
+              {
+                "name": "Distributor Name",
+                "description": "Shows only users with the 'Distributor' role under the selected BU"
+              },
+              {
+                "name": "Industry / Segment",
+                "autoFilled": true,
+                "basedOn": "Ship to Name"
+              },
+              {
+                "name": "SEZ",
+                "autoFilled": true,
+                "basedOn": "Ship to Name"
+              },
+              {
+                "name": "80/20 Customer",
+                "autoFilled": true,
+                "basedOn": "Ship to Name"
+              }
+            ]
+          },
+          "flowchart": {
+            "description": "A flowchart is a visual diagram that represents the sequence of steps or activities in a process",
+            "statuses": [
+              {
+                "name": "Hold",
+                "color": "red",
+                "description": "Indicates that the order is currently on hold. All In Progress activities are highlighted in red"
+              },
+              {
+                "name": "Pending",
+                "color": "gray",
+                "description": "Indicates that the activities are yet to begin"
+              },
+              {
+                "name": "In Progress",
+                "color": "yellow",
+                "description": "Indicates that activities are currently ongoing"
+              },
+              {
+                "name": "Delayed In Progress",
+                "color": "orange",
+                "description": "Indicates that the activity has passed its estimated completion date"
+              },
+              {
+                "name": "Completed",
+                "color": "green",
+                "description": "Indicates that the activity is fully completed"
+              },
+              {
+                "name": "Skipped",
+                "color": "light green",
+                "description": "Indicates that the activity was skipped due to certain reasons"
+              },
+              {
+                "name": "Partially Completed",
+                "color": "half white and half green",
+                "description": "Indicates that the activity has been partially submitted"
+              }
+            ],
+            "features": [
+              "PDF icon on top right corner for download flowchart in pdf format"
+            ]
+          },
+          "activityStage": {
+            "description": "Order's Activity Stage section displays the OMS ID and different activity tabs",
+            "features": [
+              "OMS ID is displayed in the top-left corner after the first activity submission",
+              "Top slide bar displays Tab names of all activities with their current status",
+              "Each Tab represents a different activity stage configured in Custom Form Master"
+            ],
+            "buttons": [
+              {
+                "name": "Save Data",
+                "description": "Used to save the currently filled data without submitting"
+              },
+              {
+                "name": "Skip Activity",
+                "description": "Used to skip the current activity and move to the next one"
+              },
+              {
+                "name": "Partial Submit",
+                "description": "Used to partially submit the activity when not fully completed"
+              },
+              {
+                "name": "Submit Without External Notification",
+                "description": "Submit activity without sending notifications to external users; only internal team members receive notification"
+              },
+              {
+                "name": "Final Submit",
+                "description": "Final submission of the activity once all required information is completed"
+              }
+            ]
+          },
+          "actionButtons": {
+            "location": "Top right corner",
+            "actions": [
+              {
+                "name": "Send for Approval",
+                "description": "Used when margin before order execution is less than required margin set by BLD person. Sends approval email to BLD person",
+                "workflow": "BLD person reviews and approves the margin"
+              },
+              {
+                "name": "Scope Change",
+                "description": "Used to revert the workflow back to first activity",
+                "workflow": "System resets all following activities, setting first one to In-Progress but keeps all data saved. Email notification sent to all internal stakeholders"
+              },
+              {
+                "name": "Order Detail Update",
+                "description": "Used to update details of an already submitted activity",
+                "workflow": "Sends email to all internal users involved in the order"
+              },
+              {
+                "name": "Project Hold",
+                "description": "Used to pause or hold the order for any reason",
+                "workflow": "Triggers email notification to all internal users"
+              },
+              {
+                "name": "Project Hold Release",
+                "description": "Used to resume a project that was previously on hold",
+                "workflow": "Order continues from where it was paused. Sends email notification to all internal stakeholders"
+              },
+              {
+                "name": "Reject Activity",
+                "description": "Used when a mistake is found in a previously submitted activity",
+                "workflow": "Activity is rejected with reason. Responsible user receives email about rejection"
+              },
+              {
+                "name": "Partial Submit - Completed",
+                "description": "Used when a partially submitted activity is now fully completed",
+                "workflow": "Marks the activity as fully submitted"
+              },
+              {
+                "name": "Delivered Status",
+                "description": "Used after dispatch to confirm delivery",
+                "workflow": "Displays all dispatched line items, including fields for date and attachments"
+              }
+            ]
+          },
+          "screenshots": [
+            "order-listing.png",
+            "order-creation-form.png",
+            "workflow-flowchart.png",
+            "activity-stage.png"
+          ]
+        }
+      ]
+    },
+    "dashboard": {
+      "name": "Dashboards",
+      "description": "Analytics and reporting dashboards",
+      "sections": [
+        {
+          "id": 38,
+          "title": "Common Dashboard",
+          "components": {
+            "financialGraph": {
+              "title": "Financial Graph",
+              "description": "Provides a visual representation of various sales and order-related metrics",
+              "filters": [
+                "Year",
+                "BU/Value Stream",
+                "Zone",
+                "Currency",
+                "Currency Unit"
+              ],
+              "dataDisplay": "Displays monthly data across the selected year",
+              "metrics": [
+                "Actual Sales",
+                "Forecasted Sales",
+                "Actual Sales Margin",
+                "Forecasted Sales Margin",
+                "Actual Order Inflow",
+                "Forecasted Order Inflow",
+                "Estimated Sales",
+                "Past Due Estimated Sales",
+                "Future Due Estimated Sales"
+              ],
+              "exportOptions": [
+                "PDF",
+                "Excel"
+              ]
+            },
+            "performanceGraph": {
+              "title": "Performance Graph",
+              "description": "Shows activity performance based on workflow progress",
+              "filters": [
+                "Year",
+                "BU/Value Stream",
+                "Workflow",
+                "Internal Stages"
+              ],
+              "toggleOptions": [
+                "Order",
+                "Internal Stages"
+              ],
+              "dataDisplay": "Monthly data view of activities",
+              "metrics": [
+                "All Activities",
+                "On-Time Completion",
+                "Activities Crossing Target Days",
+                "WIP (Work in Progress) Activities"
+              ],
+              "exportOptions": [
+                "PDF",
+                "Excel"
+              ]
+            }
+          },
+          "screenshots": [
+            "common-dashboard-financial.png",
+            "common-dashboard-performance.png"
+          ]
+        },
+        {
+          "id": 39,
+          "title": "Customer Dashboard",
+          "description": "This dashboard provides customer-specific order tracking and service request management",
+          "components": {
+            "customerSelection": {
+              "type": "dropdown",
+              "description": "Select a specific customer to view their data"
+            },
+            "activeOrders": {
+              "description": "Displays the number of ongoing orders for the selected customer"
+            },
+            "pastOrders": {
+              "description": "Displays the number of completed orders for the selected customer"
+            },
+            "pendingActions": {
+              "description": "Indicates the number of payment reminders sent to the customer"
+            },
+            "openRequests": {
+              "description": "Shows the count of service requests raised against the selected customer",
+              "action": "If no open requests, a new service request can be created by clicking 'Create New'"
+            },
+            "recentOrders": {
+              "description": "Displays a table of customer's recent orders",
+              "columns": [
+                "PO number",
+                "order status",
+                "expected delivery date"
+              ]
+            },
+            "orderListing": {
+              "description": "Opens a complete list of all orders for the selected customer"
+            },
+            "recentOrderStatus": {
+              "description": "Shows the status of most recent order using visual order tracker",
+              "includes": [
+                "PO number",
+                "PO date"
+              ],
+              "orderTrackerStages": [
+                {
+                  "name": "Order Initiated",
+                  "trigger": "When first submission is made by sales team, generating OMS-ID"
+                },
+                {
+                  "name": "Order Acknowledged",
+                  "trigger": "When next status for all line items from SO is >= 536 for respective OMS-ID"
+                },
+                {
+                  "name": "Engineering & Procurement",
+                  "trigger": "When next status is >= 532 and 'OMS Engineering Completed' button is activated"
+                },
+                {
+                  "name": "Manufacturing",
+                  "trigger": "When next status for all line items from SO is >= 540"
+                },
+                {
+                  "name": "Dispatched",
+                  "trigger": "When next status for all line items from SO is >= 600"
+                },
+                {
+                  "name": "Delivered",
+                  "trigger": "Final stage manually updated by dispatch team"
+                }
+              ]
+            },
+            "detailedView": {
+              "orderInformation": {
+                "source": "JDE environment",
+                "fields": [
+                  "PO No - Purchase Order Number",
+                  "PO Date - Date of the Purchase Order",
+                  "IDEX SO No - IDEX Sales Order Number",
+                  "IDEX SO Date - Date the Sales Order was created",
+                  "Requested Date - Delivery date requested by customer",
+                  "Payment Terms - Terms of payment (e.g., FI)"
+                ]
+              },
+              "paymentStatus": {
+                "description": "Shows current milestone payment status",
+                "options": [
+                  "Paid",
+                  "Unpaid"
+                ]
+              },
+              "pendingActions": {
+                "description": "Displays number of payment reminders sent for this order"
+              },
+              "orderLineItemDetails": {
+                "source": "JDE environment",
+                "fields": [
+                  "Serial Number (Sr No)",
+                  "Line Number",
+                  "Customer Item Number",
+                  "Customer Item Description",
+                  "IDEX Item Number",
+                  "IDEX Item Description",
+                  "Quantity Ordered",
+                  "Current Status (e.g., Manufacturing)"
+                ]
+              },
+              "viewDocument": {
+                "location": "Bottom-Right Corner",
+                "description": "Opens list of documents attached under Required Document List for the specific order"
+              }
+            }
+          },
+          "screenshots": [
+            "customer-dashboard-overview.png",
+            "order-tracker.png",
+            "order-details.png"
+          ]
+        },
+        {
+          "id": 40,
+          "title": "Executive Dashboard",
+          "description": "High-level executive view of key business metrics and performance indicators",
+          "keyComponents": {
+            "monthsDetermination": "Based on the OMS ID generation month",
+            "dataFiltering": "Displayed based on the selected Business Unit (BU)",
+            "currencyConversion": "Data is converted according to the selected currency"
+          },
+          "leftCard": {
+            "metrics": [
+              {
+                "name": "Forecasted Sales",
+                "source": "KPI inputs of sales forecast"
+              },
+              {
+                "name": "Forecasted Sales Margin",
+                "source": "KPI input of Sales forecast margin"
+              },
+              {
+                "name": "Actual Sales",
+                "calculation": "Addition of ExtPrice of all order line no from JDE"
+              }
+            ]
+          },
+          "rightCard": {
+            "metrics": [
+              {
+                "name": "Forecasted Order Inflow",
+                "source": "KPI inputs of order inflow forecast"
+              },
+              {
+                "name": "Forecasted Order Inflow Margin",
+                "source": "KPI inputs of order inflow margin"
+              },
+              {
+                "name": "Actual Order Inflow",
+                "calculation": "Addition of ExtPrice of Order line no if order exists in JDE else Addition of Customer PO value from IDEX portal"
+              }
+            ]
+          },
+          "rightSideGraph": {
+            "metrics": [
+              {
+                "name": "Order Booked in JDE",
+                "calculation": "Addition of ExtPrices of all orders whose Sales order No. is generated (Exist in JDE)"
+              },
+              {
+                "name": "Engineering",
+                "calculation": "Addition of Customer PO value of orders whose current stage is Engineering (Decided by Action by ID)"
+              },
+              {
+                "name": "Application",
+                "calculation": "Addition of Customer PO value of orders whose current stage is Application (Decided by Action by ID)"
+              },
+              {
+                "name": "CSR",
+                "calculation": "Addition of Customer PO value of orders whose current stage is CSR (Decided by Action by ID)"
+              }
+            ]
+          },
+          "functionTiles": {
+            "basedOn": "Selected Stage",
+            "tiles": [
+              {
+                "name": "Functional OTD %",
+                "formula": "(Completed within target days / Total number of completed stages) * 100"
+              },
+              {
+                "name": "Functional Lead Days",
+                "formula": "(Summation of all Stage's actual days / Total no. stages) * 100"
+              },
+              {
+                "name": "Functional % Accuracy",
+                "description": "Percentage of those order stages which are not rejected",
+                "example": "5 are rejected out of 10 orders then 50%"
+              },
+              {
+                "name": "Burden Productivity Savings",
+                "status": "Client Side Pending"
+              },
+              {
+                "name": "Total Order Book Days",
+                "description": "Difference between the OMS ID generation date and sales order generation date"
+              }
+            ]
+          },
+          "screenshots": [
+            "executive-dashboard.png"
+          ]
+        }
+      ]
+    },
+    "service": {
+      "name": "Service Requests",
+      "description": "Customer service request management and tracking",
+      "sections": [
+        {
+          "id": 41,
+          "title": "Service Request Module",
+          "description": "This SOP provides steps for managing Service Request data in the MyIDEX HUB platform",
+          "serviceRequestsListing": {
+            "description": "Lists all service requests along with their statuses and associated customer PO numbers",
+            "actions": [
+              "Click Add service button to open service request form",
+              "Click pencil icon or trash icon to edit or delete existing service request",
+              "Click middle icon between edit/delete to generate CAPA report"
+            ]
+          },
+          "customerServiceRequestForm": {
+            "category": "Customer Service",
+            "description": "First form under Service Request module, used to log service requests from customers",
+            "fields": [
+              {
+                "name": "Customer Name",
+                "type": "dropdown",
+                "source": "Customer Master",
+                "description": "Select the customer for whom the service request is being generated"
+              },
+              {
+                "name": "Contact Person Details",
+                "fields": [
+                  "Contact Person Name",
+                  "Email Address",
+                  "Mobile Number"
+                ],
+                "description": "Fill in contact person's details for the respective customer"
+              },
+              {
+                "name": "Nature of Complaint",
+                "type": "dropdown",
+                "source": "Nature of Complaint master"
+              },
+              {
+                "name": "Logged-in User Details",
+                "fields": [
+                  "Complaint raised by Name",
+                  "Email",
+                  "Mobile No."
+                ],
+                "autoFilled": true,
+                "description": "Auto-filled with currently logged-in user information"
+              },
+              {
+                "name": "Customer PO Number",
+                "type": "dropdown",
+                "description": "Displays all purchase order numbers associated with selected customer"
+              },
+              {
+                "name": "Auto-Fetched SO Details",
+                "basedOn": "Selected PO number",
+                "fields": [
+                  "Customer Product Code",
+                  "Customer Product Description",
+                  "IDEX SO Number",
+                  "IDEX Product Code",
+                  "IDEX Product Description"
+                ]
+              },
+              {
+                "name": "Failure Description",
+                "type": "text",
+                "description": "Manually input failure description"
+              },
+              {
+                "name": "Application of Product",
+                "type": "text",
+                "description": "Manually input application in which product is used"
+              },
+              {
+                "name": "File Upload Fields",
+                "fields": [
+                  "Nameplate Picture",
+                  "Failure Picture",
+                  "Datasheet"
+                ]
+              }
+            ]
+          },
+          "internalTeamForm": {
+            "description": "Filled by service receiver person of respective Business Unit (BU) associated with order",
+            "fields": [
+              {
+                "name": "Serial Number",
+                "description": "Enter serial number of the product"
+              },
+              {
+                "name": "Tag Number",
+                "description": "Enter tag number related to the product"
+              },
+              {
+                "name": "Expectation",
+                "description": "Define expectation for service request resolution"
+              },
+              {
+                "name": "Product under Warranty",
+                "type": "dropdown"
+              },
+              {
+                "name": "Type of Supply",
+                "type": "dropdown"
+              },
+              {
+                "name": "Severity",
+                "type": "dropdown",
+                "description": "Choose severity level of the issue"
+              },
+              {
+                "name": "Expected Closure Date",
+                "type": "date",
+                "description": "Select expected date of service request closure"
+              },
+              {
+                "name": "Forward Request To",
+                "type": "dropdown",
+                "description": "Select person (based on role) who will receive email notification when form is submitted"
+              }
+            ]
+          },
+          "closureReportForm": {
+            "description": "Final form to close the service request",
+            "fields": [
+              {
+                "name": "Schedule a call / Need visit",
+                "type": "dropdown",
+                "description": "Select appropriate option for follow-up action"
+              },
+              {
+                "name": "Expected date of call",
+                "type": "date",
+                "description": "Select date when call or visit is expected"
+              },
+              {
+                "name": "Observation",
+                "type": "textarea",
+                "description": "Enter relevant observations made during service or site visit"
+              },
+              {
+                "name": "Closure Remark",
+                "type": "textarea",
+                "description": "Provide final remarks or summary regarding resolution"
+              },
+              {
+                "name": "Name",
+                "type": "text",
+                "description": "Enter name of person completing closure report"
+              }
+            ],
+            "actions": [
+              {
+                "name": "Submit",
+                "description": "Save and submit closure details"
+              },
+              {
+                "name": "Closure",
+                "description": "Mark request as closed"
+              },
+              {
+                "name": "Generate & Download",
+                "description": "Generate and download report of closure request"
+              },
+              {
+                "name": "Cancel",
+                "description": "Discard changes or exit form"
+              }
+            ],
+            "note": "When service request is closed, closure report will be attached to email and sent to all service-related persons"
+          },
+          "screenshots": [
+            "service-listing.png",
+            "customer-service-form.png",
+            "internal-team-form.png",
+            "closure-report-form.png"
+          ]
+        }
+      ]
+    }
+  },
+  "commonTerminology": {
+    "OMS": "Order Management System",
+    "BU": "Business Unit",
+    "VSM": "Value Stream",
+    "JDE": "JD Edwards (ERP System)",
+    "SO": "Sales Order",
+    "PO": "Purchase Order",
+    "TPI": "Third Party Inspection",
+    "SEZ": "Special Economic Zone",
+    "OTD": "On-Time Delivery",
+    "WIP": "Work In Progress",
+    "KPI": "Key Performance Indicator",
+    "CAPA": "Corrective and Preventive Action",
+    "OTP": "One-Time Password"
+  },
+  "systemFeatures": {
+    "authentication": {
+      "otpVerification": true,
+      "roleBasedAccess": true,
+      "passwordReset": true
+    },
+    "notifications": {
+      "emailNotifications": true,
+      "workflowAlerts": true,
+      "paymentReminders": true
+    },
+    "dataExport": {
+      "formats": [
+        "PDF",
+        "Excel"
+      ],
+      "reports": [
+        "Financial",
+        "Performance",
+        "Workflow",
+        "CAPA"
+      ]
+    },
+    "integrations": {
+      "jdeERP": true,
+      "emailService": true
+    }
+  }
+}
