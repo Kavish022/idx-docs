@@ -672,7 +672,9 @@ export class DocsComponent implements OnInit {
   }
 
   getModulesList() {
-    return this.data() ? Object.entries(this.data()!.modules).map(([key, value]) => ({ key, value })) : [];
+    return this.data()
+      ? Object.entries(this.data()!.modules).map(([key, value]) => ({ key, value }))
+      : [];
   }
 
   getModuleEmoji(key: string): string {
