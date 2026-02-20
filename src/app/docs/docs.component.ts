@@ -200,7 +200,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                         }}</span>
                         <span class="sidebar-group-name">{{ mod.name }}</span>
                         <span class="sidebar-group-count">{{ filteredSections.length }}</span>
-                        <svg
+                        <!-- <svg
                           class="sidebar-chevron"
                           [class.open]="isExpanded"
                           viewBox="0 0 12 12"
@@ -213,7 +213,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                             stroke-width="1.5"
                             stroke-linecap="round"
                           />
-                        </svg>
+                        </svg> -->
                       } @else {
                         <span
                           class="sidebar-group-icon-only"
@@ -788,41 +788,43 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                   <!-- FIELDS TABLE -->
                   @if (section['fields']?.length) {
                     <div class="content-block" id="fields">
-                      <h2 class="block-heading">Fields Reference</h2>
-                      <div class="table-wrap">
-                        <table class="ref-table">
-                          <thead>
-                            <tr>
-                              <th>Field</th>
-                              <th>Type</th>
-                              <th>Required</th>
-                              <th>Notes</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            @for (field of section['fields']; track field.name) {
+                      <details class="fields-details">
+                        <summary class="fields-summary"><span>Fields Reference</span></summary>
+                        <div class="table-wrap">
+                          <table class="ref-table">
+                            <thead>
                               <tr>
-                                <td>
-                                  <code>{{ field.name }}</code>
-                                </td>
-                                <td>
-                                  <span class="type-badge">{{ field.type }}</span>
-                                </td>
-                                <td>
-                                  @if (field.required) {
-                                    <span class="req-yes">Yes</span>
-                                  } @else {
-                                    <span class="req-no">No</span>
-                                  }
-                                </td>
-                                <td class="td-muted">
-                                  {{ field.description || field.source || '—' }}
-                                </td>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Notes</th>
                               </tr>
-                            }
-                          </tbody>
-                        </table>
-                      </div>
+                            </thead>
+                            <tbody>
+                              @for (field of section['fields']; track field.name) {
+                                <tr>
+                                  <td>
+                                    <code>{{ field.name }}</code>
+                                  </td>
+                                  <td>
+                                    <span class="type-badge">{{ field.type }}</span>
+                                  </td>
+                                  <td>
+                                    @if (field.required) {
+                                      <span class="req-yes">Yes</span>
+                                    } @else {
+                                      <span class="req-no">No</span>
+                                    }
+                                  </td>
+                                  <td class="td-muted">
+                                    {{ field.description || field.source || '—' }}
+                                  </td>
+                                </tr>
+                              }
+                            </tbody>
+                          </table>
+                        </div>
+                      </details>
                     </div>
                   }
 
@@ -832,30 +834,33 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                     <div class="content-block callout-green-block" id="addingValueStream">
                       <h2 class="block-heading">{{ avs['title'] }}</h2>
                       @if (avs['fields']?.length) {
-                        <div class="table-wrap">
-                          <table class="ref-table">
-                            <thead>
-                              <tr>
-                                <th>Field</th>
-                                <th>Type</th>
-                                <th>Required</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              @for (f of avs['fields']; track f.name) {
+                        <details class="fields-details">
+                          <summary class="fields-summary"><span>Fields</span></summary>
+                          <div class="table-wrap">
+                            <table class="ref-table">
+                              <thead>
                                 <tr>
-                                  <td>
-                                    <code>{{ f.name }}</code>
-                                  </td>
-                                  <td>
-                                    <span class="type-badge">{{ f.type }}</span>
-                                  </td>
-                                  <td>{{ f.required ? '✓' : '—' }}</td>
+                                  <th>Field</th>
+                                  <th>Type</th>
+                                  <th>Required</th>
                                 </tr>
-                              }
-                            </tbody>
-                          </table>
-                        </div>
+                              </thead>
+                              <tbody>
+                                @for (f of avs['fields']; track f.name) {
+                                  <tr>
+                                    <td>
+                                      <code>{{ f.name }}</code>
+                                    </td>
+                                    <td>
+                                      <span class="type-badge">{{ f.type }}</span>
+                                    </td>
+                                    <td>{{ f.required ? '✓' : '—' }}</td>
+                                  </tr>
+                                }
+                              </tbody>
+                            </table>
+                          </div>
+                        </details>
                       }
                       @if (avs['steps']?.length) {
                         <ol class="step-ol mt-12">

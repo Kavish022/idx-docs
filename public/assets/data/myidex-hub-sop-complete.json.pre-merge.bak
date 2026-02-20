@@ -283,20 +283,6 @@
           ],
           "screenshots": [
             "region-master-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Select the currency from the 'Select Currency' dropdown.",
-              "type": "string"
-            },
-            {
-              "name": "Click the blue 'Add' button to save the new region.",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot of Region Management Page:",
-              "type": "string"
-            }
           ]
         },
         {
@@ -335,44 +321,6 @@
           ],
           "screenshots": [
             "groups-master-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Select the appropriate Region from the 'Select Region*' drop",
-              "type": "string"
-            },
-            {
-              "name": "Click the 'Add' button to save the group.",
-              "type": "string"
-            },
-            {
-              "name": "The newly added group will appear in the list below.",
-              "type": "string"
-            },
-            {
-              "name": "Step 3: Edit or Delete a Group",
-              "type": "string"
-            },
-            {
-              "name": "To edit or delete an existing group:",
-              "type": "string"
-            },
-            {
-              "name": "Click the edit (pencil) icon next to the group you want to m",
-              "type": "string"
-            },
-            {
-              "name": "Make the necessary changes and click 'Update'.",
-              "type": "string"
-            },
-            {
-              "name": "To delete a group, click the delete (trash bin) icon.",
-              "type": "string"
-            },
-            {
-              "name": "Note: Deleting a group is irreversible and should be done wi",
-              "type": "string"
-            }
           ]
         },
         {
@@ -421,40 +369,6 @@
           },
           "screenshots": [
             "value-stream-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "To add a new value stream:",
-              "type": "string"
-            },
-            {
-              "name": "Enter the Value Stream Name.",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot of 'Add Value Stream' Section:",
-              "type": "string"
-            },
-            {
-              "name": "Each row in the Value Stream table has action icons:",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Objective",
-            "Navigation to Value Stream",
-            "Login to MyIDEX HUB.",
-            "From the left-hand menu, click on 'Master'.",
-            "Navigate to the top navigation bar and click on 'Value Stream'.",
-            "Adding a New Value Stream",
-            "Enter the Value Stream Name.",
-            "Enter the Margin %.",
-            "Select the Group from the dropdown.",
-            "Enter Region.",
-            "Select a Service Receiver from the dropdown.",
-            "Click on 'Add' to save the value stream.",
-            "Editing or Deleting a Value Stream"
           ]
         },
         {
@@ -489,52 +403,6 @@
           ],
           "screenshots": [
             "internal-stage-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Step 2: Access Internal Stage Tab",
-              "type": "string"
-            },
-            {
-              "name": "Step 3: Add a New Internal Stage",
-              "type": "string"
-            },
-            {
-              "name": "To add a new internal stage:",
-              "type": "string"
-            },
-            {
-              "name": "Enter the stage name in the 'Enter Name' field.",
-              "type": "string"
-            },
-            {
-              "name": "Click the blue 'Add' button to save the new stage.",
-              "type": "string"
-            },
-            {
-              "name": "To cancel the action, click the 'Cancel' button.",
-              "type": "string"
-            },
-            {
-              "name": "Step 4: Manage Existing Stages",
-              "type": "string"
-            },
-            {
-              "name": "The list below the input field shows all existing internal s",
-              "type": "string"
-            },
-            {
-              "name": "A serial number.",
-              "type": "string"
-            },
-            {
-              "name": "The stage name.",
-              "type": "string"
-            },
-            {
-              "name": "Action buttons (Edit and Delete) on the right side.",
-              "type": "string"
-            }
           ]
         },
         {
@@ -585,103 +453,6 @@
           "screenshots": [
             "payment-terms-simple.png",
             "payment-terms-milestone.png"
-          ],
-          "fields": [
-            {
-              "name": "shows details such as Code, Description, and Total Credit Da",
-              "type": "string"
-            },
-            {
-              "name": "To add a new payment term:",
-              "type": "string"
-            },
-            {
-              "name": "Fill in the following details:",
-              "type": "string"
-            },
-            {
-              "name": "Payment Type: Select 'Simple Payment Term'",
-              "type": "string"
-            },
-            {
-              "name": "Payment Type: Select 'Simple Payment Term'",
-              "type": "string"
-            },
-            {
-              "name": "Payment Description: Provide a description (e.g., 30 Days Fr",
-              "type": "string"
-            },
-            {
-              "name": "Payment Description: Provide a description (e.g., 30 Days Fr",
-              "type": "string"
-            },
-            {
-              "name": "Code: Enter a unique code (e.g., BP1)",
-              "type": "string"
-            },
-            {
-              "name": "Days: Enter the number of credit days (e.g., 30)",
-              "type": "string"
-            },
-            {
-              "name": "Follow these steps to navigate to the Payment Terms section:",
-              "type": "string"
-            },
-            {
-              "name": "Step 1: Log into the MYIDEX HUB system.",
-              "type": "string"
-            },
-            {
-              "name": "Step 2: Click on the 'Master' tab on the top menu.",
-              "type": "string"
-            },
-            {
-              "name": "Step 3: Select 'Payment Terms' from the options.",
-              "type": "string"
-            },
-            {
-              "name": "Step 1: Click on the 'Add Payment Terms' button on the top r",
-              "type": "string"
-            },
-            {
-              "name": "Step 2: Fill in the required details in the Milestone Paymen",
-              "type": "string"
-            },
-            {
-              "name": "Step 2: Fill in the required details in the Milestone Paymen",
-              "type": "string"
-            },
-            {
-              "name": "Payment Type",
-              "type": "string"
-            },
-            {
-              "name": "Payment Description",
-              "type": "string"
-            },
-            {
-              "name": "Step 3: Click on the 'Add' button to save the new payment te",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Login to MyIDEX HUB.",
-            "Navigate to the 'Master' section in the left navigation panel.",
-            "Click on 'Payment Terms' tab at the top.",
-            "Viewing Simple Payment Terms",
-            "Adding a New Payment Term",
-            "Click on the 'Add Payment Terms' button.",
-            "Fill in the following details:",
-            "Click on the 'Add' button to save the term or 'Cancel' to abort the operation.",
-            "Accessing the Payment Terms Page",
-            "Step 1: Log into the MYIDEX HUB system.",
-            "Step 2: Click on the 'Master' tab on the top menu.",
-            "Step 3: Select 'Payment Terms' from the options.",
-            "Adding a New Milestone Payment Term",
-            "Step 1: Click on the 'Add Payment Terms' button on the top right.",
-            "Step 2: Fill in the required details in the Milestone Payment Term form:",
-            "Step 3: Click on the 'Add' button to save the new payment term."
           ]
         },
         {
@@ -708,24 +479,6 @@
           },
           "screenshots": [
             "80-20-product-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Click the 'Update' button to save changes.",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "In the 'Add 80/20 Product' section, enter the name of the product (e.g., '80' or '20').",
-            "Click the 'Add' button to save the new entry.",
-            "The new entry will appear in the table below with an auto-generated serial number.",
-            "Click the pencil (edit) icon in the 'Action' column for the entry you wish to update.",
-            "Modify the name as needed in the text field.",
-            "Click the 'Update' button to save changes.",
-            "Click the trash bin (delete) icon in the 'Action' column for the respective entry.",
-            "Confirm deletion if prompted. The entry will be removed from the list.",
-            "| P a g e"
           ]
         },
         {
@@ -743,24 +496,6 @@
           ],
           "screenshots": [
             "80-20-customer-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Click on the 'Add' button to save the entry.",
-              "type": "string"
-            },
-            {
-              "name": "To edit or delete an existing entry, use the respective icon",
-              "type": "string"
-            },
-            {
-              "name": "Use the search bar to find specific entries quickly.",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot:",
-              "type": "string"
-            }
           ]
         },
         {
@@ -786,16 +521,6 @@
           ],
           "screenshots": [
             "application-master-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Step 3: View, Edit, or Delete Application",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot: Application Management Interface",
-              "type": "string"
-            }
           ]
         },
         {
@@ -818,20 +543,6 @@
           ],
           "screenshots": [
             "currency-master-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "b. Enter the corresponding Symbol in the 'Symbol*' field.",
-              "type": "string"
-            },
-            {
-              "name": "c. Enter the Exchange Rate (Base: INR) in the corresponding ",
-              "type": "string"
-            },
-            {
-              "name": "To edit or delete an existing currency, use the respective i",
-              "type": "string"
-            }
           ]
         },
         {
@@ -855,40 +566,6 @@
           ],
           "screenshots": [
             "delayed-reason-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "To add a new reason:",
-              "type": "string"
-            },
-            {
-              "name": "Enter the reason in the input box labeled \"Enter Name*\".",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "Steps to Access and Manage Document List:",
-              "type": "string"
-            },
-            {
-              "name": "The Document List page will be displayed, as shown below:",
-              "type": "string"
-            },
-            {
-              "name": "To add a new document:",
-              "type": "string"
-            },
-            {
-              "name": "a. Enter the document name in the \"Name*\" input box under \"A",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            }
           ]
         },
         {
@@ -912,20 +589,6 @@
           ],
           "screenshots": [
             "document-list-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "These three sections are used to define:",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "Applicable Form List:",
-              "type": "string"
-            }
           ]
         },
         {
@@ -943,22 +606,6 @@
           },
           "screenshots": [
             "freight-scope-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "• Use the search bar to filter freight scopes by name quickl",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Viewing Freight Scope",
-            "Managing Freight Scope",
-            "| P a g e"
           ]
         },
         {
@@ -981,20 +628,6 @@
           ],
           "screenshots": [
             "industry-segment-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "To add a new Industry/Segment:",
-              "type": "string"
-            },
-            {
-              "name": "b. Enter the industry/segment name in the text box.",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1018,24 +651,6 @@
           ],
           "screenshots": [
             "insurance-scope-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "To edit an existing entry, click the pencil (edit) icon unde",
-              "type": "string"
-            },
-            {
-              "name": "To delete an entry, click the trash (delete) icon under the ",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot:",
-              "type": "string"
-            },
-            {
-              "name": "Figure 1: Insurance Scope interface on MyIDEX HUB.",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1083,78 +698,6 @@
           ],
           "screenshots": [
             "kpi-settings-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Enter monthly data for Sales, Margin %, Order Inflow, etc.",
-              "type": "string"
-            },
-            {
-              "name": "Click the 'Add' button to save the data.",
-              "type": "string"
-            },
-            {
-              "name": "Step 3: Edit KPI Setting",
-              "type": "string"
-            },
-            {
-              "name": "Locate the KPI entry you want to edit in the list.",
-              "type": "string"
-            },
-            {
-              "name": "Click the pencil/edit icon under the 'Action' column.",
-              "type": "string"
-            },
-            {
-              "name": "Update the necessary information in the form.",
-              "type": "string"
-            },
-            {
-              "name": "Click the 'Update' or 'Save' button to apply the changes.",
-              "type": "string"
-            },
-            {
-              "name": "Step 4: Delete KPI Setting",
-              "type": "string"
-            },
-            {
-              "name": "Locate the KPI entry you wish to delete.",
-              "type": "string"
-            },
-            {
-              "name": "Click the trash/delete icon under the 'Action' column.",
-              "type": "string"
-            },
-            {
-              "name": "Confirm the deletion when prompted.",
-              "type": "string"
-            },
-            {
-              "name": "The KPI entry will be permanently removed from the list.",
-              "type": "string"
-            },
-            {
-              "name": "NOTE : \"Only one KPI Setting can be added per BU for a parti",
-              "type": "string"
-            }
-          ],
-          "procedure": [
-            "Log in to the MyIDEX HUB application.",
-            "From the left-hand sidebar, click on 'KPI Setting' to view the KPI records.",
-            "Click on the 'Add KPI Setting' button located at the top-right.",
-            "Fill in the required fields such as BU, Year, Annual Sale, Margins, etc.",
-            "Enter monthly data for Sales, Margin %, Order Inflow, etc.",
-            "Click the 'Add' button to save the data.",
-            "| P a g e",
-            "Locate the KPI entry you want to edit in the list.",
-            "Click the pencil/edit icon under the 'Action' column.",
-            "Update the necessary information in the form.",
-            "Click the 'Update' or 'Save' button to apply the changes.",
-            "Locate the KPI entry you wish to delete.",
-            "Click the trash/delete icon under the 'Action' column.",
-            "Confirm the deletion when prompted.",
-            "The KPI entry will be permanently removed from the list.",
-            "| P a g e"
           ]
         },
         {
@@ -1176,56 +719,6 @@
           ],
           "screenshots": [
             "ld-clause-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Follow the steps below to manage LD Clauses:",
-              "type": "string"
-            },
-            {
-              "name": "Step 1: Log in to the MyIDEX HUB platform.",
-              "type": "string"
-            },
-            {
-              "name": "Step 2: Navigate to the 'Master' section from the left-hand ",
-              "type": "string"
-            },
-            {
-              "name": "Step 3: Click on the 'LD Clauses' tab at the top.",
-              "type": "string"
-            },
-            {
-              "name": "Step 4: To add a new clause, enter the name of the LD Clause",
-              "type": "string"
-            },
-            {
-              "name": "Step 4: To add a new clause, enter the name of the LD Clause",
-              "type": "string"
-            },
-            {
-              "name": "Step 5: To edit an existing entry, click the pencil icon und",
-              "type": "string"
-            },
-            {
-              "name": "Step 6: To delete an entry, click the trash icon under the '",
-              "type": "string"
-            },
-            {
-              "name": "Below is a screenshot of the LD Clauses interface:",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "Notes",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1253,20 +746,6 @@
           ],
           "screenshots": [
             "inco-terms-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "b. Select the type from the dropdown (e.g., import).",
-              "type": "string"
-            },
-            {
-              "name": "c. Enter a description in the 'Enter Description' field.",
-              "type": "string"
-            },
-            {
-              "name": "Edit or Delete Existing Inco Terms",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1290,20 +769,6 @@
           ],
           "screenshots": [
             "nature-of-complaints-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "To edit an existing complaint type, click the pencil icon ne",
-              "type": "string"
-            },
-            {
-              "name": "To delete an existing complaint type, click the trash bin ic",
-              "type": "string"
-            },
-            {
-              "name": "Use the search bar to quickly locate a specific complaint ty",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1319,84 +784,6 @@
           ],
           "screenshots": [
             "nominated-transport-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "the MyIDEX HUB platform. Users can add, edit, or delete tran",
-              "type": "string"
-            },
-            {
-              "name": "Figure 1: Nominated Transport Interface in MyIDEX HUB",
-              "type": "string"
-            },
-            {
-              "name": "To add a new transporter, enter the name in the input box un",
-              "type": "string"
-            },
-            {
-              "name": "To edit an existing transporter name, click the edit icon un",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "Order Type Master",
-              "type": "string"
-            },
-            {
-              "name": "Objective:",
-              "type": "string"
-            },
-            {
-              "name": "This SOP outlines the steps to add and manage Order Types wi",
-              "type": "string"
-            },
-            {
-              "name": "Prerequisites:",
-              "type": "string"
-            },
-            {
-              "name": "User must have the necessary permissions to add or edit Orde",
-              "type": "string"
-            },
-            {
-              "name": "Steps to Add Order Type:",
-              "type": "string"
-            },
-            {
-              "name": "Steps to Add Order Type:",
-              "type": "string"
-            },
-            {
-              "name": "Click on the \"Order Type\" tab from the top sub-menu.",
-              "type": "string"
-            },
-            {
-              "name": "Enter the name of the Order Type in the \"Enter Name*\" field.",
-              "type": "string"
-            },
-            {
-              "name": "Click the \"Add\" button to add the Order Type.",
-              "type": "string"
-            },
-            {
-              "name": "To edit an existing Order Type, click the pencil icon under ",
-              "type": "string"
-            },
-            {
-              "name": "To delete an Order Type, click the trash bin icon under the ",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot:",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1417,24 +804,6 @@
           ],
           "screenshots": [
             "order-type-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Click the \"Add\" button to add the Order Type.",
-              "type": "string"
-            },
-            {
-              "name": "To edit an existing Order Type, click the pencil icon under ",
-              "type": "string"
-            },
-            {
-              "name": "To delete an Order Type, click the trash bin icon under the ",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot:",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1457,12 +826,6 @@
           ],
           "screenshots": [
             "plant-location-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Step 3: View or Manage Existing Locations",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1486,41 +849,6 @@
           },
           "screenshots": [
             "product-family-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Click the blue 'Add' button to save the new product family.",
-              "type": "string"
-            },
-            {
-              "name": "Edit/Delete Product Family",
-              "type": "string"
-            },
-            {
-              "name": "Each product family listed has two actions under the 'Action",
-              "type": "string"
-            },
-            {
-              "name": "Edit (pencil icon): Modify the existing name.",
-              "type": "string"
-            },
-            {
-              "name": "Delete (trash bin icon): Remove the product family.",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Overview",
-            "Navigation",
-            "Log into the MyIDEX HUB system.",
-            "Navigate to the left sidebar and click on 'Master'.",
-            "Click on the 'Product Family' tab on the top menu.",
-            "Add Product Family",
-            "Enter the name of the product family in the 'Enter Name' field.",
-            "Click the blue 'Add' button to save the new product family.",
-            "Edit/Delete Product Family",
-            "| P a g e"
           ]
         },
         {
@@ -1544,20 +872,6 @@
           ],
           "screenshots": [
             "products-master-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "The added product will appear in the table below.",
-              "type": "string"
-            },
-            {
-              "name": "To edit or delete a product, use the respective icons under ",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot:",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1578,40 +892,6 @@
           ],
           "screenshots": [
             "rejected-reasons-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Click on the blue 'Add' button to save the new reason.",
-              "type": "string"
-            },
-            {
-              "name": "To cancel, click on the 'Cancel' button.",
-              "type": "string"
-            },
-            {
-              "name": "Locate the reason in the list displayed.",
-              "type": "string"
-            },
-            {
-              "name": "Use the edit (pencil) icon under the 'Action' column to modi",
-              "type": "string"
-            },
-            {
-              "name": "Use the delete (trash bin) icon to remove the reason from th",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Navigate to the 'Master' section from the sidebar.",
-            "Click on the 'Rejected Reason' tab in the top navigation menu.",
-            "Enter the reason for rejection in the 'Enter Name' field under 'Add Rejected Reasons'.",
-            "Click on the blue 'Add' button to save the new reason.",
-            "To cancel, click on the 'Cancel' button.",
-            "Locate the reason in the list displayed.",
-            "Use the edit (pencil) icon under the 'Action' column to modify the reason.",
-            "Use the delete (trash bin) icon to remove the reason from the list.",
-            "| P a g e"
           ]
         },
         {
@@ -1638,20 +918,6 @@
           ],
           "screenshots": [
             "sez-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Click the 'Add' button to save the entry.",
-              "type": "string"
-            },
-            {
-              "name": "The new entry will appear in the list below with options to ",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot: SEZ Management Interface",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1669,24 +935,6 @@
           ],
           "screenshots": [
             "spare1-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Steps to Add a Spare 1 Entry:",
-              "type": "string"
-            },
-            {
-              "name": "In the 'Add Spare 1' section, enter the desired name into th",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot:",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1703,20 +951,6 @@
           ],
           "screenshots": [
             "spare2-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Click on the \"Add\" button to save the entry.",
-              "type": "string"
-            },
-            {
-              "name": "The newly added item will appear in the list below with opti",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot:",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1737,24 +971,6 @@
           ],
           "screenshots": [
             "spare3-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Step 4: Click on the blue 'Add' button to save the spare ent",
-              "type": "string"
-            },
-            {
-              "name": "Step 5: The newly added spare will appear in the list below ",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot",
-              "type": "string"
-            },
-            {
-              "name": "Below is the screenshot of the 'Spare 3' section for referen",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1775,103 +991,6 @@
           ],
           "screenshots": [
             "tpi-agency-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Below is the interface for managing TPI Agencies in the MyID",
-              "type": "string"
-            },
-            {
-              "name": "Figure 1: TPI Agency management screen.",
-              "type": "string"
-            },
-            {
-              "name": "In the 'Add TPI Agency' section, enter the name of the new T",
-              "type": "string"
-            },
-            {
-              "name": "Update the name and save the changes.",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "Enter the desired zone name in the 'Add Zone' input field.",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "Follow the steps below to add a new role in MyIDEX HUB:",
-              "type": "string"
-            },
-            {
-              "name": "Enter the desired role name in the 'Enter Role Name' field.",
-              "type": "string"
-            },
-            {
-              "name": "Choose the role type (Internal/External) from the 'Select Ty",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot of Role Management Page:",
-              "type": "string"
-            },
-            {
-              "name": "Notes",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot of Role Permission Mapping Page:",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Navigate to the 'Master' section in the left menu.",
-            "Select 'TPI Agency' from the top menu.",
-            "In the 'Add TPI Agency' section, enter the name of the new TPI agency.",
-            "Click on the blue 'Add' button to save the new agency.",
-            "The added agency will appear in the list with a serial number.",
-            "To edit an existing TPI agency, click the pencil (edit) icon under the 'Action' column.",
-            "Update the name and save the changes.",
-            "To delete a TPI agency, click the trash bin (delete) icon under the 'Action' column.",
-            "| P a g e",
-            "Accessing the Zone Section",
-            "Navigate to the 'Master' tab in the left-hand menu.",
-            "Click on the 'Zone' tab from the top navigation bar.",
-            "The page displays a list of existing zones with options to edit or delete each zone.",
-            "Adding a New Zone",
-            "Enter the desired zone name in the 'Add Zone' input field.",
-            "Click on the 'Add' button to save the new zone.",
-            "If you want to cancel, click the 'Cancel' button.",
-            "Managing Existing Zones",
-            "| P a g e",
-            "Valid login credentials for accessing the MyIDEX HUB platform.",
-            "Appropriate permissions to access and modify Role data under the 'Master' module.",
-            "Navigate to the 'Master' tab on the left navigation menu.",
-            "Select the 'Roles' sub-tab from the top menu.",
-            "Enter the desired role name in the 'Enter Role Name' field.",
-            "Choose the role type (Internal/External) from the 'Select Type' dropdown.",
-            "Click the blue 'Add' button to save the new role.",
-            "| P a g e",
-            "Each row represents a module or feature in the system.",
-            "Use the toggle switches under Read, Create, Update, and Delete columns to enable or disable",
-            "You can use 'Select All Permissions' or 'Select All Master' options to bulk assign permissions.",
-            "Changes are saved after clicking on the Save button and particular permissions are assigned to",
-            "| P a g e"
           ]
         },
         {
@@ -1906,32 +1025,6 @@
           },
           "screenshots": [
             "zone-master-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "Click on the 'Add' button to save the new zone.",
-              "type": "string"
-            },
-            {
-              "name": "If you want to cancel, click the 'Cancel' button.",
-              "type": "string"
-            },
-            {
-              "name": "Managing Existing Zones",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Flowchart of order Wokflow",
-            "| P a g e",
-            "Order’s Activity Stage section",
-            "| P a g e",
-            "Each activity stage generally includes five types of buttons:",
-            "| P a g e",
-            "Action Buttons:",
-            "| P a g e",
-            "| P a g e"
           ]
         },
         {
@@ -1972,20 +1065,6 @@
           "screenshots": [
             "role-master-interface.png",
             "role-permission-mapping.png"
-          ],
-          "fields": [
-            {
-              "name": "Choose the role type (Internal/External) from the 'Select Ty",
-              "type": "string"
-            },
-            {
-              "name": "Click the blue 'Add' button to save the new role.",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot of Role Management Page:",
-              "type": "string"
-            }
           ]
         },
         {
@@ -1999,9 +1078,9 @@
             {
               "title": "Fill in the following details",
               "substeps": [
-                "Enter Label – The name for the new field.",
-                "Select Field Type – Choose the type (e.g., textarea, number, checkbox, etc.).",
-                "Select Data Type – Choose the data type this field is associated with (Custom Form, OI Filter, Template).",
+                "Enter Label \u2013 The name for the new field.",
+                "Select Field Type \u2013 Choose the type (e.g., textarea, number, checkbox, etc.).",
+                "Select Data Type \u2013 Choose the data type this field is associated with (Custom Form, OI Filter, Template).",
                 "Optionally, choose the Grouping Type if applicable (SO fields, OI form, etc.)."
               ]
             },
@@ -2016,12 +1095,6 @@
           ],
           "screenshots": [
             "pre-defined-field-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "found under the 'Master' section of the application and is u",
-              "type": "string"
-            }
           ]
         },
         {
@@ -2058,20 +1131,6 @@
           ],
           "screenshots": [
             "template-master-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "The left panel shows the fields which are maintained under '",
-              "type": "string"
-            },
-            {
-              "name": "NOTE : These placeholder are replaced by the actual value re",
-              "type": "string"
-            },
-            {
-              "name": "Step 5: Edit or Delete Template",
-              "type": "string"
-            }
           ]
         },
         {
@@ -2132,52 +1191,6 @@
           ],
           "screenshots": [
             "custom-form-master-interface.png"
-          ],
-          "fields": [
-            {
-              "name": "",
-              "type": "string"
-            },
-            {
-              "name": "",
-              "type": "string"
-            },
-            {
-              "name": "",
-              "type": "string"
-            },
-            {
-              "name": "",
-              "type": "string"
-            },
-            {
-              "name": "Drag and drop the required input fields (Text Field, Number,",
-              "type": "string"
-            },
-            {
-              "name": "Configure each input field:",
-              "type": "string"
-            },
-            {
-              "name": "○ Label: Set a meaningful name.",
-              "type": "string"
-            },
-            {
-              "name": "○ Key: Do not do any changes in key",
-              "type": "string"
-            },
-            {
-              "name": "○ Validation: Define required rules (mandatory, min/max leng",
-              "type": "string"
-            },
-            {
-              "name": "Click Save for each component.",
-              "type": "string"
-            },
-            {
-              "name": "For a Single Input Field:",
-              "type": "string"
-            }
           ]
         },
         {
@@ -2255,47 +1268,6 @@
             "workflow-listing.png",
             "workflow-form.png",
             "workflow-activities.png"
-          ],
-          "fields": [
-            {
-              "name": "name.",
-              "type": "string"
-            },
-            {
-              "name": "Target Days:- Target Days indicates the number of days requi",
-              "type": "string"
-            },
-            {
-              "name": "Forward Dependency: - Forward Dependency defines which activ",
-              "type": "string"
-            },
-            {
-              "name": "Backward Dependency: - Backward Dependency is used to calcul",
-              "type": "string"
-            },
-            {
-              "name": "Backward Date check : This field Represents that from which ",
-              "type": "string"
-            },
-            {
-              "name": "There are three sections: Internal, Customer, and Distributo",
-              "type": "string"
-            },
-            {
-              "name": "Internal :",
-              "type": "string"
-            },
-            {
-              "name": "o Excludes roles: AdminL1, AdminL2, AdminL3, and Distributor",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Workflow Listing Page",
-            "Workflow Form Page",
-            "| P a g e",
-            "| P a g e"
           ]
         }
       ]
@@ -2313,38 +1285,38 @@
             "customer": "Customer User Section",
             "distributor": "Distributor User Section"
           },
-          "note": "Internal and Distributor users are created from the same 'Add User' page. The user is categorized based on the selected role — if the role is 'Distributor', the user appears in the Distributor listing page; otherwise, the user is listed under Internal users",
+          "note": "Internal and Distributor users are created from the same 'Add User' page. The user is categorized based on the selected role \u2014 if the role is 'Distributor', the user appears in the Distributor listing page; otherwise, the user is listed under Internal users",
           "listingPage": {
             "title": "User Listing Page",
             "description": "The user listing page provides a comprehensive overview of all internal users",
             "icons": [
               {
-                "icon": "🔒",
+                "icon": "\ud83d\udd12",
                 "name": "Lock icon",
                 "description": "Indicates whether a user is active or inactive"
               },
               {
-                "icon": "📧",
+                "icon": "\ud83d\udce7",
                 "name": "Email box icon",
                 "description": "Used to resend the registration mail to the user"
               },
               {
-                "icon": "👤",
+                "icon": "\ud83d\udc64",
                 "name": "User icon",
                 "description": "Opens the permission settings for the selected user"
               },
               {
-                "icon": "🔁",
+                "icon": "\ud83d\udd01",
                 "name": "Arrow icon",
                 "description": "Used to transfer assets to another user"
               },
               {
-                "icon": "✏️",
+                "icon": "\u270f\ufe0f",
                 "name": "Edit icon",
                 "description": "Allows editing of the existing user's information"
               },
               {
-                "icon": "🗑️",
+                "icon": "\ud83d\uddd1\ufe0f",
                 "name": "Delete icon",
                 "description": "Deletes the user from the system"
               }
@@ -2414,45 +1386,6 @@
             "add-user-form.png",
             "otp-verification.png",
             "customer-users.png"
-          ],
-          "fields": [
-            {
-              "name": "• First Name",
-              "type": "string"
-            },
-            {
-              "name": "• Last Name",
-              "type": "string"
-            },
-            {
-              "name": "NOTE : The dropdowns for 'Role', 'Region', 'Group', and 'Use",
-              "type": "string"
-            },
-            {
-              "name": "When creating Admin L1:",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Introduction",
-            "User Listing Page",
-            "| P a g e",
-            "Add User Page",
-            "All groups and Business Units (BUs) are automatically selected.",
-            "The user can only select the region.",
-            "The region and groups can be selected by the user.",
-            "All Business Units (BUs) are selected by default.",
-            "The region, groups, and BUs will be selected by the user.",
-            "The region is selected by default.",
-            "Groups and Business Units (BUs) are selected by user.",
-            "| P a g e",
-            "The region and groups are automatically selected.",
-            "| P a g e",
-            "Technical Contact Person",
-            "Commercial Contact Person",
-            "Project Contact Person",
-            "| P a g e"
           ]
         }
       ]
@@ -2660,26 +1593,6 @@
             "order-creation-form.png",
             "workflow-flowchart.png",
             "activity-stage.png"
-          ],
-          "fields": [
-            {
-              "name": "Below is the screenshot of the Order Listing Page:",
-              "type": "string"
-            },
-            {
-              "name": "Below is the screenshot of the Order Creation Form:",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Order Listing Page",
-            "Order Creation Form",
-            "| P a g e"
           ]
         }
       ]
@@ -2748,41 +1661,7 @@
           "screenshots": [
             "common-dashboard-financial.png",
             "common-dashboard-performance.png"
-          ],
-          "fields": [
-            {
-              "name": "metrics. Key features include:",
-              "type": "string"
-            },
-            {
-              "name": "Graph includes different colored bars representing metrics s",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "highlights include:",
-              "type": "string"
-            },
-            {
-              "name": "Graph displays metrics such as:",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Financial Graph",
-            "| P a g e",
-            "Performance Graph",
-            "| P a g e"
-          ],
-          "description": "Login to MyIDEX HUB and from the left side menu, click on 'Dashboard'. Then select 'Common Dashboard' under the 'Dashboard' ."
+          ]
         },
         {
           "id": 39,
@@ -2895,138 +1774,6 @@
             "customer-dashboard-overview.png",
             "order-tracker.png",
             "order-details.png"
-          ],
-          "fields": [
-            {
-              "name": "Select Customer: Use the dropdown list to select a specific ",
-              "type": "string"
-            },
-            {
-              "name": "Select Customer: Use the dropdown list to select a specific ",
-              "type": "string"
-            },
-            {
-              "name": "Active Orders: Displays the number of ongoing orders for the",
-              "type": "string"
-            },
-            {
-              "name": "Past Orders: Displays the number of completed orders for the",
-              "type": "string"
-            },
-            {
-              "name": "Pending Actions: Indicates the number of payment reminders s",
-              "type": "string"
-            },
-            {
-              "name": "Open Requests: Shows the count of service requests raised ag",
-              "type": "string"
-            },
-            {
-              "name": "Recent Orders: Displays a table of the customer's recent ord",
-              "type": "string"
-            },
-            {
-              "name": "Order Listing: Opens a complete list of all orders for the s",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "Recent Order Status: Shows the status of the most recent ord",
-              "type": "string"
-            },
-            {
-              "name": "Order Tracker Stages:",
-              "type": "string"
-            },
-            {
-              "name": "Order Initiated: Triggered when the first submission is made",
-              "type": "string"
-            },
-            {
-              "name": "Order Acknowledged: Occurs when the next status for all line",
-              "type": "string"
-            },
-            {
-              "name": "Engineering & Procurement: Begins when the next status is >=",
-              "type": "string"
-            },
-            {
-              "name": "Manufacturing: Updates when the next status for all line ite",
-              "type": "string"
-            },
-            {
-              "name": "Dispatched: Updates when the next status for all line items ",
-              "type": "string"
-            },
-            {
-              "name": "Delivered: Final stage manually updated by the dispatch team",
-              "type": "string"
-            },
-            {
-              "name": "Detailed View: Provides a comprehensive overview of the orde",
-              "type": "string"
-            },
-            {
-              "name": "Order Information (Top Section):",
-              "type": "string"
-            },
-            {
-              "name": "o Displays key order details sourced from the JDE environmen",
-              "type": "string"
-            },
-            {
-              "name": "Payment Status:",
-              "type": "string"
-            },
-            {
-              "name": "Pending Actions:",
-              "type": "string"
-            },
-            {
-              "name": "Order Line Item Details (Bottom Section):",
-              "type": "string"
-            },
-            {
-              "name": "o Presents details of individual order line items, as fetche",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "Customer Item Description",
-              "type": "string"
-            },
-            {
-              "name": "IDEX Item Description",
-              "type": "string"
-            },
-            {
-              "name": "View Document (Bottom-Right Corner):",
-              "type": "string"
-            },
-            {
-              "name": "o Opens a list of documents attached under the \"Required Doc",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "Figure 1: Executive Dashboard Interface",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "| P a g e",
-            "| P a g e",
-            "| P a g e"
           ]
         },
         {
@@ -3118,113 +1865,6 @@
           },
           "screenshots": [
             "executive-dashboard.png"
-          ],
-          "fields": [
-            {
-              "name": "Months Determination: Based on the OMS ID generation month.",
-              "type": "string"
-            },
-            {
-              "name": "Data Filtering: Displayed based on the selected Business Uni",
-              "type": "string"
-            },
-            {
-              "name": "Currency Conversion: Data is converted according to the sele",
-              "type": "string"
-            },
-            {
-              "name": "Forecasted Sales : Comes form KPI inputs of sales forecast.",
-              "type": "string"
-            },
-            {
-              "name": "Forecasted Sales Margin : Comes from KPI input of Sales fore",
-              "type": "string"
-            },
-            {
-              "name": "Actual Sales : Addition of ExtPrice of all order line no com",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            },
-            {
-              "name": "Forecasted Order Inflow : Comes from KPI inputs of order inf",
-              "type": "string"
-            },
-            {
-              "name": "Forecasted Order Inflow Margin : Comes from KPI inputs of or",
-              "type": "string"
-            },
-            {
-              "name": "Actual Order Inflow : Addition of ExtPrice of Order line no ",
-              "type": "string"
-            },
-            {
-              "name": "Order Booked in JDE : Addition of ExtPrices of all orders wh",
-              "type": "string"
-            },
-            {
-              "name": "Engineering : Addition of Customer PO value of orders whose ",
-              "type": "string"
-            },
-            {
-              "name": "Application : Addition of Customer PO value of orders whose ",
-              "type": "string"
-            },
-            {
-              "name": "CSR : Addition of Customer PO value of orders whose current ",
-              "type": "string"
-            },
-            {
-              "name": "Functional OTD % : The system displayed the",
-              "type": "string"
-            },
-            {
-              "name": "Formula : (Completed withing target days / Total number of c",
-              "type": "string"
-            },
-            {
-              "name": "Functional Lead Days : The system displayed the -- (Sumation",
-              "type": "string"
-            },
-            {
-              "name": "Functional % Accuracy : The system displayed the Percentage ",
-              "type": "string"
-            },
-            {
-              "name": "rejected. Example - 5 are rejected out of 10 orders then 50%",
-              "type": "string"
-            },
-            {
-              "name": "Total Order Book Days : The system should display the differ",
-              "type": "string"
-            },
-            {
-              "name": "| P a g e",
-              "type": "string"
-            }
-          ],
-          "steps": [],
-          "procedure": [
-            "Forecasted Sales : Comes form KPI inputs of sales forecast.",
-            "Forecasted Sales Margin : Comes from KPI input of Sales forecast margin.",
-            "Actual Sales : Addition of ExtPrice of all order line no comes from JDE.",
-            "| P a g e",
-            "Forecasted Order Inflow : Comes from KPI inputs of order inflow forecast.",
-            "Forecasted Order Inflow Margin : Comes from KPI inputs of order inflow margin.",
-            "Actual Order Inflow : Addition of ExtPrice of Order line no if order is exist in JDE else Addition of",
-            "Order Booked in JDE : Addition of ExtPrices of all orders whose Sales order No. is generated (Exist",
-            "Engineering : Addition of Customer PO value of orders whose current stage is Engineering",
-            "Application : Addition of Customer PO value of orders whose current stage is Application (Decided",
-            "CSR : Addition of Customer PO value of orders whose current stage is CSR (Decided by Action by",
-            "Functional OTD % : The system displayed the",
-            "Functional Lead Days : The system displayed the -- (Sumation of all Stage's actual days / Total no.",
-            "Functional % Accuracy : The system displayed the Percentage of those order stage which are not",
-            "Total Order Book Days : The system should display the difference between the oms Id generation",
-            "| P a g e",
-            "Service Requests Listing",
-            "Customer Service Request Form"
           ]
         }
       ]
@@ -3409,352 +2049,6 @@
             "customer-service-form.png",
             "internal-team-form.png",
             "closure-report-form.png"
-          ],
-          "procedure": [
-            "Valid login credentials for accessing the MyIDEX HUB platform.",
-            "Appropriate permissions to access and modify Region data under the 'Master' module.",
-            "Navigate to the 'Master' tab on the left navigation menu.",
-            "Select the 'Region' sub-tab from the top menu.",
-            "Enter the desired region name in the 'Enter Name' field.",
-            "Select the currency from the 'Select Currency' dropdown.",
-            "Click the blue 'Add' button to save the new region.",
-            "Enter the Group Name in the 'Enter Name*' field.",
-            "Select the appropriate Region from the 'Select Region*' dropdown.",
-            "Click the 'Add' button to save the group.",
-            "The newly added group will appear in the list below.",
-            "Click the edit (pencil) icon next to the group you want to modify.",
-            "Make the necessary changes and click 'Update'.",
-            "To delete a group, click the delete (trash bin) icon.",
-            "Objective",
-            "Navigation to Value Stream",
-            "Login to MyIDEX HUB.",
-            "From the left-hand menu, click on 'Master'.",
-            "Navigate to the top navigation bar and click on 'Value Stream'.",
-            "Adding a New Value Stream",
-            "Enter the Value Stream Name.",
-            "Enter the Margin %.",
-            "Select the Group from the dropdown.",
-            "Enter Region.",
-            "Select a Service Receiver from the dropdown.",
-            "Click on 'Add' to save the value stream.",
-            "Editing or Deleting a Value Stream",
-            "Navigation",
-            "Login to MyIDEX HUB.",
-            "Navigate to the 'Master' section in the left navigation panel.",
-            "Click on 'Payment Terms' tab at the top.",
-            "Viewing Simple Payment Terms",
-            "Adding a New Payment Term",
-            "Click on the 'Add Payment Terms' button.",
-            "Fill in the following details:",
-            "Click on the 'Add' button to save the term or 'Cancel' to abort the operation.",
-            "Accessing the Payment Terms Page",
-            "Step 1: Log into the MYIDEX HUB system.",
-            "Step 2: Click on the 'Master' tab on the top menu.",
-            "Step 3: Select 'Payment Terms' from the options.",
-            "Adding a New Milestone Payment Term",
-            "Step 1: Click on the 'Add Payment Terms' button on the top right.",
-            "Step 2: Fill in the required details in the Milestone Payment Term form:",
-            "Step 3: Click on the 'Add' button to save the new payment term.",
-            "In the 'Add 80/20 Product' section, enter the name of the product (e.g., '80' or '20').",
-            "Click the 'Add' button to save the new entry.",
-            "The new entry will appear in the table below with an auto-generated serial number.",
-            "Click the pencil (edit) icon in the 'Action' column for the entry you wish to update.",
-            "Modify the name as needed in the text field.",
-            "Click the 'Update' button to save changes.",
-            "Click the trash bin (delete) icon in the 'Action' column for the respective entry.",
-            "Confirm deletion if prompted. The entry will be removed from the list.",
-            "| P a g e",
-            "Login to the MyIDEX HUB application.",
-            "Navigate to the 'Master' section from the left sidebar menu.",
-            "Click on the '80/20 Customer' tab at the top navigation.",
-            "Use the 'Enter Name' field to input the name or classification (e.g., 20 or 80).",
-            "Click on the 'Add' button to save the entry.",
-            "To edit or delete an existing entry, use the respective icons under the 'Action' column.",
-            "Use the search bar to find specific entries quickly.",
-            "| P a g e",
-            "| P a g e",
-            "Navigate to the Master section in the left-hand menu.",
-            "Click on the 'Currency' tab from the top navigation bar.",
-            "To add a new currency:",
-            "To edit or delete an existing currency, use the respective icons under the 'Action' column.",
-            "| P a g e",
-            "Navigate to the MyIDEX HUB dashboard.",
-            "From the left sidebar, click on \"Master\".",
-            "Select \"Delayed Reason\" from the top tab bar.",
-            "To add a new reason:",
-            "5. Existing reasons are listed in a table with options to edit or delete each entry.",
-            "To edit an entry, click the pencil icon under the \"Action\" column.",
-            "To delete an entry, click the trash bin icon under the \"Action\" column.",
-            "| P a g e",
-            "Log into the MyIDEX HUB platform.",
-            "From the left-hand side menu, navigate to \"Master\".",
-            "Click on the \"Document List\" tab from the top navigation bar.",
-            "The Document List page will be displayed, as shown below:",
-            "To add a new document:",
-            "To edit or delete a document, use the respective edit (pencil) or delete (trash bin) icons in the",
-            "| P a g e",
-            "Viewing Freight Scope",
-            "Managing Freight Scope",
-            "| P a g e",
-            "Navigate to the 'Master' section in the left menu.",
-            "Click on the 'Industry/Segment' tab from the top menu.",
-            "To add a new Industry/Segment:",
-            "To search for an existing Industry/Segment, use the search bar.",
-            "To edit or delete an existing entry, use the respective action icons under the 'Action' column.",
-            "| P a g e",
-            "Navigate to the 'Master' section in the left-side menu.",
-            "Click on the 'Insurance Scope' tab in the top navigation bar.",
-            "View the list of existing Insurance Scopes.",
-            "To add a new Insurance Scope:",
-            "To edit an existing entry, click the pencil (edit) icon under the 'Action' column.",
-            "To delete an entry, click the trash (delete) icon under the 'Action' column.",
-            "| P a g e",
-            "Log in to the MyIDEX HUB application.",
-            "From the left-hand sidebar, click on 'KPI Setting' to view the KPI records.",
-            "Click on the 'Add KPI Setting' button located at the top-right.",
-            "Fill in the required fields such as BU, Year, Annual Sale, Margins, etc.",
-            "Enter monthly data for Sales, Margin %, Order Inflow, etc.",
-            "Click the 'Add' button to save the data.",
-            "| P a g e",
-            "Locate the KPI entry you want to edit in the list.",
-            "Click the pencil/edit icon under the 'Action' column.",
-            "Update the necessary information in the form.",
-            "Click the 'Update' or 'Save' button to apply the changes.",
-            "Locate the KPI entry you wish to delete.",
-            "Click the trash/delete icon under the 'Action' column.",
-            "Confirm the deletion when prompted.",
-            "The KPI entry will be permanently removed from the list.",
-            "| P a g e",
-            "Purpose",
-            "Scope",
-            "Responsibilities",
-            "Procedure",
-            "Screenshot",
-            "| P a g e",
-            "Notes",
-            "| P a g e",
-            "Access the Inco Terms Section",
-            "Add a New Inco Term",
-            "Edit or Delete Existing Inco Terms",
-            "| P a g e",
-            "Navigate to the 'Master' module from the left-hand menu.",
-            "Click on the 'Nature of Complaints' tab from the top navigation bar.",
-            "To add a new complaint type:",
-            "To edit an existing complaint type, click the pencil icon next to the respective entry.",
-            "To delete an existing complaint type, click the trash bin icon next to the respective entry.",
-            "Use the search bar to quickly locate a specific complaint type.",
-            "| P a g e",
-            "Navigate to the 'Master' tab on the left menu.",
-            "Click on the 'Nominated Transport' option from the top navigation bar.",
-            "To add a new transporter, enter the name in the input box under 'Add Nominated Transport' and",
-            "To edit an existing transporter name, click the edit icon under the 'Action' column.",
-            "To delete a transporter, click the delete icon under the 'Action' column.",
-            "| P a g e",
-            "Navigate to the \"Master\" module from the left-side menu.",
-            "Click on the \"Order Type\" tab from the top sub-menu.",
-            "Enter the name of the Order Type in the \"Enter Name*\" field.",
-            "Click the \"Add\" button to add the Order Type.",
-            "To edit an existing Order Type, click the pencil icon under the \"Action\" column.",
-            "To delete an Order Type, click the trash bin icon under the \"Action\" column.",
-            "| P a g e",
-            "| P a g e",
-            "Overview",
-            "Navigation",
-            "Log into the MyIDEX HUB system.",
-            "Navigate to the left sidebar and click on 'Master'.",
-            "Click on the 'Product Family' tab on the top menu.",
-            "Add Product Family",
-            "Enter the name of the product family in the 'Enter Name' field.",
-            "Click the blue 'Add' button to save the new product family.",
-            "Edit/Delete Product Family",
-            "| P a g e",
-            "Navigate to the MyIDEX HUB and log in.",
-            "From the left-hand navigation menu, click on \"Master\".",
-            "Select \"Products\" from the top navigation bar.",
-            "To add a new product:",
-            "The added product will appear in the table below.",
-            "To edit or delete a product, use the respective icons under the \"Action\" column.",
-            "| P a g e",
-            "Navigate to the 'Master' section from the sidebar.",
-            "Click on the 'Rejected Reason' tab in the top navigation menu.",
-            "Enter the reason for rejection in the 'Enter Name' field under 'Add Rejected Reasons'.",
-            "Click on the blue 'Add' button to save the new reason.",
-            "To cancel, click on the 'Cancel' button.",
-            "Locate the reason in the list displayed.",
-            "Use the edit (pencil) icon under the 'Action' column to modify the reason.",
-            "Use the delete (trash bin) icon to remove the reason from the list.",
-            "| P a g e",
-            "Log in to MyIDEX HUB.",
-            "From the left sidebar, click on 'Master'.",
-            "From the top tab options, click on 'SEZ'.",
-            "Enter the SEZ name (e.g., 'Yes' or 'No') in the input field under the 'Add SEZ' section.",
-            "Click the 'Add' button to save the entry.",
-            "The new entry will appear in the list below with options to edit or delete.",
-            "| P a g e",
-            "Log in to the MyIDEX HUB system.",
-            "Navigate to the left-hand panel and click on the 'Master' menu.",
-            "Click on the 'Spare 1' tab at the top navigation panel.",
-            "In the 'Add Spare 1' section, enter the desired name into the text input box.",
-            "Click on the blue 'Add' button to save the entry.",
-            "The newly added entry will appear in the table below with a serial number.",
-            "Use the 'Edit' (pencil icon) or 'Delete' (trash icon) options under the 'Action' column for any",
-            "| P a g e",
-            "Navigate to the Master section from the left-hand side menu.",
-            "Click on the \"Spare 2\" tab.",
-            "In the \"Add Spare 2\" field, enter the name of the spare item.",
-            "Click on the \"Add\" button to save the entry.",
-            "The newly added item will appear in the list below with options to edit or delete.",
-            "| P a g e",
-            "Introduction",
-            "Prerequisites",
-            "Steps to Add Spare 3",
-            "Step 1: Login to MyIDEX HUB and navigate to the Master section.",
-            "Step 2: Click on the 'Spare 3' tab from the available sub-tabs.",
-            "Step 3: Enter the spare name in the 'Enter Name' field under the 'Add Spare 3' section.",
-            "Step 4: Click on the blue 'Add' button to save the spare entry.",
-            "Step 5: The newly added spare will appear in the list below with options to edit or delete it.",
-            "Screenshot",
-            "| P a g e",
-            "Navigate to the 'Master' section in the left menu.",
-            "Select 'TPI Agency' from the top menu.",
-            "In the 'Add TPI Agency' section, enter the name of the new TPI agency.",
-            "Click on the blue 'Add' button to save the new agency.",
-            "The added agency will appear in the list with a serial number.",
-            "To edit an existing TPI agency, click the pencil (edit) icon under the 'Action' column.",
-            "Update the name and save the changes.",
-            "To delete a TPI agency, click the trash bin (delete) icon under the 'Action' column.",
-            "| P a g e",
-            "Accessing the Zone Section",
-            "Navigate to the 'Master' tab in the left-hand menu.",
-            "Click on the 'Zone' tab from the top navigation bar.",
-            "The page displays a list of existing zones with options to edit or delete each zone.",
-            "Adding a New Zone",
-            "Enter the desired zone name in the 'Add Zone' input field.",
-            "Click on the 'Add' button to save the new zone.",
-            "If you want to cancel, click the 'Cancel' button.",
-            "Managing Existing Zones",
-            "| P a g e",
-            "Valid login credentials for accessing the MyIDEX HUB platform.",
-            "Appropriate permissions to access and modify Role data under the 'Master' module.",
-            "Navigate to the 'Master' tab on the left navigation menu.",
-            "Select the 'Roles' sub-tab from the top menu.",
-            "Enter the desired role name in the 'Enter Role Name' field.",
-            "Choose the role type (Internal/External) from the 'Select Type' dropdown.",
-            "Click the blue 'Add' button to save the new role.",
-            "| P a g e",
-            "Each row represents a module or feature in the system.",
-            "Use the toggle switches under Read, Create, Update, and Delete columns to enable or disable",
-            "You can use 'Select All Permissions' or 'Select All Master' options to bulk assign permissions.",
-            "Changes are saved after clicking on the Save button and particular permissions are assigned to",
-            "| P a g e",
-            "Introduction",
-            "User Listing Page",
-            "| P a g e",
-            "Add User Page",
-            "All groups and Business Units (BUs) are automatically selected.",
-            "The user can only select the region.",
-            "The region and groups can be selected by the user.",
-            "All Business Units (BUs) are selected by default.",
-            "The region, groups, and BUs will be selected by the user.",
-            "The region is selected by default.",
-            "Groups and Business Units (BUs) are selected by user.",
-            "| P a g e",
-            "The region and groups are automatically selected.",
-            "| P a g e",
-            "Technical Contact Person",
-            "Commercial Contact Person",
-            "Project Contact Person",
-            "| P a g e",
-            "Navigate to the \"Master\" menu from the left-side panel.",
-            "Click on the \"Pre Defined Field\" tab located in the top navigation bar.",
-            "Use the input section titled \"Add Pre Defined Field\" to add new entries.",
-            "Fill in the following details:",
-            "Optionally, choose the Grouping Type if applicable.(SO fields, OI form etc.)",
-            "Click the blue \"Add\" button to save the new field.",
-            "The new entry will be listed in the table below once successfully added.",
-            "To edit an existing entry, click the pencil (edit) icon under the 'Action' column.",
-            "To delete an entry, click the trash (delete) icon under the 'Action' column.",
-            "| P a g e",
-            "| P a g e",
-            "| P a g e",
-            "| P a g e",
-            "Open the Custom Form Master under Masters tab.",
-            "Navigate to the Layout tab on the left panel.",
-            "| P a g e",
-            "Drag and drop a Panel component into the form workspace.",
-            "| P a g e",
-            "Drag and drop the required input fields (Text Field, Number, Select, etc.) into the",
-            "| P a g e",
-            "Configure each input field:",
-            "Click Save for each component.",
-            "Navigate to the Basic tab in the left panel.",
-            "Drag and drop a Button component directly into the panel (with or without",
-            "Click the Save Form button to store all changes.",
-            "Preview the form by clicking the Preview button.",
-            "| P a g e",
-            "Workflow Listing Page",
-            "Workflow Form Page",
-            "| P a g e",
-            "| P a g e",
-            "| P a g e",
-            "| P a g e",
-            "Order Listing Page",
-            "Order Creation Form",
-            "| P a g e",
-            "Flowchart of order Wokflow",
-            "| P a g e",
-            "Order’s Activity Stage section",
-            "| P a g e",
-            "Each activity stage generally includes five types of buttons:",
-            "| P a g e",
-            "Action Buttons:",
-            "| P a g e",
-            "| P a g e",
-            "Financial Graph",
-            "| P a g e",
-            "Performance Graph",
-            "| P a g e",
-            "| P a g e",
-            "| P a g e",
-            "| P a g e",
-            "Forecasted Sales : Comes form KPI inputs of sales forecast.",
-            "Forecasted Sales Margin : Comes from KPI input of Sales forecast margin.",
-            "Actual Sales : Addition of ExtPrice of all order line no comes from JDE.",
-            "| P a g e",
-            "Forecasted Order Inflow : Comes from KPI inputs of order inflow forecast.",
-            "Forecasted Order Inflow Margin : Comes from KPI inputs of order inflow margin.",
-            "Actual Order Inflow : Addition of ExtPrice of Order line no if order is exist in JDE else Addition of",
-            "Order Booked in JDE : Addition of ExtPrices of all orders whose Sales order No. is generated (Exist",
-            "Engineering : Addition of Customer PO value of orders whose current stage is Engineering",
-            "Application : Addition of Customer PO value of orders whose current stage is Application (Decided",
-            "CSR : Addition of Customer PO value of orders whose current stage is CSR (Decided by Action by",
-            "Functional OTD % : The system displayed the",
-            "Functional Lead Days : The system displayed the -- (Sumation of all Stage's actual days / Total no.",
-            "Functional % Accuracy : The system displayed the Percentage of those order stage which are not",
-            "Total Order Book Days : The system should display the difference between the oms Id generation",
-            "| P a g e",
-            "Service Requests Listing",
-            "Customer Service Request Form",
-            "| P a g e",
-            "| P a g e",
-            "Internal Team Form",
-            "| P a g e",
-            "Closure Report Form",
-            "| P a g e"
-          ],
-          "fields": [
-            {
-              "name": "Select the currency from the 'Select Currency' dropdown.",
-              "type": "string"
-            },
-            {
-              "name": "Click the blue 'Add' button to save the new region.",
-              "type": "string"
-            },
-            {
-              "name": "Screenshot of Region Management Page:",
-              "type": "string"
-            }
           ]
         }
       ]
