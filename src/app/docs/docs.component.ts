@@ -93,13 +93,13 @@ type ViewType = 'home' | 'module' | 'section';
 
 // Icon + color map — add new module keys here, or fallback to defaults
 const MODULE_META: Record<string, { icon: string; color: string; accent: string }> = {
-  master: { icon: '⚙️', color: '#0f62fe', accent: '#eaf1ff' },
-  users: { icon: '👥', color: '#6929c4', accent: '#f3eeff' },
-  orders: { icon: '📦', color: '#005d5d', accent: '#e3f6f6' },
-  dashboard: { icon: '📊', color: '#9f1853', accent: '#fff0f4' },
-  service: { icon: '🔧', color: '#b28600', accent: '#fef9e7' },
+  master: { icon: '[Master]', color: '#0f62fe', accent: '#eaf1ff' },
+  users: { icon: '[Users]', color: '#6929c4', accent: '#f3eeff' },
+  orders: { icon: '[Orders]', color: '#005d5d', accent: '#e3f6f6' },
+  dashboard: { icon: '[Dashboard]', color: '#9f1853', accent: '#fff0f4' },
+  service: { icon: '[Service]', color: '#b28600', accent: '#fef9e7' },
 };
-const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
+const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
 
 // ============================================================================
 // COMPONENT
@@ -116,7 +116,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
       <header class="navbar">
         <div class="navbar-inner">
           <button class="navbar-logo" (click)="goHome()">
-            <span class="logo-mark">●</span>
+            <span class="logo-mark">◆</span>
             <span class="logo-text">{{ data()?.documentInfo?.title ?? 'Documentation' }}</span>
           </button>
 
@@ -140,7 +140,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                 (keydown.Escape)="searchQuery.set('')"
               />
               @if (searchQuery()) {
-                <button class="search-clear" (click)="searchQuery.set('')">✕</button>
+                <button class="search-clear" (click)="searchQuery.set('')">×</button>
               }
             </div>
           </div>
@@ -601,49 +601,71 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                     <div class="content-block" id="procedure">
                       <h2 class="block-heading">Procedure</h2>
                       @if (isArray(section['procedure'])) {
-                        <ol class="step-ol">
-                          @for (
-                            step of renderProcedure(section['procedure']);
-                            let i = $index;
-                            track i
-                          ) {
-                            @if (step.type === 'string') {
-                              <li>
-                                <span class="step-num">{{ i + 1 }}</span
-                                >{{ step.text }}
-                              </li>
-                            } @else {
-                              <li class="step-substep-container">
-                                <span class="step-num">{{ i + 1 }}</span>
-                                <div>
-                                  <details class="nested-details">
-                                    <summary class="nested-summary">
-                                      <strong>{{ step.title }}</strong>
-                                    </summary>
-                                    <div class="nested-content">
-                                      @if (step.substeps?.length) {
-                                        <ul class="substep-list">
-                                          @for (sub of step.substeps; track $index) {
-                                            <li>{{ sub }}</li>
-                                          }
-                                        </ul>
-                                      }
-                                      @if (step.details && !isArray(step.details)) {
-                                        <p class="substep-detail">{{ step.details }}</p>
-                                      }
-                                    </div>
-                                  </details>
-                                </div>
-                              </li>
+                        <!-- Handle procedure with subheadings (heading + steps) -->
+                        @if (
+                          section['procedure'][0]?.heading ||
+                          section['procedure'][0]?.heading !== undefined
+                        ) {
+                          <div class="procedure-wrapper">
+                            @for (item of section['procedure']; track $index) {
+                              <div class="procedure-section">
+                                @if (item.heading) {
+                                  <h3 class="procedure-subheading">{{ item.heading }}</h3>
+                                  <ol class="step-ol">
+                                    @for (step of item.steps; let i = $index; track i) {
+                                      <li>
+                                        <span class="step-num">{{ i + 1 }}.</span>{{ step }}
+                                      </li>
+                                    }
+                                  </ol>
+                                }
+                              </div>
                             }
-                          }
-                        </ol>
+                          </div>
+                        } @else {
+                          <!-- Handle flat procedure array -->
+                          <ol class="step-ol">
+                            @for (
+                              step of renderProcedure(section['procedure']);
+                              let i = $index;
+                              track i
+                            ) {
+                              @if (step.type === 'string') {
+                                <li>
+                                  <span class="step-num">{{ i + 1 }}.</span>{{ step.text }}
+                                </li>
+                              } @else {
+                                <li class="step-substep-container">
+                                  <span class="step-num">{{ i + 1 }}</span>
+                                  <div>
+                                    <details class="nested-details">
+                                      <summary class="nested-summary">
+                                        <strong>{{ step.title }}</strong>
+                                      </summary>
+                                      <div class="nested-content">
+                                        @if (step.substeps?.length) {
+                                          <ul class="substep-list">
+                                            @for (sub of step.substeps; track $index) {
+                                              <li>{{ sub }}</li>
+                                            }
+                                          </ul>
+                                        }
+                                        @if (step.details && !isArray(step.details)) {
+                                          <p class="substep-detail">{{ step.details }}</p>
+                                        }
+                                      </div>
+                                    </details>
+                                  </div>
+                                </li>
+                              }
+                            }
+                          </ol>
+                        }
                       } @else if (section['procedure']?.steps?.length) {
                         <ol class="step-ol">
                           @for (step of section['procedure'].steps; let i = $index; track i) {
                             <li>
-                              <span class="step-num">{{ i + 1 }}</span
-                              >{{ step }}
+                              <span class="step-num">{{ i + 1 }}.</span>{{ step }}
                             </li>
                           }
                         </ol>
@@ -664,12 +686,11 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                           ) {
                             @if (step.type === 'string') {
                               <li>
-                                <span class="step-num">{{ i + 1 }}</span
-                                >{{ step.text }}
+                                <span class="step-num">{{ i + 1 }}.</span>{{ step.text }}
                               </li>
                             } @else {
                               <li class="step-substep-container">
-                                <span class="step-num">{{ i + 1 }}</span>
+                                <span class="step-num">{{ i + 1 }}.</span>
                                 <div>
                                   @if (step.title) {
                                     <strong>{{ step.title }}</strong>
@@ -1062,7 +1083,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
                       [attr.aria-expanded]="!rightRailCollapsed()"
                       aria-label="Toggle table of contents"
                     >
-                      ▢
+                      [−]
                     </button>
                   </div>
                   <nav class="rr-nav">
@@ -1117,7 +1138,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
               <span>{{ (zoom() * 100).toFixed(0) }}%</span>
               <button (click)="zoomIn()" [disabled]="zoom() >= 4">+</button>
               <button (click)="resetZoom()">Reset</button>
-              <button class="viewer-close" (click)="closeViewer()">✕</button>
+              <button class="viewer-close" (click)="closeViewer()">×</button>
             </div>
           </div>
           <div class="viewer-body" (wheel)="onWheel($event)">
@@ -2113,7 +2134,7 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         display: flex;
         align-items: flex-start;
         gap: 12px;
-        font-size: 14px;
+        font-size: 16px;
         color: var(--text-secondary);
         line-height: 1.6;
       }
@@ -2122,19 +2143,29 @@ const DEFAULT_META = { icon: '📄', color: '#0972d3', accent: '#eaf1ff' };
         align-items: flex-start;
       }
       .step-num {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 22px;
-        height: 22px;
-        min-width: 22px;
-        background: var(--blue);
-        color: #fff;
-        border-radius: 50%;
-        font-size: 11px;
+        display: inline;
+        font-size: 15px;
         font-weight: 600;
-        flex-shrink: 0;
-        margin-top: 1px;
+        color: var(--text-primary);
+        margin-right: 6px;
+      }
+      .procedure-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .procedure-section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .procedure-subheading {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0 0 8px 0;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--border);
       }
       .step-ol-sm {
         list-style: none;

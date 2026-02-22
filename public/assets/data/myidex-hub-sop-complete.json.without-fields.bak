@@ -281,7 +281,23 @@
             "To edit a region, click the pencil (edit) icon under the 'Action' column",
             "To delete a region, click the trash bin icon under the 'Action' column"
           ],
-          "screenshots": ["region-master-interface.png"]
+          "screenshots": [
+            "region-master-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Select the currency from the 'Select Currency' dropdown.",
+              "type": "string"
+            },
+            {
+              "name": "Click the blue 'Add' button to save the new region.",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot of Region Management Page:",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 2,
@@ -314,42 +330,131 @@
               ]
             }
           ],
-          "notes": ["Deleting a group is irreversible and should be done with caution"],
-          "screenshots": ["groups-master-interface.png"]
+          "notes": [
+            "Deleting a group is irreversible and should be done with caution"
+          ],
+          "screenshots": [
+            "groups-master-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Select the appropriate Region from the 'Select Region*' drop",
+              "type": "string"
+            },
+            {
+              "name": "Click the 'Add' button to save the group.",
+              "type": "string"
+            },
+            {
+              "name": "The newly added group will appear in the list below.",
+              "type": "string"
+            },
+            {
+              "name": "Step 3: Edit or Delete a Group",
+              "type": "string"
+            },
+            {
+              "name": "To edit or delete an existing group:",
+              "type": "string"
+            },
+            {
+              "name": "Click the edit (pencil) icon next to the group you want to m",
+              "type": "string"
+            },
+            {
+              "name": "Make the necessary changes and click 'Update'.",
+              "type": "string"
+            },
+            {
+              "name": "To delete a group, click the delete (trash bin) icon.",
+              "type": "string"
+            },
+            {
+              "name": "Note: Deleting a group is irreversible and should be done wi",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 3,
           "title": "Value Streams (BU) Master",
           "objective": "This SOP outlines the steps for managing and maintaining Value Streams in the MyIDEX HUB system. Value Streams help categorize and organize business units, their associated margin percentages, and related configuration.",
-          "screenshots": ["value-stream-interface.png"],
+          "navigation": [
+            "Login to MyIDEX HUB",
+            "From the left-hand menu, click on 'Master'",
+            "Navigate to the top navigation bar and click on 'Value Stream'"
+          ],
+          "addingValueStream": {
+            "title": "Adding a New Value Stream",
+            "fields": [
+              {
+                "name": "Value Stream Name",
+                "type": "text",
+                "required": true
+              },
+              {
+                "name": "Margin %",
+                "type": "number",
+                "required": true
+              },
+              {
+                "name": "Group",
+                "type": "dropdown",
+                "required": true
+              },
+              {
+                "name": "Region",
+                "type": "text",
+                "required": true
+              },
+              {
+                "name": "Service Receiver",
+                "type": "dropdown",
+                "required": true
+              }
+            ],
+            "action": "Click on 'Add' to save the value stream"
+          },
+          "management": {
+            "edit": "Click the pencil icon to edit an entry",
+            "delete": "Click the trash icon to delete an entry"
+          },
+          "screenshots": [
+            "value-stream-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "To add a new value stream:",
+              "type": "string"
+            },
+            {
+              "name": "Enter the Value Stream Name.",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot of 'Add Value Stream' Section:",
+              "type": "string"
+            },
+            {
+              "name": "Each row in the Value Stream table has action icons:",
+              "type": "string"
+            }
+          ],
           "steps": [],
           "procedure": [
-            {
-              "heading": "Navigation to Value Stream",
-              "steps": [
-                "Login to MyIDEX HUB.",
-                "From the left-hand menu, click on 'Master'.",
-                "Navigate to the top navigation bar and click on 'Value Stream'."
-              ]
-            },
-            {
-              "heading": "Adding a New Value Stream",
-              "steps": [
-                "Enter the Value Stream Name.",
-                "Enter the Margin %.",
-                "Select the Group from the dropdown.",
-                "Enter Region.",
-                "Select a Service Receiver from the dropdown.",
-                "Click on 'Add' to save the value stream."
-              ]
-            },
-            {
-              "heading": "Editing or Deleting a Value Stream",
-              "steps": [
-                "Click the pencil icon to edit an entry.",
-                "Click the trash icon to delete an entry."
-              ]
-            }
+            "Objective",
+            "Navigation to Value Stream",
+            "Login to MyIDEX HUB.",
+            "From the left-hand menu, click on 'Master'.",
+            "Navigate to the top navigation bar and click on 'Value Stream'.",
+            "Adding a New Value Stream",
+            "Enter the Value Stream Name.",
+            "Enter the Margin %.",
+            "Select the Group from the dropdown.",
+            "Enter Region.",
+            "Select a Service Receiver from the dropdown.",
+            "Click on 'Add' to save the value stream.",
+            "Editing or Deleting a Value Stream"
           ]
         },
         {
@@ -382,7 +487,55 @@
               "details": "The list below the input field shows all existing internal stages. Each entry includes a serial number, the stage name, and action buttons (Edit and Delete) on the right side. You can click the pencil icon to edit a stage or the trash icon to delete it"
             }
           ],
-          "screenshots": ["internal-stage-interface.png"]
+          "screenshots": [
+            "internal-stage-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Step 2: Access Internal Stage Tab",
+              "type": "string"
+            },
+            {
+              "name": "Step 3: Add a New Internal Stage",
+              "type": "string"
+            },
+            {
+              "name": "To add a new internal stage:",
+              "type": "string"
+            },
+            {
+              "name": "Enter the stage name in the 'Enter Name' field.",
+              "type": "string"
+            },
+            {
+              "name": "Click the blue 'Add' button to save the new stage.",
+              "type": "string"
+            },
+            {
+              "name": "To cancel the action, click the 'Cancel' button.",
+              "type": "string"
+            },
+            {
+              "name": "Step 4: Manage Existing Stages",
+              "type": "string"
+            },
+            {
+              "name": "The list below the input field shows all existing internal s",
+              "type": "string"
+            },
+            {
+              "name": "A serial number.",
+              "type": "string"
+            },
+            {
+              "name": "The stage name.",
+              "type": "string"
+            },
+            {
+              "name": "Action buttons (Edit and Delete) on the right side.",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 5,
@@ -429,7 +582,88 @@
               }
             }
           },
-          "screenshots": ["payment-terms-simple.png", "payment-terms-milestone.png"],
+          "screenshots": [
+            "payment-terms-simple.png",
+            "payment-terms-milestone.png"
+          ],
+          "fields": [
+            {
+              "name": "shows details such as Code, Description, and Total Credit Da",
+              "type": "string"
+            },
+            {
+              "name": "To add a new payment term:",
+              "type": "string"
+            },
+            {
+              "name": "Fill in the following details:",
+              "type": "string"
+            },
+            {
+              "name": "Payment Type: Select 'Simple Payment Term'",
+              "type": "string"
+            },
+            {
+              "name": "Payment Type: Select 'Simple Payment Term'",
+              "type": "string"
+            },
+            {
+              "name": "Payment Description: Provide a description (e.g., 30 Days Fr",
+              "type": "string"
+            },
+            {
+              "name": "Payment Description: Provide a description (e.g., 30 Days Fr",
+              "type": "string"
+            },
+            {
+              "name": "Code: Enter a unique code (e.g., BP1)",
+              "type": "string"
+            },
+            {
+              "name": "Days: Enter the number of credit days (e.g., 30)",
+              "type": "string"
+            },
+            {
+              "name": "Follow these steps to navigate to the Payment Terms section:",
+              "type": "string"
+            },
+            {
+              "name": "Step 1: Log into the MYIDEX HUB system.",
+              "type": "string"
+            },
+            {
+              "name": "Step 2: Click on the 'Master' tab on the top menu.",
+              "type": "string"
+            },
+            {
+              "name": "Step 3: Select 'Payment Terms' from the options.",
+              "type": "string"
+            },
+            {
+              "name": "Step 1: Click on the 'Add Payment Terms' button on the top r",
+              "type": "string"
+            },
+            {
+              "name": "Step 2: Fill in the required details in the Milestone Paymen",
+              "type": "string"
+            },
+            {
+              "name": "Step 2: Fill in the required details in the Milestone Paymen",
+              "type": "string"
+            },
+            {
+              "name": "Payment Type",
+              "type": "string"
+            },
+            {
+              "name": "Payment Description",
+              "type": "string"
+            },
+            {
+              "name": "Step 3: Click on the 'Add' button to save the new payment te",
+              "type": "string"
+            }
+          ],
           "steps": [],
           "procedure": [
             "Login to MyIDEX HUB.",
@@ -472,7 +706,15 @@
               "The entry will be removed from the list"
             ]
           },
-          "screenshots": ["80-20-product-interface.png"],
+          "screenshots": [
+            "80-20-product-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Click the 'Update' button to save changes.",
+              "type": "string"
+            }
+          ],
           "steps": [],
           "procedure": [
             "In the 'Add 80/20 Product' section, enter the name of the product (e.g., '80' or '20').",
@@ -499,7 +741,27 @@
             "To edit or delete an existing entry, use the respective icons under the 'Action' column",
             "Use the search bar to find specific entries quickly"
           ],
-          "screenshots": ["80-20-customer-interface.png"]
+          "screenshots": [
+            "80-20-customer-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Click on the 'Add' button to save the entry.",
+              "type": "string"
+            },
+            {
+              "name": "To edit or delete an existing entry, use the respective icon",
+              "type": "string"
+            },
+            {
+              "name": "Use the search bar to find specific entries quickly.",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot:",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 8,
@@ -522,7 +784,19 @@
               "details": "Below the form, the existing applications are listed with options to edit or delete using the icons under the 'Action' column"
             }
           ],
-          "screenshots": ["application-master-interface.png"]
+          "screenshots": [
+            "application-master-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Step 3: View, Edit, or Delete Application",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot: Application Management Interface",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 9,
@@ -542,7 +816,23 @@
             },
             "To edit or delete an existing currency, use the respective icons under the 'Action' column"
           ],
-          "screenshots": ["currency-master-interface.png"]
+          "screenshots": [
+            "currency-master-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "b. Enter the corresponding Symbol in the 'Symbol*' field.",
+              "type": "string"
+            },
+            {
+              "name": "c. Enter the Exchange Rate (Base: INR) in the corresponding ",
+              "type": "string"
+            },
+            {
+              "name": "To edit or delete an existing currency, use the respective i",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 10,
@@ -563,7 +853,43 @@
             "To edit an entry, click the pencil icon under the 'Action' column",
             "To delete an entry, click the trash bin icon under the 'Action' column"
           ],
-          "screenshots": ["delayed-reason-interface.png"]
+          "screenshots": [
+            "delayed-reason-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "To add a new reason:",
+              "type": "string"
+            },
+            {
+              "name": "Enter the reason in the input box labeled \"Enter Name*\".",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "Steps to Access and Manage Document List:",
+              "type": "string"
+            },
+            {
+              "name": "The Document List page will be displayed, as shown below:",
+              "type": "string"
+            },
+            {
+              "name": "To add a new document:",
+              "type": "string"
+            },
+            {
+              "name": "a. Enter the document name in the \"Name*\" input box under \"A",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 11,
@@ -584,7 +910,23 @@
             },
             "To edit or delete a document, use the respective edit (pencil) or delete (trash bin) icons in the 'Action' column."
           ],
-          "screenshots": ["document-list-interface.png"]
+          "screenshots": [
+            "document-list-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "These three sections are used to define:",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "Applicable Form List:",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 12,
@@ -599,9 +941,25 @@
             "delete": "Click the trash bin icon under the 'Action' column to delete a Freight Scope.",
             "search": "Use the search bar to filter freight scopes by name quickly."
           },
-          "screenshots": ["freight-scope-interface.png"],
+          "screenshots": [
+            "freight-scope-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "• Use the search bar to filter freight scopes by name quickl",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            }
+          ],
           "steps": [],
-          "procedure": ["Viewing Freight Scope", "Managing Freight Scope", "| P a g e"]
+          "procedure": [
+            "Viewing Freight Scope",
+            "Managing Freight Scope",
+            "| P a g e"
+          ]
         },
         {
           "id": 13,
@@ -621,7 +979,23 @@
             "To search for an existing Industry/Segment, use the search bar.",
             "To edit or delete an existing entry, use the respective action icons under the 'Action' column."
           ],
-          "screenshots": ["industry-segment-interface.png"]
+          "screenshots": [
+            "industry-segment-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "To add a new Industry/Segment:",
+              "type": "string"
+            },
+            {
+              "name": "b. Enter the industry/segment name in the text box.",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 14,
@@ -642,7 +1016,27 @@
             "To edit an existing entry, click the pencil (edit) icon under the 'Action' column.",
             "To delete an entry, click the trash (delete) icon under the 'Action' column."
           ],
-          "screenshots": ["insurance-scope-interface.png"]
+          "screenshots": [
+            "insurance-scope-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "To edit an existing entry, click the pencil (edit) icon unde",
+              "type": "string"
+            },
+            {
+              "name": "To delete an entry, click the trash (delete) icon under the ",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot:",
+              "type": "string"
+            },
+            {
+              "name": "Figure 1: Insurance Scope interface on MyIDEX HUB.",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 15,
@@ -684,8 +1078,66 @@
               ]
             }
           },
-          "notes": ["Only one KPI Setting can be added per BU for a particular year."],
-          "screenshots": ["kpi-settings-interface.png"],
+          "notes": [
+            "Only one KPI Setting can be added per BU for a particular year."
+          ],
+          "screenshots": [
+            "kpi-settings-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Enter monthly data for Sales, Margin %, Order Inflow, etc.",
+              "type": "string"
+            },
+            {
+              "name": "Click the 'Add' button to save the data.",
+              "type": "string"
+            },
+            {
+              "name": "Step 3: Edit KPI Setting",
+              "type": "string"
+            },
+            {
+              "name": "Locate the KPI entry you want to edit in the list.",
+              "type": "string"
+            },
+            {
+              "name": "Click the pencil/edit icon under the 'Action' column.",
+              "type": "string"
+            },
+            {
+              "name": "Update the necessary information in the form.",
+              "type": "string"
+            },
+            {
+              "name": "Click the 'Update' or 'Save' button to apply the changes.",
+              "type": "string"
+            },
+            {
+              "name": "Step 4: Delete KPI Setting",
+              "type": "string"
+            },
+            {
+              "name": "Locate the KPI entry you wish to delete.",
+              "type": "string"
+            },
+            {
+              "name": "Click the trash/delete icon under the 'Action' column.",
+              "type": "string"
+            },
+            {
+              "name": "Confirm the deletion when prompted.",
+              "type": "string"
+            },
+            {
+              "name": "The KPI entry will be permanently removed from the list.",
+              "type": "string"
+            },
+            {
+              "name": "NOTE : \"Only one KPI Setting can be added per BU for a parti",
+              "type": "string"
+            }
+          ],
           "procedure": [
             "Log in to the MyIDEX HUB application.",
             "From the left-hand sidebar, click on 'KPI Setting' to view the KPI records.",
@@ -722,7 +1174,59 @@
           "notes": [
             "Ensure that all data entered is accurate and up to date. Deleting or editing clauses should be done with caution as it affects compliance tracking."
           ],
-          "screenshots": ["ld-clause-interface.png"]
+          "screenshots": [
+            "ld-clause-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Follow the steps below to manage LD Clauses:",
+              "type": "string"
+            },
+            {
+              "name": "Step 1: Log in to the MyIDEX HUB platform.",
+              "type": "string"
+            },
+            {
+              "name": "Step 2: Navigate to the 'Master' section from the left-hand ",
+              "type": "string"
+            },
+            {
+              "name": "Step 3: Click on the 'LD Clauses' tab at the top.",
+              "type": "string"
+            },
+            {
+              "name": "Step 4: To add a new clause, enter the name of the LD Clause",
+              "type": "string"
+            },
+            {
+              "name": "Step 4: To add a new clause, enter the name of the LD Clause",
+              "type": "string"
+            },
+            {
+              "name": "Step 5: To edit an existing entry, click the pencil icon und",
+              "type": "string"
+            },
+            {
+              "name": "Step 6: To delete an entry, click the trash icon under the '",
+              "type": "string"
+            },
+            {
+              "name": "Below is a screenshot of the LD Clauses interface:",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "Notes",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 17,
@@ -747,7 +1251,23 @@
               "details": "In the list of existing Inco Terms, use the pencil icon under the 'Action' column to edit a term, or the trash bin icon to delete it."
             }
           ],
-          "screenshots": ["inco-terms-interface.png"]
+          "screenshots": [
+            "inco-terms-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "b. Select the type from the dropdown (e.g., import).",
+              "type": "string"
+            },
+            {
+              "name": "c. Enter a description in the 'Enter Description' field.",
+              "type": "string"
+            },
+            {
+              "name": "Edit or Delete Existing Inco Terms",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 18,
@@ -768,7 +1288,23 @@
             "To delete an existing complaint type, click the trash bin icon next to the respective entry.",
             "Use the search bar to quickly locate a specific complaint type."
           ],
-          "screenshots": ["nature-of-complaints-interface.png"]
+          "screenshots": [
+            "nature-of-complaints-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "To edit an existing complaint type, click the pencil icon ne",
+              "type": "string"
+            },
+            {
+              "name": "To delete an existing complaint type, click the trash bin ic",
+              "type": "string"
+            },
+            {
+              "name": "Use the search bar to quickly locate a specific complaint ty",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 19,
@@ -781,7 +1317,87 @@
             "To edit an existing transporter name, click the edit icon under the 'Action' column.",
             "To delete a transporter, click the delete icon under the 'Action' column."
           ],
-          "screenshots": ["nominated-transport-interface.png"]
+          "screenshots": [
+            "nominated-transport-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "the MyIDEX HUB platform. Users can add, edit, or delete tran",
+              "type": "string"
+            },
+            {
+              "name": "Figure 1: Nominated Transport Interface in MyIDEX HUB",
+              "type": "string"
+            },
+            {
+              "name": "To add a new transporter, enter the name in the input box un",
+              "type": "string"
+            },
+            {
+              "name": "To edit an existing transporter name, click the edit icon un",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "Order Type Master",
+              "type": "string"
+            },
+            {
+              "name": "Objective:",
+              "type": "string"
+            },
+            {
+              "name": "This SOP outlines the steps to add and manage Order Types wi",
+              "type": "string"
+            },
+            {
+              "name": "Prerequisites:",
+              "type": "string"
+            },
+            {
+              "name": "User must have the necessary permissions to add or edit Orde",
+              "type": "string"
+            },
+            {
+              "name": "Steps to Add Order Type:",
+              "type": "string"
+            },
+            {
+              "name": "Steps to Add Order Type:",
+              "type": "string"
+            },
+            {
+              "name": "Click on the \"Order Type\" tab from the top sub-menu.",
+              "type": "string"
+            },
+            {
+              "name": "Enter the name of the Order Type in the \"Enter Name*\" field.",
+              "type": "string"
+            },
+            {
+              "name": "Click the \"Add\" button to add the Order Type.",
+              "type": "string"
+            },
+            {
+              "name": "To edit an existing Order Type, click the pencil icon under ",
+              "type": "string"
+            },
+            {
+              "name": "To delete an Order Type, click the trash bin icon under the ",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot:",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 20,
@@ -799,7 +1415,27 @@
             "To edit an existing Order Type, click the pencil icon under the 'Action' column.",
             "To delete an Order Type, click the trash bin icon under the 'Action' column."
           ],
-          "screenshots": ["order-type-interface.png"]
+          "screenshots": [
+            "order-type-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Click the \"Add\" button to add the Order Type.",
+              "type": "string"
+            },
+            {
+              "name": "To edit an existing Order Type, click the pencil icon under ",
+              "type": "string"
+            },
+            {
+              "name": "To delete an Order Type, click the trash bin icon under the ",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot:",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 21,
@@ -819,7 +1455,15 @@
               "details": "All added plant locations will be listed in a table below the entry form. You can use the edit (pencil icon) or delete (trash icon) buttons under the 'Action' column to modify or remove a location."
             }
           ],
-          "screenshots": ["plant-location-interface.png"]
+          "screenshots": [
+            "plant-location-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Step 3: View or Manage Existing Locations",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 22,
@@ -840,7 +1484,31 @@
             "edit": "Click the pencil (edit) icon under the 'Action' column to modify the existing name.",
             "delete": "Click the trash bin icon under the 'Action' column to remove the product family."
           },
-          "screenshots": ["product-family-interface.png"],
+          "screenshots": [
+            "product-family-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Click the blue 'Add' button to save the new product family.",
+              "type": "string"
+            },
+            {
+              "name": "Edit/Delete Product Family",
+              "type": "string"
+            },
+            {
+              "name": "Each product family listed has two actions under the 'Action",
+              "type": "string"
+            },
+            {
+              "name": "Edit (pencil icon): Modify the existing name.",
+              "type": "string"
+            },
+            {
+              "name": "Delete (trash bin icon): Remove the product family.",
+              "type": "string"
+            }
+          ],
           "steps": [],
           "procedure": [
             "Overview",
@@ -874,7 +1542,23 @@
             "The added product will appear in the table below.",
             "To edit or delete a product, use the respective icons under the 'Action' column."
           ],
-          "screenshots": ["products-master-interface.png"]
+          "screenshots": [
+            "products-master-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "The added product will appear in the table below.",
+              "type": "string"
+            },
+            {
+              "name": "To edit or delete a product, use the respective icons under ",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot:",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 24,
@@ -892,7 +1576,31 @@
             "Use the edit (pencil) icon under the 'Action' column to modify the reason.",
             "Use the delete (trash bin) icon to remove the reason from the list."
           ],
-          "screenshots": ["rejected-reasons-interface.png"],
+          "screenshots": [
+            "rejected-reasons-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Click on the blue 'Add' button to save the new reason.",
+              "type": "string"
+            },
+            {
+              "name": "To cancel, click on the 'Cancel' button.",
+              "type": "string"
+            },
+            {
+              "name": "Locate the reason in the list displayed.",
+              "type": "string"
+            },
+            {
+              "name": "Use the edit (pencil) icon under the 'Action' column to modi",
+              "type": "string"
+            },
+            {
+              "name": "Use the delete (trash bin) icon to remove the reason from th",
+              "type": "string"
+            }
+          ],
           "steps": [],
           "procedure": [
             "Navigate to the 'Master' section from the sidebar.",
@@ -928,7 +1636,23 @@
               ]
             }
           ],
-          "screenshots": ["sez-interface.png"]
+          "screenshots": [
+            "sez-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Click the 'Add' button to save the entry.",
+              "type": "string"
+            },
+            {
+              "name": "The new entry will appear in the list below with options to ",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot: SEZ Management Interface",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 26,
@@ -943,7 +1667,27 @@
             "The newly added entry will appear in the table below with a serial number.",
             "Use the 'Edit' (pencil icon) or 'Delete' (trash icon) options under the 'Action' column for any modifications."
           ],
-          "screenshots": ["spare1-interface.png"]
+          "screenshots": [
+            "spare1-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Steps to Add a Spare 1 Entry:",
+              "type": "string"
+            },
+            {
+              "name": "In the 'Add Spare 1' section, enter the desired name into th",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot:",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 27,
@@ -957,7 +1701,23 @@
             "Click on the 'Add' button to save the entry.",
             "The newly added item will appear in the list below with options to edit or delete."
           ],
-          "screenshots": ["spare2-interface.png"]
+          "screenshots": [
+            "spare2-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Click on the \"Add\" button to save the entry.",
+              "type": "string"
+            },
+            {
+              "name": "The newly added item will appear in the list below with opti",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot:",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 28,
@@ -975,7 +1735,27 @@
             "Click on the blue 'Add' button to save the spare entry.",
             "The newly added spare will appear in the list below with options to edit or delete it."
           ],
-          "screenshots": ["spare3-interface.png"]
+          "screenshots": [
+            "spare3-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Step 4: Click on the blue 'Add' button to save the spare ent",
+              "type": "string"
+            },
+            {
+              "name": "Step 5: The newly added spare will appear in the list below ",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot",
+              "type": "string"
+            },
+            {
+              "name": "Below is the screenshot of the 'Spare 3' section for referen",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 29,
@@ -993,7 +1773,71 @@
             "Update the name and save the changes.",
             "To delete a TPI agency, click the trash bin (delete) icon under the 'Action' column."
           ],
-          "screenshots": ["tpi-agency-interface.png"],
+          "screenshots": [
+            "tpi-agency-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Below is the interface for managing TPI Agencies in the MyID",
+              "type": "string"
+            },
+            {
+              "name": "Figure 1: TPI Agency management screen.",
+              "type": "string"
+            },
+            {
+              "name": "In the 'Add TPI Agency' section, enter the name of the new T",
+              "type": "string"
+            },
+            {
+              "name": "Update the name and save the changes.",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "Enter the desired zone name in the 'Add Zone' input field.",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "Follow the steps below to add a new role in MyIDEX HUB:",
+              "type": "string"
+            },
+            {
+              "name": "Enter the desired role name in the 'Enter Role Name' field.",
+              "type": "string"
+            },
+            {
+              "name": "Choose the role type (Internal/External) from the 'Select Ty",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot of Role Management Page:",
+              "type": "string"
+            },
+            {
+              "name": "Notes",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot of Role Permission Mapping Page:",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            }
+          ],
           "steps": [],
           "procedure": [
             "Navigate to the 'Master' section in the left menu.",
@@ -1060,7 +1904,23 @@
               ]
             }
           },
-          "screenshots": ["zone-master-interface.png"],
+          "screenshots": [
+            "zone-master-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "Click on the 'Add' button to save the new zone.",
+              "type": "string"
+            },
+            {
+              "name": "If you want to cancel, click the 'Cancel' button.",
+              "type": "string"
+            },
+            {
+              "name": "Managing Existing Zones",
+              "type": "string"
+            }
+          ],
           "steps": [],
           "procedure": [
             "Flowchart of order Wokflow",
@@ -1096,7 +1956,12 @@
           ],
           "rolePermissionMapping": {
             "description": "Once a role is created, permissions for different modules and functionalities can be assigned by clicking the user icon under the 'Action' column.",
-            "permissionColumns": ["Read", "Create", "Update", "Delete"],
+            "permissionColumns": [
+              "Read",
+              "Create",
+              "Update",
+              "Delete"
+            ],
             "steps": [
               "Each row represents a module or feature in the system.",
               "Use the toggle switches under Read, Create, Update, and Delete columns to enable or disable specific permissions for the role.",
@@ -1104,7 +1969,24 @@
               "Changes are saved after clicking on the Save button and particular permissions are assigned to the specific Role."
             ]
           },
-          "screenshots": ["role-master-interface.png", "role-permission-mapping.png"]
+          "screenshots": [
+            "role-master-interface.png",
+            "role-permission-mapping.png"
+          ],
+          "fields": [
+            {
+              "name": "Choose the role type (Internal/External) from the 'Select Ty",
+              "type": "string"
+            },
+            {
+              "name": "Click the blue 'Add' button to save the new role.",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot of Role Management Page:",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 33,
@@ -1132,7 +2014,15 @@
             "Case 1: When Data Type 'Custom Forms' is selected, the predefined field will appear in Custom Forms Master.",
             "Case 2: When Data Type 'Templates' is selected, the predefined field will appear in Template Master."
           ],
-          "screenshots": ["pre-defined-field-interface.png"]
+          "screenshots": [
+            "pre-defined-field-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "found under the 'Master' section of the application and is u",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 34,
@@ -1166,7 +2056,23 @@
               "details": "To edit a template, click the pencil (edit) icon next to the respective template row. To delete a template, click the trash (delete) icon. Only authorized users can perform these actions."
             }
           ],
-          "screenshots": ["template-master-interface.png"]
+          "screenshots": [
+            "template-master-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "The left panel shows the fields which are maintained under '",
+              "type": "string"
+            },
+            {
+              "name": "NOTE : These placeholder are replaced by the actual value re",
+              "type": "string"
+            },
+            {
+              "name": "Step 5: Edit or Delete Template",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 35,
@@ -1224,113 +2130,91 @@
               ]
             }
           ],
-          "screenshots": ["custom-form-master-interface.png"]
+          "screenshots": [
+            "custom-form-master-interface.png"
+          ],
+          "fields": [
+            {
+              "name": "",
+              "type": "string"
+            },
+            {
+              "name": "",
+              "type": "string"
+            },
+            {
+              "name": "",
+              "type": "string"
+            },
+            {
+              "name": "",
+              "type": "string"
+            },
+            {
+              "name": "Drag and drop the required input fields (Text Field, Number,",
+              "type": "string"
+            },
+            {
+              "name": "Configure each input field:",
+              "type": "string"
+            },
+            {
+              "name": "○ Label: Set a meaningful name.",
+              "type": "string"
+            },
+            {
+              "name": "○ Key: Do not do any changes in key",
+              "type": "string"
+            },
+            {
+              "name": "○ Validation: Define required rules (mandatory, min/max leng",
+              "type": "string"
+            },
+            {
+              "name": "Click Save for each component.",
+              "type": "string"
+            },
+            {
+              "name": "For a Single Input Field:",
+              "type": "string"
+            }
+          ]
         },
         {
           "id": 36,
           "title": "WorkFlow Master",
-          "objective": "This Standard Operating Procedure (SOP) provides steps for managing workflow data in the MyIDEX HUB platform. It includes the process for adding, editing, and deleting entries in the workflow section under the Master module.",
-          "navigation": [
-            "Login to MyIDEX HUB",
-            "From the left side menu, click on 'Master'",
-            "Select 'Workflow' under the 'Master' section to view the list of existing workflows"
-          ],
-          "procedure": [
-            {
-              "heading": "Workflow Listing Page",
-              "steps": [
-                "This section allows users to view and manage existing workflows.",
-                "Users can search workflows using the search functionality.",
-                "Users can add new workflows using the 'Add Workflow' button.",
-                "Existing workflows can be edited or deleted using the action icons in each row."
-              ]
-            },
-            {
-              "heading": "Workflow Form Page",
-              "steps": [
-                "This section is used for creating or updating workflow details.",
-                "Select associated business unit (multiple selections allowed).",
-                "Choose a reference workflow if needed.",
-                "Define activity steps and workflow configuration."
-              ]
-            },
-            {
-              "heading": "Workflow Configuration Fields",
-              "steps": [
-                "Workflow Reference: Represents taking another workflow as a reference for quick setup.",
-                "Forward & Backward Dependency: Check box enables both dependency columns in the activities section.",
-                "Activity Fields include: Internal Stage, Action By, Activity ID, Activity Name, Target Days, Forward Dependency, Backward Dependency, Backward Date Check."
-              ]
-            },
-            {
-              "heading": "Activities Section Details",
-              "steps": [
-                "Internal Stage: Dropdown is populated from the Internal Stage master.",
-                "Action By: Dropdown is populated from the Role master.",
-                "Activity ID: Auto-generated sequentially (e.g., 101, 102...).",
-                "Activity Name: Input field where users enter the activity name.",
-                "Target Days: Indicates the number of days required to complete the activity.",
-                "Forward Dependency: Defines which activity should follow the current one.",
-                "Backward Dependency: Used to calculate the target date in a bottom-to-top flow.",
-                "Backward Date Check: Represents from which activity the backward calculation should start."
-              ]
-            },
-            {
-              "heading": "Notification Settings (Internal Section)",
-              "steps": [
-                "Populated from the Role Master.",
-                "Excludes roles: AdminL1, AdminL2, AdminL3, and Distributor.",
-                "Contains Template field (fetched from Template Master).",
-                "Contains Document List field (fetched from Document List Master).",
-                "Used to define which internal users receive specific emails when a particular activity is completed."
-              ]
-            },
-            {
-              "heading": "Notification Settings (Customer Section)",
-              "steps": [
-                "Includes internal users in the notification list.",
-                "Includes all three types of contact persons from the Customer Master:",
-                "  - Technical Contact Person",
-                "  - Commercial Contact Person",
-                "  - Project Contact Person",
-                "Contains Template field and Document List field for email notifications."
-              ]
-            },
-            {
-              "heading": "Notification Settings (Distributor Section)",
-              "steps": [
-                "Includes internal users in the notification list.",
-                "Includes distributor names from the Distributor Master.",
-                "Contains Template field (fetched from Template Master).",
-                "Contains Document List field (fetched from Document List Master).",
-                "Used to define notification recipients for distributor-related activities."
-              ]
-            },
-            {
-              "heading": "Additional Configuration Options",
-              "steps": [
-                "Applicable Form List: Appears from the Custom Form Master. Used to specify which form is selected for a particular activity stage in Orders.",
-                "Tab Name: Represents the name of the tab for a specific activity. This tab name is displayed when an order is created.",
-                "Activity Symbols: '+' button used to add a new activity to the workflow; '-' button used to remove an activity.",
-                "Yellow Button (Top Right): Used to preview the flowchart of the workflow.",
-                "Green Button (Top Right): Used to download all workflow data in Excel format."
-              ]
-            }
-          ],
+          "description": "This Standard Operating Procedure (SOP) provides steps for managing workflow data in the MyIDEX HUB platform. It includes the process for adding, editing, and deleting entries in the workflow section under the Master module.",
+          "navigation": "Login to MyIDEX HUB and from the left side menu, click on 'Master'. Then select 'Workflow' under the 'Master' section to view the list of existing workflows.",
           "workflowListingPage": {
-            "title": "Workflow Listing Page",
             "description": "This section allows users to view and manage existing workflows. Users can search workflows, add new workflows, and edit or delete existing ones."
           },
           "workflowFormPage": {
-            "title": "Workflow Form Page",
-            "description": "This section is used for creating or updating workflow details including associated business unit (multiple), reference workflow, and defining activity steps."
+            "description": "This section is used for creating or updating workflow details including associated business unit (multiple), reference workflow, and defining activity steps.",
+            "fields": {
+              "workflowReference": "Represents taking another workflow as a reference.",
+              "forwardAndBackwardDependency": "Check box enables both dependency columns in the activities section.",
+              "activities": {
+                "internalStage": "Internal Stage dropdown is populated from the Internal Stage master.",
+                "actionBy": "Action By dropdown is populated from the Role master.",
+                "activityID": "Activity ID is auto-generated sequentially (e.g., 101, 102...).",
+                "activityName": "Activity Name is an input field where users enter the activity name.",
+                "targetDays": "Target Days indicates the number of days required to complete the activity.",
+                "forwardDependency": "Forward Dependency defines which activity should follow the current one.",
+                "backwardDependency": "Backward Dependency is used to calculate the target date of the selected activity in a bottom-to-top flow.",
+                "backwardDateCheck": "Represents from which activity the backward calculation should start."
+              }
+            }
           },
           "notificationSections": {
             "description": "There are three notification sections: Internal, Customer, and Distributor.",
             "internal": {
               "description": "Populated from the Role Master.",
-              "excludedRoles": ["AdminL1", "AdminL2", "AdminL3", "Distributor"],
-              "purpose": "Defines which internal users receive emails when a particular activity is completed."
+              "excludedRoles": [
+                "AdminL1",
+                "AdminL2",
+                "AdminL3",
+                "Distributor"
+              ]
             },
             "customer": {
               "description": "Includes internal users and all three types of contact persons from the Customer Master.",
@@ -1338,12 +2222,10 @@
                 "Technical Contact Person",
                 "Commercial Contact Person",
                 "Project Contact Person"
-              ],
-              "purpose": "Notifies customer contacts about workflow activity completion."
+              ]
             },
             "distributor": {
-              "description": "Includes internal users and distributor names.",
-              "purpose": "Notifies distributor contacts about workflow activity completion."
+              "description": "Includes internal users and distributor names."
             },
             "commonFields": {
               "description": "All three sections contain two common fields.",
@@ -1351,7 +2233,7 @@
                 "Template (fetched from Template Master)",
                 "Document List (fetched from Document List Master)"
               ],
-              "purpose": "Used to specify the email template and documents to be sent to notification recipients."
+              "purpose": "Used to define which users will receive a specific email when a particular activity is completed, along with the selected email template and documents."
             }
           },
           "applicableFormList": {
@@ -1369,7 +2251,52 @@
             "yellowButton": "Located in the top right corner. Used to preview the flowchart of the workflow.",
             "greenButton": "Located in the top right corner. Used to download all workflow data in Excel format."
           },
-          "screenshots": ["workflow-listing.png", "workflow-form.png", "workflow-activities.png"]
+          "screenshots": [
+            "workflow-listing.png",
+            "workflow-form.png",
+            "workflow-activities.png"
+          ],
+          "fields": [
+            {
+              "name": "name.",
+              "type": "string"
+            },
+            {
+              "name": "Target Days:- Target Days indicates the number of days requi",
+              "type": "string"
+            },
+            {
+              "name": "Forward Dependency: - Forward Dependency defines which activ",
+              "type": "string"
+            },
+            {
+              "name": "Backward Dependency: - Backward Dependency is used to calcul",
+              "type": "string"
+            },
+            {
+              "name": "Backward Date check : This field Represents that from which ",
+              "type": "string"
+            },
+            {
+              "name": "There are three sections: Internal, Customer, and Distributo",
+              "type": "string"
+            },
+            {
+              "name": "Internal :",
+              "type": "string"
+            },
+            {
+              "name": "o Excludes roles: AdminL1, AdminL2, AdminL3, and Distributor",
+              "type": "string"
+            }
+          ],
+          "steps": [],
+          "procedure": [
+            "Workflow Listing Page",
+            "Workflow Form Page",
+            "| P a g e",
+            "| P a g e"
+          ]
         }
       ]
     },
@@ -1452,7 +2379,9 @@
               },
               "adminL3FromL1": {
                 "description": "When creating Admin L3 from Admin L1",
-                "rules": ["The region, groups, and BUs will be selected by user"]
+                "rules": [
+                  "The region, groups, and BUs will be selected by user"
+                ]
               },
               "adminL3FromL2": {
                 "description": "When creating Admin L3 from Admin L2",
@@ -1485,6 +2414,24 @@
             "add-user-form.png",
             "otp-verification.png",
             "customer-users.png"
+          ],
+          "fields": [
+            {
+              "name": "• First Name",
+              "type": "string"
+            },
+            {
+              "name": "• Last Name",
+              "type": "string"
+            },
+            {
+              "name": "NOTE : The dropdowns for 'Role', 'Region', 'Group', and 'Use",
+              "type": "string"
+            },
+            {
+              "name": "When creating Admin L1:",
+              "type": "string"
+            }
           ],
           "steps": [],
           "procedure": [
@@ -1549,7 +2496,10 @@
               {
                 "name": "Bill to Customer Name",
                 "source": "Customer Master",
-                "autoFills": ["Bill to Customer Code", "Bill to Address"]
+                "autoFills": [
+                  "Bill to Customer Code",
+                  "Bill to Address"
+                ]
               },
               {
                 "name": "Ship to Name",
@@ -1626,7 +2576,9 @@
                 "description": "Indicates that the activity has been partially submitted"
               }
             ],
-            "features": ["PDF icon on top right corner for download flowchart in pdf format"]
+            "features": [
+              "PDF icon on top right corner for download flowchart in pdf format"
+            ]
           },
           "activityStage": {
             "description": "Order's Activity Stage section displays the OMS ID and different activity tabs",
@@ -1709,8 +2661,26 @@
             "workflow-flowchart.png",
             "activity-stage.png"
           ],
+          "fields": [
+            {
+              "name": "Below is the screenshot of the Order Listing Page:",
+              "type": "string"
+            },
+            {
+              "name": "Below is the screenshot of the Order Creation Form:",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            }
+          ],
           "steps": [],
-          "procedure": ["Order Listing Page", "Order Creation Form", "| P a g e"]
+          "procedure": [
+            "Order Listing Page",
+            "Order Creation Form",
+            "| P a g e"
+          ]
         }
       ]
     },
@@ -1725,7 +2695,13 @@
             "financialGraph": {
               "title": "Financial Graph",
               "description": "Provides a visual representation of various sales and order-related metrics",
-              "filters": ["Year", "BU/Value Stream", "Zone", "Currency", "Currency Unit"],
+              "filters": [
+                "Year",
+                "BU/Value Stream",
+                "Zone",
+                "Currency",
+                "Currency Unit"
+              ],
               "dataDisplay": "Displays monthly data across the selected year",
               "metrics": [
                 "Actual Sales",
@@ -1738,13 +2714,24 @@
                 "Past Due Estimated Sales",
                 "Future Due Estimated Sales"
               ],
-              "exportOptions": ["PDF", "Excel"]
+              "exportOptions": [
+                "PDF",
+                "Excel"
+              ]
             },
             "performanceGraph": {
               "title": "Performance Graph",
               "description": "Shows activity performance based on workflow progress",
-              "filters": ["Year", "BU/Value Stream", "Workflow", "Internal Stages"],
-              "toggleOptions": ["Order", "Internal Stages"],
+              "filters": [
+                "Year",
+                "BU/Value Stream",
+                "Workflow",
+                "Internal Stages"
+              ],
+              "toggleOptions": [
+                "Order",
+                "Internal Stages"
+              ],
               "dataDisplay": "Monthly data view of activities",
               "metrics": [
                 "All Activities",
@@ -1752,12 +2739,49 @@
                 "Activities Crossing Target Days",
                 "WIP (Work in Progress) Activities"
               ],
-              "exportOptions": ["PDF", "Excel"]
+              "exportOptions": [
+                "PDF",
+                "Excel"
+              ]
             }
           },
-          "screenshots": ["common-dashboard-financial.png", "common-dashboard-performance.png"],
+          "screenshots": [
+            "common-dashboard-financial.png",
+            "common-dashboard-performance.png"
+          ],
+          "fields": [
+            {
+              "name": "metrics. Key features include:",
+              "type": "string"
+            },
+            {
+              "name": "Graph includes different colored bars representing metrics s",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "highlights include:",
+              "type": "string"
+            },
+            {
+              "name": "Graph displays metrics such as:",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            }
+          ],
           "steps": [],
-          "procedure": ["Financial Graph", "| P a g e", "Performance Graph", "| P a g e"],
+          "procedure": [
+            "Financial Graph",
+            "| P a g e",
+            "Performance Graph",
+            "| P a g e"
+          ],
           "description": "Login to MyIDEX HUB and from the left side menu, click on 'Dashboard'. Then select 'Common Dashboard' under the 'Dashboard' ."
         },
         {
@@ -1784,14 +2808,21 @@
             },
             "recentOrders": {
               "description": "Displays a table of customer's recent orders",
-              "columns": ["PO number", "order status", "expected delivery date"]
+              "columns": [
+                "PO number",
+                "order status",
+                "expected delivery date"
+              ]
             },
             "orderListing": {
               "description": "Opens a complete list of all orders for the selected customer"
             },
             "recentOrderStatus": {
               "description": "Shows the status of most recent order using visual order tracker",
-              "includes": ["PO number", "PO date"],
+              "includes": [
+                "PO number",
+                "PO date"
+              ],
               "orderTrackerStages": [
                 {
                   "name": "Order Initiated",
@@ -1833,7 +2864,10 @@
               },
               "paymentStatus": {
                 "description": "Shows current milestone payment status",
-                "options": ["Paid", "Unpaid"]
+                "options": [
+                  "Paid",
+                  "Unpaid"
+                ]
               },
               "pendingActions": {
                 "description": "Displays number of payment reminders sent for this order"
@@ -1862,8 +2896,138 @@
             "order-tracker.png",
             "order-details.png"
           ],
+          "fields": [
+            {
+              "name": "Select Customer: Use the dropdown list to select a specific ",
+              "type": "string"
+            },
+            {
+              "name": "Select Customer: Use the dropdown list to select a specific ",
+              "type": "string"
+            },
+            {
+              "name": "Active Orders: Displays the number of ongoing orders for the",
+              "type": "string"
+            },
+            {
+              "name": "Past Orders: Displays the number of completed orders for the",
+              "type": "string"
+            },
+            {
+              "name": "Pending Actions: Indicates the number of payment reminders s",
+              "type": "string"
+            },
+            {
+              "name": "Open Requests: Shows the count of service requests raised ag",
+              "type": "string"
+            },
+            {
+              "name": "Recent Orders: Displays a table of the customer's recent ord",
+              "type": "string"
+            },
+            {
+              "name": "Order Listing: Opens a complete list of all orders for the s",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "Recent Order Status: Shows the status of the most recent ord",
+              "type": "string"
+            },
+            {
+              "name": "Order Tracker Stages:",
+              "type": "string"
+            },
+            {
+              "name": "Order Initiated: Triggered when the first submission is made",
+              "type": "string"
+            },
+            {
+              "name": "Order Acknowledged: Occurs when the next status for all line",
+              "type": "string"
+            },
+            {
+              "name": "Engineering & Procurement: Begins when the next status is >=",
+              "type": "string"
+            },
+            {
+              "name": "Manufacturing: Updates when the next status for all line ite",
+              "type": "string"
+            },
+            {
+              "name": "Dispatched: Updates when the next status for all line items ",
+              "type": "string"
+            },
+            {
+              "name": "Delivered: Final stage manually updated by the dispatch team",
+              "type": "string"
+            },
+            {
+              "name": "Detailed View: Provides a comprehensive overview of the orde",
+              "type": "string"
+            },
+            {
+              "name": "Order Information (Top Section):",
+              "type": "string"
+            },
+            {
+              "name": "o Displays key order details sourced from the JDE environmen",
+              "type": "string"
+            },
+            {
+              "name": "Payment Status:",
+              "type": "string"
+            },
+            {
+              "name": "Pending Actions:",
+              "type": "string"
+            },
+            {
+              "name": "Order Line Item Details (Bottom Section):",
+              "type": "string"
+            },
+            {
+              "name": "o Presents details of individual order line items, as fetche",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "Customer Item Description",
+              "type": "string"
+            },
+            {
+              "name": "IDEX Item Description",
+              "type": "string"
+            },
+            {
+              "name": "View Document (Bottom-Right Corner):",
+              "type": "string"
+            },
+            {
+              "name": "o Opens a list of documents attached under the \"Required Doc",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "Figure 1: Executive Dashboard Interface",
+              "type": "string"
+            }
+          ],
           "steps": [],
-          "procedure": ["| P a g e", "| P a g e", "| P a g e"]
+          "procedure": [
+            "| P a g e",
+            "| P a g e",
+            "| P a g e"
+          ]
         },
         {
           "id": 40,
@@ -1952,7 +3116,95 @@
               }
             ]
           },
-          "screenshots": ["executive-dashboard.png"],
+          "screenshots": [
+            "executive-dashboard.png"
+          ],
+          "fields": [
+            {
+              "name": "Months Determination: Based on the OMS ID generation month.",
+              "type": "string"
+            },
+            {
+              "name": "Data Filtering: Displayed based on the selected Business Uni",
+              "type": "string"
+            },
+            {
+              "name": "Currency Conversion: Data is converted according to the sele",
+              "type": "string"
+            },
+            {
+              "name": "Forecasted Sales : Comes form KPI inputs of sales forecast.",
+              "type": "string"
+            },
+            {
+              "name": "Forecasted Sales Margin : Comes from KPI input of Sales fore",
+              "type": "string"
+            },
+            {
+              "name": "Actual Sales : Addition of ExtPrice of all order line no com",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            },
+            {
+              "name": "Forecasted Order Inflow : Comes from KPI inputs of order inf",
+              "type": "string"
+            },
+            {
+              "name": "Forecasted Order Inflow Margin : Comes from KPI inputs of or",
+              "type": "string"
+            },
+            {
+              "name": "Actual Order Inflow : Addition of ExtPrice of Order line no ",
+              "type": "string"
+            },
+            {
+              "name": "Order Booked in JDE : Addition of ExtPrices of all orders wh",
+              "type": "string"
+            },
+            {
+              "name": "Engineering : Addition of Customer PO value of orders whose ",
+              "type": "string"
+            },
+            {
+              "name": "Application : Addition of Customer PO value of orders whose ",
+              "type": "string"
+            },
+            {
+              "name": "CSR : Addition of Customer PO value of orders whose current ",
+              "type": "string"
+            },
+            {
+              "name": "Functional OTD % : The system displayed the",
+              "type": "string"
+            },
+            {
+              "name": "Formula : (Completed withing target days / Total number of c",
+              "type": "string"
+            },
+            {
+              "name": "Functional Lead Days : The system displayed the -- (Sumation",
+              "type": "string"
+            },
+            {
+              "name": "Functional % Accuracy : The system displayed the Percentage ",
+              "type": "string"
+            },
+            {
+              "name": "rejected. Example - 5 are rejected out of 10 orders then 50%",
+              "type": "string"
+            },
+            {
+              "name": "Total Order Book Days : The system should display the differ",
+              "type": "string"
+            },
+            {
+              "name": "| P a g e",
+              "type": "string"
+            }
+          ],
           "steps": [],
           "procedure": [
             "Forecasted Sales : Comes form KPI inputs of sales forecast.",
@@ -2005,7 +3257,11 @@
               },
               {
                 "name": "Contact Person Details",
-                "fields": ["Contact Person Name", "Email Address", "Mobile Number"],
+                "fields": [
+                  "Contact Person Name",
+                  "Email Address",
+                  "Mobile Number"
+                ],
                 "description": "Fill in contact person's details for the respective customer"
               },
               {
@@ -2015,7 +3271,11 @@
               },
               {
                 "name": "Logged-in User Details",
-                "fields": ["Complaint raised by Name", "Email", "Mobile No."],
+                "fields": [
+                  "Complaint raised by Name",
+                  "Email",
+                  "Mobile No."
+                ],
                 "autoFilled": true,
                 "description": "Auto-filled with currently logged-in user information"
               },
@@ -2047,7 +3307,11 @@
               },
               {
                 "name": "File Upload Fields",
-                "fields": ["Nameplate Picture", "Failure Picture", "Datasheet"]
+                "fields": [
+                  "Nameplate Picture",
+                  "Failure Picture",
+                  "Datasheet"
+                ]
               }
             ]
           },
@@ -2477,6 +3741,20 @@
             "| P a g e",
             "Closure Report Form",
             "| P a g e"
+          ],
+          "fields": [
+            {
+              "name": "Select the currency from the 'Select Currency' dropdown.",
+              "type": "string"
+            },
+            {
+              "name": "Click the blue 'Add' button to save the new region.",
+              "type": "string"
+            },
+            {
+              "name": "Screenshot of Region Management Page:",
+              "type": "string"
+            }
           ]
         }
       ]
@@ -2509,8 +3787,16 @@
       "paymentReminders": true
     },
     "dataExport": {
-      "formats": ["PDF", "Excel"],
-      "reports": ["Financial", "Performance", "Workflow", "CAPA"]
+      "formats": [
+        "PDF",
+        "Excel"
+      ],
+      "reports": [
+        "Financial",
+        "Performance",
+        "Workflow",
+        "CAPA"
+      ]
     },
     "integrations": {
       "jdeERP": true,
