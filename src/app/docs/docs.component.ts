@@ -1651,6 +1651,7 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
       }
       .module-card {
         background: var(--bg);
+        border-top: 3px solid var(--c, var(--blue));
         border: 1px solid var(--border);
         border-radius: 8px;
         padding: 20px;
