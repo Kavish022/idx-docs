@@ -7,9 +7,11 @@ import {
   ElementRef,
   OnInit,
   ChangeDetectionStrategy,
+  DestroyRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /**
  * STYLES.SCSS ADDITIONS NEEDED:
@@ -92,12 +94,12 @@ interface DocsData {
 type ViewType = 'home' | 'module' | 'section';
 
 // Icon + color map — add new module keys here, or fallback to defaults
-const MODULE_META: Record<string, { icon: string; color: string; accent: string }> = {
-  master: { icon: '[Master]', color: '#0f62fe', accent: '#eaf1ff' },
-  users: { icon: '[Users]', color: '#6929c4', accent: '#f3eeff' },
-  orders: { icon: '[Orders]', color: '#005d5d', accent: '#e3f6f6' },
-  dashboard: { icon: '[Dashboard]', color: '#9f1853', accent: '#fff0f4' },
-  service: { icon: '[Service]', color: '#b28600', accent: '#fef9e7' },
+const MODULE_META: Record<string, { color: string; accent: string }> = {
+  master: { color: '#0f62fe', accent: '#eaf1ff' },
+  users: { color: '#6929c4', accent: '#f3eeff' },
+  orders: {  color: '#005d5d', accent: '#e3f6f6' },
+  dashboard: {  color: '#9f1853', accent: '#fff0f4' },
+  service: {  color: '#b28600', accent: '#fef9e7' },
 };
 const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
 
@@ -148,12 +150,27 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
           <div class="navbar-right">
             <span class="version-chip">v{{ data()?.documentInfo?.version ?? '1.0' }}</span>
             <span class="updated-chip">{{ data()?.documentInfo?.lastUpdated ?? '' }}</span>
+            <button class="navbar-mobile-menu" (click)="toggleSidebarCollapsed()" title="Toggle sidebar">
+              <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+                <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
           </div>
         </div>
       </header>
 
       <!-- ════════════════════ BODY ════════════════════ -->
       <div class="body-layout" [class.has-sidebar]="currentView() === 'section'">
+        @if (!data()) {
+  <div class="skeleton-hero"></div>
+  <div class="home-section">
+    <div class="modules-grid">
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+  </div>
+}
         <!-- LEFT SIDEBAR — only on section view -->
         @if (currentView() === 'section') {
           <aside class="sidebar" [class.collapsed]="sidebarCollapsed()">
@@ -195,12 +212,10 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
                       [title]="mod.name"
                     >
                       @if (!sidebarCollapsed()) {
-                        <span class="sidebar-group-icon" [style.color]="meta.color">{{
-                          meta.icon
-                        }}</span>
+                        <span class="sidebar-group-icon" [style.color]="meta.color"></span>
                         <span class="sidebar-group-name">{{ mod.name }}</span>
                         <span class="sidebar-group-count">{{ filteredSections.length }}</span>
-                        <!-- <svg
+                        <svg
                           class="sidebar-chevron"
                           [class.open]="isExpanded"
                           viewBox="0 0 12 12"
@@ -213,13 +228,13 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
                             stroke-width="1.5"
                             stroke-linecap="round"
                           />
-                        </svg> -->
+                        </svg>
                       } @else {
                         <span
                           class="sidebar-group-icon-only"
                           [style.color]="meta.color"
                           [title]="mod.name"
-                          >{{ meta.icon }}</span
+                          ></span
                         >
                       }
                     </button>
@@ -269,7 +284,7 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
                 <p class="hero-tagline">{{ data()!.documentInfo.tagline }}</p>
                 <div class="hero-meta">
                   <span class="hero-stat"
-                    ><strong>{{ getTotalSections() }}</strong> sections</span
+                    ><strong>{{ totalSections() }}</strong> sections</span
                   >
                   <span class="hero-divider">·</span>
                   <span class="hero-stat"
@@ -294,7 +309,7 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
                       (click)="selectSection(result.section, result.moduleKey)"
                     >
                       <div class="src-module" [style.color]="getModuleMeta(result.moduleKey).color">
-                        {{ getModuleMeta(result.moduleKey).icon }}
+                        {{ getModuleMeta(result.moduleKey)}}
                         {{ data()!.modules[result.moduleKey].name }}
                       </div>
                       @if (firstScreenshot(result.section)) {
@@ -336,7 +351,7 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
                       [style.--c]="meta.color"
                     >
                       <div class="mc-top">
-                        <span class="mc-icon">{{ meta.icon }}</span>
+                        <!-- <span class="mc-icon">{{ meta }}</span> -->
                         <span class="mc-badge">{{ mod.sections.length }} sections</span>
                       </div>
                       <div class="mc-name">{{ mod.name }}</div>
@@ -400,7 +415,7 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
               [style.--c]="meta.color"
               [style.--accent]="meta.accent"
             >
-              <div class="mlh-icon">{{ meta.icon }}</div>
+              <!-- <div class="mlh-icon">{{ meta.icon }}</div> -->
               <div class="mlh-text">
                 <h1>{{ mod.name }}</h1>
                 <p>{{ mod.description }}</p>
@@ -503,9 +518,9 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
             <!-- Section header -->
             <div class="section-page-header">
               <div class="sph-left">
-                <div class="sph-eyebrow" [style.color]="meta.color">
+                <!-- <div class="sph-eyebrow" [style.color]="meta.color">
                   {{ meta.icon }} {{ mod.name }}
-                </div>
+                </div> -->
                 <h1 class="sph-title">{{ section.title }}</h1>
                 <div class="sph-meta">
                   <span>Section {{ section.id }}</span>
@@ -603,7 +618,7 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
                       @if (isArray(section['procedure'])) {
                         <!-- Handle procedure with subheadings (heading + steps) -->
                         @if (
-                          section['procedure'][0]?.heading ||
+                          section['procedure'].length > 0 &&
                           section['procedure'][0]?.heading !== undefined
                         ) {
                           <div class="procedure-wrapper">
@@ -1050,7 +1065,7 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
                       Previous
                     </button>
                     <span class="page-nav-counter"
-                      >{{ section.id }} of {{ getTotalSections() }}</span
+                      >{{ section.id }} of {{ totalSections() }}</span
                     >
                     <button
                       class="page-nav-btn page-nav-next"
@@ -1488,7 +1503,7 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
         border-left-color: rgba(9, 114, 211, 0.4);
       }
       .sidebar-section-btn.active {
-        background: rgba(9, 114, 211, 0.15);
+        background: rgba(9, 114, 211, 0.24);
         color: #fff;
         border-left-color: var(--blue);
       }
@@ -1503,12 +1518,27 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
         flex: 1;
       }
 
+      /* Mobile menu button — hidden by default, shown on mobile */
+      .navbar-mobile-menu {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--text-primary);
+        cursor: pointer;
+        padding: 6px 12px;
+        font-size: 18px;
+        transition: opacity 0.15s;
+      }
+      .navbar-mobile-menu:hover {
+        opacity: 0.7;
+      }
       .sidebar-glossary {
         border-top: 1px solid rgba(255, 255, 255, 0.06);
         padding: 12px 14px;
         flex-shrink: 0;
-        max-height: 200px;
+        max-height: 180px;
         overflow-y: auto;
+        border-radius: 0;
       }
       .sidebar-glossary-title {
         font-size: 10px;
@@ -1727,7 +1757,7 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
       }
       .search-result-card {
         display: flex;
-        align-items: center;
+        flex-direction: column;
         gap: 12px;
         background: var(--bg);
         border: 1px solid var(--border);
@@ -1779,13 +1809,15 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
         padding: 5px 12px;
         border-radius: 20px;
       }
-      .feature-dot {
-        width: 6px;
-        height: 6px;
-        background: var(--green);
-        border-radius: 50%;
-        flex-shrink: 0;
-      }
+      .feature-pill:nth-child(1) .feature-dot { background: #0972d3; }
+      .feature-pill:nth-child(2) .feature-dot { background: #0f62fe; }
+      .feature-pill:nth-child(3) .feature-dot { background: #0043ce; }
+      .feature-pill:nth-child(4) .feature-dot { background: #5a0fc1; }
+      .feature-pill:nth-child(5) .feature-dot { background: #9f1853; }
+      .feature-pill:nth-child(6) .feature-dot { background: #006241; }
+      .feature-pill:nth-child(7) .feature-dot { background: #005d5d; }
+      .feature-pill:nth-child(8) .feature-dot { background: #b28600; }
+      .feature-pill:nth-child(n+9) .feature-dot { background: var(--green); }
 
       /* ── BREADCRUMB ──────────────────────────────────── */
       .breadcrumb-bar {
@@ -2134,7 +2166,7 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
         display: flex;
         align-items: flex-start;
         gap: 12px;
-        font-size: 16px;
+        font-size: 15px;
         color: var(--text-secondary);
         line-height: 1.6;
       }
@@ -2178,7 +2210,7 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
         display: flex;
         align-items: flex-start;
         gap: 8px;
-        font-size: 13px;
+        font-size: 14px;
         color: var(--text-secondary);
         line-height: 1.55;
       }
@@ -2785,10 +2817,59 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
         font-family: 'IBM Plex Mono', monospace;
       }
 
+      /* Viewer controls */
+      .viewer-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .viewer-controls button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.15s;
+        font-weight: 600;
+        font-size: 16px;
+      }
+      .viewer-controls button:hover {
+        background: var(--border);
+        color: var(--text-primary);
+      }
+
+      /* Loading skeleton */
+      .skeleton-loader {
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+      }
+      .skeleton-hero {
+        background: linear-gradient(135deg, var(--navy) 0%, #1a3050 100%);
+        padding: 56px 40px 52px;
+        animation: pulse 2s ease-in-out infinite;
+      }
+      .skeleton-card {
+        background: var(--bg-subtle);
+        height: 200px;
+        border-radius: 6px;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
       /* ── RESPONSIVE ──────────────────────────────────── */
       @media (max-width: 900px) {
         .right-rail {
           display: none;
+        }
+        .section-body-inner {
+          padding-right: 40px;
         }
         .home-section {
           padding-left: 20px;
@@ -2815,9 +2896,15 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
         .two-col {
           grid-template-columns: 1fr;
         }
+        .hero-title {
+          font-size: 26px;
+        }
+        .navbar-mobile-menu {
+          display: flex;
+        }
       }
       /* Fix: pin right-rail to viewport edge on wide screens so it's not centered */
-      @media (min-width: 900px) {
+      @media (min-width: 1200px) {
         .right-rail {
           position: fixed;
           right: 18px;
@@ -2836,6 +2923,14 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
           padding-right: 300px;
         }
       }
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 27px;
+        }
+        .updated-chip {
+          display: none;
+        }
+      }
       @media (max-width: 600px) {
         .hero-title {
           font-size: 22px;
@@ -2845,6 +2940,9 @@ const DEFAULT_META = { icon: '[Doc]', color: '#0972d3', accent: '#eaf1ff' };
         }
         .slc-right {
           display: none;
+        }
+        .navbar-mobile-menu {
+          display: flex;
         }
       }
     `,
@@ -2894,8 +2992,12 @@ export class DocsComponent implements OnInit {
   });
 
   // ── INIT ─────────────────────────────────────────────
+  // to destroy the trash data immediately after callbacks
+  private destroyRef = inject(DestroyRef);
+
   ngOnInit() {
-    this.http.get<DocsData>('/assets/data/myidex-hub-sop-complete.json').subscribe({
+    this.http.get<DocsData>('/assets/data/myidex-hub-sop-complete.json').pipe(takeUntilDestroyed(this.destroyRef)).
+    subscribe({
       next: (d) => this.data.set(d),
       error: (e) => console.error('Failed to load docs JSON', e),
     });
@@ -2926,7 +3028,7 @@ export class DocsComponent implements OnInit {
   }
 
   nextSection() {
-    const all = this.getAllSections();
+    const all = this.allSections();
     const curr = this.selectedSection()?.id;
     if (curr === undefined) return;
     const idx = all.findIndex((s) => s.section.id === curr);
@@ -2937,7 +3039,7 @@ export class DocsComponent implements OnInit {
   }
 
   prevSection() {
-    const all = this.getAllSections();
+    const all = this.allSections();
     const curr = this.selectedSection()?.id;
     if (curr === undefined) return;
     const idx = all.findIndex((s) => s.section.id === curr);
@@ -2948,7 +3050,7 @@ export class DocsComponent implements OnInit {
   }
 
   hasNext(): boolean {
-    const all = this.getAllSections();
+    const all = this.allSections();
     const curr = this.selectedSection()?.id;
     if (curr === undefined) return false;
     const idx = all.findIndex((s) => s.section.id === curr);
@@ -2956,22 +3058,33 @@ export class DocsComponent implements OnInit {
   }
 
   hasPrev(): boolean {
-    const all = this.getAllSections();
+    const all = this.allSections();
     const curr = this.selectedSection()?.id;
     if (curr === undefined) return false;
     const idx = all.findIndex((s) => s.section.id === curr);
     return idx > 0;
   }
 
-  getAllSections(): { section: Section; moduleKey: string }[] {
-    const result: { section: Section; moduleKey: string }[] = [];
-    for (const key of this.moduleKeys()) {
-      for (const section of this.data()!.modules[key].sections) {
-        result.push({ section, moduleKey: key });
-      }
+  // getAllSections(): { section: Section; moduleKey: string }[] {
+  //   const result: { section: Section; moduleKey: string }[] = [];
+  //   for (const key of this.moduleKeys()) {
+  //     for (const section of this.data()!.modules[key].sections) {
+  //       result.push({ section, moduleKey: key });
+  //     }
+  //   }
+  //   return result.sort((a, b) => a.section.id - b.section.id);
+  // }
+
+allSections = computed(() => {
+  if(!this.data()) return [];
+  const result: { section: Section; moduleKey: string}[] = [];
+  for(const key of this.moduleKeys()){
+    for(const section of this.data()!.modules[key].sections){
+      result.push({ section, moduleKey: key});
     }
-    return result.sort((a, b) => a.section.id - b.section.id);
   }
+return result.sort((a, b) => a.section.id - b.section.id)
+})
 
   // ── SIDEBAR ──────────────────────────────────────────
   toggleModule(key: string) {
@@ -3027,13 +3140,21 @@ export class DocsComponent implements OnInit {
     return MODULE_META[key] ?? DEFAULT_META;
   }
 
-  getTotalSections(): number {
-    return this.moduleKeys().reduce(
-      (t, k) => t + (this.data()?.modules[k].sections.length ?? 0),
-      0,
-    );
-  }
+  // getTotalSections(): number {
+  //   return this.moduleKeys().reduce(
+  //     (t, k) => t + (this.data()?.modules[k].sections.length ?? 0),
+  //     0,
+  //   );
+  // }
+//  ----- TO take all sections -------
 
+totalSections = computed(() =>
+  this.moduleKeys().reduce(
+    (t, k) => t + (this.data()?.modules[k].sections.length ?? 0),
+    0,
+  )
+)
+// ------
   getTerminologyEntries(): { key: string; value: string }[] {
     const terms = this.data()?.commonTerminology ?? {};
     return Object.entries(terms).map(([key, value]) => ({ key, value }));
@@ -3087,38 +3208,42 @@ export class DocsComponent implements OnInit {
     'addProductFamily',
   ]);
 
-  private DYNAMIC_OBJECT_KEYS = [
-    'orderCreationForm',
-    'orderListingPage',
-    'activityStage',
-    'actionButtons',
-    'flowchart',
-    'workflowFormPage',
-    'workflowListingPage',
-    'notificationSections',
-    'components',
-    'serviceRequestsListing',
-    'customerServiceRequestForm',
-    'internalTeamForm',
-    'closureReportForm',
-    'listingPage',
-    'addUserPage',
-    'customerUserSection',
-    'userTypes',
-    'rolePermissionMapping',
-    'leftCard',
-    'rightCard',
-    'rightSideGraph',
-    'functionTiles',
-    'keyComponents',
-    'detailedView',
-    'recentOrderStatus',
-  ];
+  // private DYNAMIC_OBJECT_KEYS = [
+  //   'orderCreationForm',
+  //   'orderListingPage',
+  //   'activityStage',
+  //   'actionButtons',
+  //   'flowchart',
+  //   'workflowFormPage',
+  //   'workflowListingPage',
+  //   'notificationSections',
+  //   'components',
+  //   'serviceRequestsListing',
+  //   'customerServiceRequestForm',
+  //   'internalTeamForm',
+  //   'closureReportForm',
+  //   'listingPage',
+  //   'addUserPage',
+  //   'customerUserSection',
+  //   'userTypes',
+  //   'rolePermissionMapping',
+  //   'leftCard',
+  //   'rightCard',
+  //   'rightSideGraph',
+  //   'functionTiles',
+  //   'keyComponents',
+  //   'detailedView',
+  //   'recentOrderStatus',
+  // ];
 
-  getDynamicObjectKeys(section: Section): string[] {
-    return this.DYNAMIC_OBJECT_KEYS.filter((k) => section[k] && typeof section[k] === 'object');
-  }
-
+  // getDynamicObjectKeys(section: Section): string[] {
+  //   return this.DYNAMIC_OBJECT_KEYS.filter((k) => section[k] && typeof section[k] === 'object');
+  // }
+getDynamicObjectKeys(section: Section): string[]{
+  return Object.keys(section).filter(
+    (k) => !this.EXPLICIT_KEYS.has(k) && typeof section[k] === 'object' && !Array.isArray(section[k])
+  );
+}
   getStepKeys(section: Section): string[] {
     return ['stepsToAdd', 'stepsToEditOrDelete', 'stepsToEdit', 'editingOrDeleting'].filter(
       (k) => Array.isArray(section[k]) && section[k].length > 0,
