@@ -1,0 +1,988 @@
+<div class="docs-root">
+  <!-- ════════════════════ TOP NAVBAR ════════════════════ -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <button class="navbar-logo" (click)="goHome()">
+        <span class="logo-mark">◆</span>
+        <span class="logo-text">{{ data()?.documentInfo?.title ?? 'Documentation' }}</span>
+      </button>
+
+      <div class="navbar-center">
+        <div class="search-bar">
+          <svg class="search-icon" viewBox="0 0 16 16" fill="none">
+            <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5" />
+            <path
+              d="M10.5 10.5L14 14"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search documentation..."
+            [value]="searchQuery()"
+            (input)="onSearchInput($event)"
+            (keydown.Escape)="searchQuery.set('')"
+            aria-label="Search documentation"
+          />
+          @if (searchQuery()) {
+            <button
+              class="search-clear"
+              (click)="searchQuery.set('')"
+              aria-label="Clear search query"
+            >
+              ×
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <span class="version-chip">v{{ data()?.documentInfo?.version ?? '1.0' }}</span>
+        <span class="updated-chip">{{ data()?.documentInfo?.lastUpdated ?? '' }}</span>
+        <button
+          class="navbar-mobile-menu"
+          (click)="toggleSidebarCollapsed()"
+          [title]="sidebarCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+          [attr.aria-label]="sidebarCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+            <path
+              d="M3 6h18M3 12h18M3 18h18"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ════════════════════ BODY ════════════════════ -->
+  <div class="body-layout" [class.has-sidebar]="currentView() === 'section'">
+    @if (!data()) {
+      <div class="skeleton-hero"></div>
+      <div class="home-section">
+        <div class="modules-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+      </div>
+    }
+    <!-- LEFT SIDEBAR — only on section view -->
+    @if (currentView() === 'section') {
+      <aside class="sidebar" [class.collapsed]="sidebarCollapsed()">
+        <div class="sidebar-header">
+          @if (!sidebarCollapsed()) {
+            <span class="sidebar-title">Contents</span>
+          }
+          <button
+            class="sidebar-toggle"
+            (click)="toggleSidebarCollapsed()"
+            [title]="sidebarCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+            [attr.aria-label]="sidebarCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+            [attr.aria-expanded]="!sidebarCollapsed()"
+          >
+            <svg viewBox="0 0 16 16" fill="none" width="16" height="16">
+              <path
+                [attr.d]="sidebarCollapsed() ? 'M6 3l5 5-5 5' : 'M10 3L5 8l5 5'"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          @for (key of moduleKeys(); track key) {
+            @let meta = getModuleMeta(key);
+            @let mod = data()!.modules[key];
+            @let isExpanded = expandedModules().has(key);
+            @let filteredSections = getFilteredSections(key);
+
+            @if (filteredSections.length > 0) {
+              <div class="sidebar-group">
+                <button
+                  class="sidebar-group-btn"
+                  [class.expanded]="isExpanded"
+                  [class.has-active]="isModuleActive(key)"
+                  (click)="toggleModule(key)"
+                  [title]="mod.name"
+                >
+                  @if (!sidebarCollapsed()) {
+                    <span class="sidebar-group-icon" [style.color]="meta.color"></span>
+                    <span class="sidebar-group-name">{{ mod.name }}</span>
+                    <span class="sidebar-group-count">{{ filteredSections.length }}</span>
+                    <svg
+                      class="sidebar-chevron"
+                      [class.open]="isExpanded"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      width="12"
+                    >
+                      <path
+                        d="M3 4.5L6 7.5L9 4.5"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  } @else {
+                    <span
+                      class="sidebar-group-icon-only"
+                      [style.color]="meta.color"
+                      [title]="mod.name"
+                    ></span>
+                  }
+                </button>
+
+                @if (isExpanded && !sidebarCollapsed()) {
+                  <div class="sidebar-sections">
+                    @for (section of filteredSections; track section.id) {
+                      <button
+                        class="sidebar-section-btn"
+                        [class.active]="selectedSection()?.id === section.id"
+                        (click)="selectSection(section, key)"
+                      >
+                        <span class="sidebar-section-num">{{ section.id }}</span>
+                        <span class="sidebar-section-title">{{ section.title }}</span>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          }
+        </nav>
+
+        <!-- Terminology at bottom -->
+        @if (!sidebarCollapsed() && data()?.commonTerminology) {
+          <div class="sidebar-glossary">
+            <div class="sidebar-glossary-title">Quick Reference</div>
+            @for (entry of getTerminologyEntries(); track entry.key) {
+              <div class="glossary-row">
+                <code class="glossary-key">{{ entry.key }}</code>
+                <span class="glossary-val">{{ entry.value }}</span>
+              </div>
+            }
+          </div>
+        }
+      </aside>
+    }
+
+    <!-- ════════════════════ MAIN SCROLL AREA ════════════════════ -->
+    <main class="main-scroll" #mainContent>
+      <!-- ══════ VIEW 1: HOME ══════ -->
+      @if (currentView() === 'home' && data()) {
+        <div class="home-hero">
+          <div class="home-hero-inner">
+            <div class="hero-eyebrow">{{ data()!.documentInfo.company }}</div>
+            <h1 class="hero-title">{{ data()!.documentInfo.title }}</h1>
+            <p class="hero-tagline">{{ data()!.documentInfo.tagline }}</p>
+            <div class="hero-meta">
+              <span class="hero-stat"
+                ><strong>{{ totalSections() }}</strong> sections</span
+              >
+              <span class="hero-divider">·</span>
+              <span class="hero-stat"
+                ><strong>{{ moduleKeys().length }}</strong> modules</span
+              >
+              <span class="hero-divider">·</span>
+              <span class="hero-stat"
+                >Updated <strong>{{ data()!.documentInfo.lastUpdated }}</strong></span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Search results inline -->
+        @if (searchQuery()) {
+          <div class="home-section">
+            <div class="home-section-label">Search Results for "{{ searchQuery() }}"</div>
+            <div class="search-results-grid">
+              @for (result of globalSearchResults(); track result.id) {
+                <div
+                  class="search-result-card"
+                  role="button"
+                  tabindex="0"
+                  (click)="selectSection(result.section, result.moduleKey)"
+                  (keydown.enter)="selectSection(result.section, result.moduleKey)"
+                  (keydown.space)="
+                    $event.preventDefault(); selectSection(result.section, result.moduleKey)
+                  "
+                  aria-label="Open {{ result.section.title }} documentation"
+                >
+                  <div class="src-module" [style.color]="getModuleMeta(result.moduleKey).color">
+                    {{ getModuleMeta(result.moduleKey) }}
+                    {{ data()!.modules[result.moduleKey].name }}
+                  </div>
+                  @if (firstScreenshot(result.section)) {
+                    <div class="search-thumb">
+                      <img
+                        [src]="'/assets/images/screenshots/' + firstScreenshot(result.section)"
+                        [alt]="result.section.title + ' preview'"
+                        (error)="onImgError($event)"
+                      />
+                    </div>
+                  }
+                  <div class="src-title">{{ result.section.title }}</div>
+                  <div class="src-id">Section {{ result.section.id }}</div>
+                </div>
+              }
+              @if (globalSearchResults().length === 0) {
+                <div class="no-results">No results found for "{{ searchQuery() }}"</div>
+              }
+            </div>
+          </div>
+        }
+
+        @if (!searchQuery()) {
+          <!-- Module grid — AWS style -->
+          <div class="home-section">
+            <div class="home-section-label">Documentation Modules</div>
+            <div class="modules-grid">
+              @for (key of moduleKeys(); track key) {
+                @let meta = getModuleMeta(key);
+                @let mod = data()!.modules[key];
+                <div
+                  class="module-card"
+                  role="button"
+                  tabindex="0"
+                  (click)="goToModule(key)"
+                  (keydown.enter)="goToModule(key)"
+                  (keydown.space)="$any($event).preventDefault(); goToModule(key)"
+                  [style.--accent]="meta.accent"
+                  [style.--c]="meta.color"
+                >
+                  <div class="mc-top">
+                    <!-- <span class="mc-icon">{{ meta }}</span> -->
+                    <span class="mc-badge">{{ mod.sections.length }} sections</span>
+                  </div>
+                  <div class="mc-name">{{ mod.name }}</div>
+                  <div class="mc-desc">{{ mod.description }}</div>
+                  @if (firstScreenshot(mod.sections[0])) {
+                    <div class="mc-thumb">
+                      <img
+                        [src]="'/assets/images/screenshots/' + firstScreenshot(mod.sections[0])"
+                        [alt]="mod.name + ' preview'"
+                        (error)="onImgError($event)"
+                      />
+                    </div>
+                  }
+                  <div class="mc-arrow">
+                    <svg viewBox="0 0 16 16" fill="none" width="14">
+                      <path
+                        d="M3 8h10M9 4l4 4-4 4"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    Browse sections
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- System Features -->
+          @if (data()!.systemFeatures) {
+            <div class="home-section">
+              <div class="home-section-label">Platform Features</div>
+              <div class="features-row">
+                @for (feat of getFeatureEntries(); track feat.key) {
+                  <div class="feature-pill"><span class="feature-dot"></span>{{ feat.label }}</div>
+                }
+              </div>
+            </div>
+          }
+        }
+      }
+
+      <!-- ══════ VIEW 3: SECTION DETAIL ══════ -->
+      @if (currentView() === 'section' && selectedSection() && data()) {
+        @let section = selectedSection()!;
+        @let modKey = activeModuleKey()!;
+        <!-- @let meta = getModuleMeta(modKey); -->
+        @let mod = data()!.modules[modKey];
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+          <button class="bc-link" (click)="goHome()">Home</button>
+          <span class="bc-sep">›</span>
+          <span class="bc-current">{{ section.title }}</span>
+        </div>
+
+        <!-- Section header -->
+        <div class="section-page-header">
+          <div class="sph-left">
+            <!-- <div class="sph-eyebrow" [style.color]="meta.color">
+                  {{ meta.icon }} {{ mod.name }}
+                </div> -->
+            <h1 class="sph-title">{{ section.title }}</h1>
+            <div class="sph-meta">
+              <span>Section {{ section.id }}</span>
+              @if (section.screenshots?.length) {
+                <span class="sph-dot">·</span>
+                <span>{{ section.screenshots?.length }} screenshots</span>
+              }
+            </div>
+          </div>
+          @if (section.pdfUrl) {
+            <a class="sph-pdf-btn" [href]="section.pdfUrl" target="_blank">
+              <svg viewBox="0 0 16 16" fill="none" width="14">
+                <path d="M4 1h5l4 4v10H4V1z" stroke="currentColor" stroke-width="1.2" />
+                <path d="M9 1v4h4" stroke="currentColor" stroke-width="1.2" />
+              </svg>
+              Download PDF
+            </a>
+          }
+        </div>
+
+        <div class="section-body">
+          <div class="section-body-inner">
+            <div class="section-content">
+              <!-- OBJECTIVE / PURPOSE / INTRODUCTION (any "objective-like" key) -->
+              @for (key of ['objective', 'purpose', 'introduction']; track key) {
+                @if (section[key]) {
+                  <div class="callout callout-blue" id="{{ key }}">
+                    <div class="callout-icon">📋</div>
+                    <div>
+                      <div class="callout-label">{{ toLabel(key) }}</div>
+                      <p class="callout-text">{{ section[key] }}</p>
+                    </div>
+                  </div>
+                }
+              }
+
+              <!-- DESCRIPTION -->
+              @if (section['description']) {
+                <p class="prose-text" id="description">
+                  {{ section['description'] }}
+                </p>
+              }
+
+              <!-- SCOPE -->
+              @if (section['scope']) {
+                <div class="callout callout-gray" id="scope">
+                  <div class="callout-icon">🎯</div>
+                  <div>
+                    <div class="callout-label">Scope</div>
+                    <p class="callout-text">{{ section['scope'] }}</p>
+                  </div>
+                </div>
+              }
+
+              <!-- RESPONSIBILITIES -->
+              @if (section['responsibilities']) {
+                <div class="callout callout-yellow" id="responsibilities">
+                  <div class="callout-icon">👤</div>
+                  <div>
+                    <div class="callout-label">Responsibilities</div>
+                    <p class="callout-text">{{ section['responsibilities'] }}</p>
+                  </div>
+                </div>
+              }
+
+              <!-- PREREQUISITES -->
+              @if (section['prerequisites']?.length) {
+                <div class="content-block" id="prerequisites">
+                  <h2 class="block-heading">Prerequisites</h2>
+                  <ul class="check-list">
+                    @for (item of asArray(section['prerequisites']); track $index) {
+                      <li>{{ item }}</li>
+                    }
+                  </ul>
+                </div>
+              }
+
+              <!-- NAVIGATION (numbered steps) -->
+              @if (section['navigation']?.length) {
+                <div class="content-block" id="navigation">
+                  <h2 class="block-heading">Navigation</h2>
+                  <ol class="step-ol">
+                    @for (step of asArray(section['navigation']); let i = $index; track i) {
+                      <li>
+                        <span class="step-num">{{ i + 1 }}</span
+                        >{{ step }}
+                      </li>
+                    }
+                  </ol>
+                </div>
+              }
+
+              <!-- PROCEDURE -->
+              @if (section['procedure']) {
+                <div class="content-block" id="procedure">
+                  <h2 class="block-heading">Procedure</h2>
+                  @if (isArray(section['procedure'])) {
+                    <!-- Handle procedure with subheadings (heading + steps) -->
+                    @if (
+                      section['procedure'].length > 0 &&
+                      section['procedure'][0]?.heading !== undefined
+                    ) {
+                      <div class="procedure-wrapper">
+                        @for (item of section['procedure']; track $index) {
+                          <div class="procedure-section">
+                            @if (item.heading) {
+                              <h3 class="procedure-subheading">{{ item.heading }}</h3>
+                              <ol class="step-ol">
+                                @for (step of item.steps; let i = $index; track i) {
+                                  <li>
+                                    <span class="step-num">{{ i + 1 }}.</span>{{ step }}
+                                  </li>
+                                }
+                              </ol>
+                            }
+                          </div>
+                        }
+                      </div>
+                    } @else {
+                      <!-- Handle flat procedure array -->
+                      <ol class="step-ol">
+                        @for (
+                          step of renderProcedure(section['procedure']);
+                          let i = $index;
+                          track i
+                        ) {
+                          @if (step.type === 'string') {
+                            <li>
+                              <span class="step-num">{{ i + 1 }}.</span>{{ step.text }}
+                            </li>
+                          } @else {
+                            <li class="step-substep-container">
+                              <span class="step-num">{{ i + 1 }}</span>
+                              <div>
+                                <details class="nested-details">
+                                  <summary class="nested-summary">
+                                    <strong>{{ step.title }}</strong>
+                                  </summary>
+                                  <div class="nested-content">
+                                    @if (step.substeps?.length) {
+                                      <ul class="substep-list">
+                                        @for (sub of step.substeps; track $index) {
+                                          <li>{{ sub }}</li>
+                                        }
+                                      </ul>
+                                    }
+                                    @if (step.details && !isArray(step.details)) {
+                                      <p class="substep-detail">{{ step.details }}</p>
+                                    }
+                                  </div>
+                                </details>
+                              </div>
+                            </li>
+                          }
+                        }
+                      </ol>
+                    }
+                  } @else if (section['procedure']?.steps?.length) {
+                    <ol class="step-ol">
+                      @for (step of section['procedure'].steps; let i = $index; track i) {
+                        <li>
+                          <span class="step-num">{{ i + 1 }}.</span>{{ step }}
+                        </li>
+                      }
+                    </ol>
+                  }
+                </div>
+              }
+
+              <!-- STEPS (array of objects with title+details OR plain strings) -->
+              @if (section['steps'] && !isEmptySteps(section['steps'])) {
+                <div class="content-block" id="steps">
+                  <h2 class="block-heading">Steps</h2>
+                  @if (isArray(section['steps'])) {
+                    <ol class="step-ol">
+                      @for (step of renderProcedure(section['steps']); let i = $index; track i) {
+                        @if (step.type === 'string') {
+                          <li>
+                            <span class="step-num">{{ i + 1 }}.</span>{{ step.text }}
+                          </li>
+                        } @else {
+                          <li class="step-substep-container">
+                            <span class="step-num">{{ i + 1 }}.</span>
+                            <div>
+                              @if (step.title) {
+                                <strong>{{ step.title }}</strong>
+                              }
+                              @if (step.substeps?.length) {
+                                <ul class="substep-list">
+                                  @for (sub of step.substeps; track $index) {
+                                    <li>{{ sub }}</li>
+                                  }
+                                </ul>
+                              }
+                              @if (step.details && !isArray(step.details)) {
+                                <p class="substep-detail">{{ step.details }}</p>
+                              }
+                              @if (isArray(step.details)) {
+                                <ul class="substep-list">
+                                  @for (d of step.details; track $index) {
+                                    <li>{{ d }}</li>
+                                  }
+                                </ul>
+                              }
+                              @if (step.forMultipleInputFields?.length) {
+                                <div class="substep-sub-label">For multiple input fields:</div>
+                                <ul class="substep-list">
+                                  @for (d of step.forMultipleInputFields; track $index) {
+                                    <li>{{ d }}</li>
+                                  }
+                                </ul>
+                              }
+                              @if (step.forSingleInputField?.length) {
+                                <div class="substep-sub-label">For single input field:</div>
+                                <ul class="substep-list">
+                                  @for (d of step.forSingleInputField; track $index) {
+                                    <li>{{ d }}</li>
+                                  }
+                                </ul>
+                              }
+                              @if (step.fieldConfiguration?.length) {
+                                <div class="substep-sub-label">Field configuration:</div>
+                                <ul class="substep-list">
+                                  @for (d of step.fieldConfiguration; track $index) {
+                                    <li>{{ d }}</li>
+                                  }
+                                </ul>
+                              }
+                              @if (step.substeps?.length) {
+                                <ul class="substep-list">
+                                  @for (d of step.substeps; track $index) {
+                                    <li>{{ d }}</li>
+                                  }
+                                </ul>
+                              }
+                            </div>
+                          </li>
+                        }
+                      }
+                    </ol>
+                  }
+                </div>
+              }
+
+              <!-- STEPS TO ADD / STEPS TO EDIT (any stepTo* key) -->
+              @for (key of getStepKeys(section); track key) {
+                <div class="content-block">
+                  <h2 class="block-heading">{{ toLabel(key) }}</h2>
+                  <ol class="step-ol">
+                    @for (step of asArray(section[key]); let i = $index; track i) {
+                      <li>
+                        <span class="step-num">{{ i + 1 }}</span
+                        >{{ step }}
+                      </li>
+                    }
+                  </ol>
+                </div>
+              }
+
+              <!-- VIEWING / ACCESSING (two-column when both exist) -->
+              @if (section['viewing'] || section['accessing']) {
+                <div class="two-col" [class.one-col]="!section['viewing'] || !section['accessing']">
+                  @if (section['viewing']) {
+                    <div class="info-panel">
+                      <div class="info-panel-title">How to View</div>
+                      @if (isString(section['viewing'])) {
+                        <p>{{ section['viewing'] }}</p>
+                      } @else if (section['viewing']?.description) {
+                        <p>{{ section['viewing'].description }}</p>
+                      } @else {
+                        <ul class="plain-list">
+                          @for (item of asArray(section['viewing']); track $index) {
+                            <li>{{ item }}</li>
+                          }
+                        </ul>
+                      }
+                    </div>
+                  }
+                  @if (section['accessing']) {
+                    <div class="info-panel">
+                      <div class="info-panel-title">How to Access</div>
+                      @if (isString(section['accessing'])) {
+                        <p>{{ section['accessing'] }}</p>
+                      } @else {
+                        <ul class="plain-list">
+                          @for (item of asArray(section['accessing']); track $index) {
+                            <li>{{ item }}</li>
+                          }
+                        </ul>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+
+              <!-- FIELDS TABLE -->
+              @if (section['fields']?.length) {
+                <div class="content-block" id="fields">
+                  <details class="fields-details">
+                    <summary class="fields-summary"><span>Fields Reference</span></summary>
+                    <div class="table-wrap">
+                      <table class="ref-table">
+                        <thead>
+                          <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Notes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (field of section['fields']; track field.name) {
+                            <tr>
+                              <td>
+                                <code>{{ field.name }}</code>
+                              </td>
+                              <td>
+                                <span class="type-badge">{{ field.type }}</span>
+                              </td>
+                              <td>
+                                @if (field.required) {
+                                  <span class="req-yes">Yes</span>
+                                } @else {
+                                  <span class="req-no">No</span>
+                                }
+                              </td>
+                              <td class="td-muted">
+                                {{ field.description || field.source || '—' }}
+                              </td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  </details>
+                </div>
+              }
+
+              <!-- ADDING VALUE STREAM -->
+              @if (section['addingValueStream']) {
+                @let avs = section['addingValueStream'];
+                <div class="content-block callout-green-block" id="addingValueStream">
+                  <h2 class="block-heading">{{ avs['title'] }}</h2>
+                  @if (avs['fields']?.length) {
+                    <details class="fields-details">
+                      <summary class="fields-summary"><span>Fields</span></summary>
+                      <div class="table-wrap">
+                        <table class="ref-table">
+                          <thead>
+                            <tr>
+                              <th>Field</th>
+                              <th>Type</th>
+                              <th>Required</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @for (f of avs['fields']; track f.name) {
+                              <tr>
+                                <td>
+                                  <code>{{ f.name }}</code>
+                                </td>
+                                <td>
+                                  <span class="type-badge">{{ f.type }}</span>
+                                </td>
+                                <td>{{ f.required ? '✓' : '—' }}</td>
+                              </tr>
+                            }
+                          </tbody>
+                        </table>
+                      </div>
+                    </details>
+                  }
+                  @if (avs['steps']?.length) {
+                    <ol class="step-ol mt-12">
+                      @for (step of avs['steps']; let i = $index; track i) {
+                        <li>
+                          <span class="step-num">{{ i + 1 }}</span
+                          >{{ step }}
+                        </li>
+                      }
+                    </ol>
+                  }
+                  @if (avs['action']) {
+                    <div class="action-note">→ {{ avs['action'] }}</div>
+                  }
+                </div>
+              }
+
+              <!-- TYPES (expandable accordion) -->
+              @if (section['types'] && objectKeys(section['types']).length) {
+                <div class="content-block" id="types">
+                  <h2 class="block-heading">Types & Categories</h2>
+                  @for (key of objectKeys(section['types']); track key) {
+                    @let typeData = section['types'][key];
+                    <details class="accordion">
+                      <summary class="accordion-summary">
+                        <span>{{ typeData.name || toLabel(key) }}</span>
+                        <svg class="acc-arrow" viewBox="0 0 12 12" fill="none" width="12">
+                          <path
+                            d="M3 4.5L6 7.5L9 4.5"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                          />
+                        </svg>
+                      </summary>
+                      <div class="accordion-body">
+                        @if (typeData.description) {
+                          <p class="acc-desc">{{ typeData.description }}</p>
+                        }
+                        @if (typeData.navigation?.length || typeData.accessing?.length) {
+                          <div class="acc-sub-label">Access</div>
+                          <ol class="step-ol-sm">
+                            @for (
+                              s of asArray(typeData.navigation || typeData.accessing);
+                              let i = $index;
+                              track i
+                            ) {
+                              <li>
+                                <span class="step-num-sm">{{ i + 1 }}</span
+                                >{{ s }}
+                              </li>
+                            }
+                          </ol>
+                        }
+                        @if (typeData.adding?.steps?.length) {
+                          <div class="acc-sub-label">Adding</div>
+                          <ol class="step-ol-sm">
+                            @for (s of typeData.adding.steps; let i = $index; track i) {
+                              <li>
+                                <span class="step-num-sm">{{ i + 1 }}</span
+                                >{{ s }}
+                              </li>
+                            }
+                          </ol>
+                        }
+                        @if (typeData.viewing) {
+                          <div class="acc-sub-label">Viewing</div>
+                          <p class="acc-desc">{{ typeData.viewing }}</p>
+                        }
+                      </div>
+                    </details>
+                  }
+                </div>
+              }
+
+              <!-- DYNAMIC OBJECT SECTIONS (operations, components, listing page, etc) -->
+              @for (key of getDynamicObjectKeys(section); track key) {
+                <div class="content-block">
+                  <h2 class="block-heading">{{ toLabel(key) }}</h2>
+                  <div class="dynamic-object">
+                    @for (subKey of objectKeys(section[key]); track subKey) {
+                      @let val = section[key][subKey];
+                      <div class="dyn-row">
+                        <div class="dyn-label">{{ toLabel(subKey) }}</div>
+                        <div class="dyn-value">
+                          @if (isString(val)) {
+                            {{ val }}
+                          } @else if (isArray(val)) {
+                            <ul class="plain-list-sm">
+                              @for (v of val; track $index) {
+                                @if (isString(v)) {
+                                  <li>{{ v }}</li>
+                                } @else if (v?.description || v?.name) {
+                                  <li>
+                                    <strong>{{ v.name || '' }}</strong
+                                    >{{ v.description ? ' — ' + v.description : '' }}
+                                  </li>
+                                }
+                              }
+                            </ul>
+                          }
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+
+              <!-- NOTES -->
+              @if (section['notes']?.length) {
+                <div class="callout callout-yellow" id="notes">
+                  <div class="callout-icon">⚠️</div>
+                  <div>
+                    <div class="callout-label">Important Notes</div>
+                    <ul class="note-list">
+                      @for (note of section['notes']; track $index) {
+                        <li>{{ note }}</li>
+                      }
+                    </ul>
+                  </div>
+                </div>
+              }
+
+              <!-- SCREENSHOTS -->
+              @if (section['screenshots']?.length) {
+                <div class="content-block" id="screenshots">
+                  <h2 class="block-heading">Screenshots</h2>
+                  <div class="screenshots-grid">
+                    @for (img of section['screenshots']; let i = $index; track i) {
+                      <div
+                        class="screenshot-card"
+                        role="button"
+                        tabindex="0"
+                        (click)="openViewer(img, i)"
+                        (keydown.enter)="openViewer(img, i)"
+                        (keydown.space)="$any($event).preventDefault(); openViewer(img, i)"
+                      >
+                        <div class="screenshot-img-wrap">
+                          <img
+                            [src]="'/assets/images/screenshots/' + img"
+                            [alt]="img"
+                            (error)="onImgError($event)"
+                          />
+                        </div>
+                        <div class="screenshot-label">
+                          <code>{{ img }}</code>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+
+              <!-- PREV / NEXT NAVIGATION -->
+              <div class="page-nav">
+                <button class="page-nav-btn" (click)="prevSection()" [disabled]="!hasPrev()">
+                  <svg viewBox="0 0 16 16" fill="none" width="14">
+                    <path
+                      d="M10 3L6 8l4 5"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  Previous
+                </button>
+                <span class="page-nav-counter">{{ section.id }} of {{ totalSections() }}</span>
+                <button
+                  class="page-nav-btn page-nav-next"
+                  (click)="nextSection()"
+                  [disabled]="!hasNext()"
+                >
+                  Next
+                  <svg viewBox="0 0 16 16" fill="none" width="14">
+                    <path
+                      d="M6 3l4 5-4 5"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <!-- /section-content -->
+
+            <!-- RIGHT RAIL: On This Page -->
+            <aside class="right-rail" [class.collapsed]="rightRailCollapsed()">
+              <div class="rr-title">
+                On this page
+                <button
+                  class="rr-toggle"
+                  type="button"
+                  (click)="toggleRightRail()"
+                  [attr.aria-expanded]="!rightRailCollapsed()"
+                  aria-label="Toggle table of contents"
+                >
+                  <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
+                    <path
+                      [attr.d]="rightRailCollapsed() ? 'M3 3l10 5-10 5' : 'M13 3L3 8l10 5'"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <nav class="rr-nav">
+                @for (anchor of getAnchors(section); track anchor.key) {
+                  <button
+                    class="rr-link"
+                    type="button"
+                    (click)="scrollToAnchor(anchor.key, $event)"
+                  >
+                    {{ anchor.label }}
+                  </button>
+                }
+              </nav>
+
+              <div class="rr-divider"></div>
+              <div class="rr-meta">
+                <div class="rr-meta-row">
+                  <span class="rr-meta-label">Module</span>
+                  <span>{{ mod.name }}</span>
+                </div>
+                <div class="rr-meta-row">
+                  <span class="rr-meta-label">Section</span>
+                  <span>#{{ section.id }}</span>
+                </div>
+                @if (section.screenshots?.length) {
+                  <div class="rr-meta-row">
+                    <span class="rr-meta-label">Screenshots</span>
+                    <span>{{ section.screenshots?.length }}</span>
+                  </div>
+                }
+              </div>
+            </aside>
+          </div>
+          <!-- /section-body-inner -->
+        </div>
+        <!-- /section-body -->
+      }
+    </main>
+    <!-- /main-scroll -->
+  </div>
+  <!-- /body-layout -->
+</div>
+<!-- /docs-root -->
+
+<!-- ════════════════════ IMAGE VIEWER ════════════════════ -->
+@if (viewerOpen()) {
+  <div class="viewer-overlay" (click)="closeViewer()">
+    <div class="viewer-modal" (click)="$event.stopPropagation()">
+      <div class="viewer-topbar">
+        <code class="viewer-filename">{{ viewerImg() }}</code>
+        <div class="viewer-controls">
+          <button (click)="zoomOut()" [disabled]="zoom() <= 0.5">−</button>
+          <span>{{ (zoom() * 100).toFixed(0) }}%</span>
+          <button (click)="zoomIn()" [disabled]="zoom() >= 4">+</button>
+          <button (click)="resetZoom()">Reset</button>
+          <button class="viewer-close" (click)="closeViewer()">×</button>
+        </div>
+      </div>
+      <div class="viewer-body" (wheel)="onWheel($event)">
+        <div class="viewer-img-wrap" [style.transform]="'scale(' + zoom() + ')'">
+          <img
+            [src]="'/assets/images/screenshots/' + viewerImg()"
+            [alt]="viewerImg()"
+            (error)="onImgError($event)"
+          />
+        </div>
+      </div>
+      <div class="viewer-footer">
+        <button (click)="prevImg()" [disabled]="viewerIdx() === 0">← Prev</button>
+        <span>{{ viewerIdx() + 1 }} / {{ selectedSection()?.screenshots?.length ?? 0 }}</span>
+        <button
+          (click)="nextImg()"
+          [disabled]="viewerIdx() + 1 >= (selectedSection()?.screenshots?.length ?? 0)"
+        >
+          Next →
+        </button>
+      </div>
+    </div>
+  </div>
+}
